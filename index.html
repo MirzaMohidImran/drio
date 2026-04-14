@@ -4,17 +4,31 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>drrioweb — Premium Web Development Studio</title>
+<!-- DNS prefetch — free parallel lookups, no connection cost -->
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"/>
+<link rel="dns-prefetch" href="https://fonts.gstatic.com"/>
+<link rel="dns-prefetch" href="https://picsum.photos"/>
+<!-- Preconnect for font origin — establishes TCP+TLS socket before CSS arrives -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet"/>
+<!-- Non-blocking font CSS: preload fetches in parallel, onload promotes
+     to stylesheet once downloaded — removes render-blocking from critical path -->
+<link rel="preload" as="style"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"/>
+<!-- Fallback for JS-disabled browsers -->
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"/></noscript>
+<!-- Theme color — Chrome mobile address bar matches brand accent -->
+<meta name="theme-color" content="#0284c7"/>
+<meta name="description" content="drrioweb — Premium Web Development Studio. High-performance websites and web applications for ambitious brands worldwide."/>
 <style>
 /* =============================================
    DESIGN TOKENS — Liquid Crystal Tech
    ============================================= */
 :root{
   --c-bg:        #ffffff;
-  --c-bg2:       #f4f7ff;
-  --c-bg3:       #edf0fa;
+  --c-bg2:       #ffffff;
+  --c-bg3:       #f5f5f5;
   --c-acc:       #0284c7;
   --c-acc2:      #0369a1;
   --c-acc3:      rgba(2,132,199,.07);
@@ -33,9 +47,10 @@
   --glass-bdr2:  rgba(2,132,199,.30);
   --glass-blur:  blur(28px) saturate(1.5);
   --glass-blur2: blur(16px) saturate(1.3);
-  /* Type */
-  --f-head: 'Sora', sans-serif;
-  --f-body: 'Figtree', sans-serif;
+  /* Type — system fonts as fallback minimize FOUT layout shift:
+     Nunito/Poppins share Sora's geometric metrics; Inter/system-ui match Figtree */
+  --f-head: 'Sora', 'Nunito', 'Poppins', system-ui, sans-serif;
+  --f-body: 'Figtree', 'Inter', system-ui, -apple-system, sans-serif;
   /* Easing */
   --ease:  cubic-bezier(.22,1,.36,1);
   --easeB: cubic-bezier(.34,1.56,.64,1);
@@ -90,35 +105,97 @@ body.hovering #cur{width:18px;height:18px}
 body.hovering #cur2{width:56px;height:56px;border-color:rgba(2,132,199,.75)}
 
 /* =============================================
-   NOISE TEXTURE OVERLAY
+   NOISE TEXTURE OVERLAY — refined grain
    ============================================= */
 body::before{
-  content:'';position:fixed;inset:0;z-index:1;
-  pointer-events:none;opacity:.03;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  content:'';position:fixed;inset:0;z-index:3;
+  pointer-events:none;opacity:.022;
+  /* Desaturated multi-octave fractalNoise for premium grain */
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size:256px 256px;
+  mix-blend-mode:multiply;
 }
 
 /* =============================================
-   GLOBAL BG + GRID
+   GLOBAL BACKGROUND — premium layered system
    ============================================= */
+
+body{background:#ffffff}
+
 .site-bg{
   position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:#ffffff;
 }
-.grid-lines{
+
+/* ── CANVAS MESH ── */
+#bg-mesh{
   position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(2,132,199,.055) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(2,132,199,.055) 1px,transparent 1px);
-  background-size:80px 80px;
+  width:100%;height:100%;
+  opacity:0;
+  transition:opacity 1.2s ease;
+  will-change:opacity;
+  /* composited on its own GPU layer */
+  transform:translateZ(0);
 }
-.orb{position:absolute;border-radius:50%;filter:blur(160px);animation:orbDrift 20s ease-in-out infinite}
-.orb1{width:900px;height:900px;background:rgba(2,132,199,.07);top:-30%;left:-20%;animation-delay:0s}
-.orb2{width:700px;height:700px;background:rgba(99,102,241,.06);top:40%;right:-20%;animation-delay:-8s;animation-duration:25s}
-.orb3{width:600px;height:600px;background:rgba(2,132,199,.05);bottom:-20%;left:35%;animation-delay:-14s;animation-duration:18s}
-@keyframes orbDrift{
+#bg-mesh.rdy{opacity:1}
+
+/* ── DOT GRID  (replaces line grid — more premium) ── */
+.bg-grid{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(2,132,199,.10) 1px,transparent 1px);
+  background-size:44px 44px;
+  background-position:22px 22px;
+  /* fade grid near edges so it doesn't fight content */
+  -webkit-mask-image:
+    radial-gradient(ellipse 85% 90% at 50% 50%,black 40%,transparent 100%);
+  mask-image:
+    radial-gradient(ellipse 85% 90% at 50% 50%,black 40%,transparent 100%);
+}
+
+/* ── LIGHT BLOOM — directional hero glow ── */
+.bg-light{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 45% at 72% 8%,  rgba(2,132,199,.065) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 35% at 15% 55%, rgba(99,102,241,.045) 0%,transparent 60%),
+    radial-gradient(ellipse 55% 40% at 85% 80%, rgba(2,132,199,.04)  0%,transparent 60%),
+    radial-gradient(ellipse 40% 30% at 30% 90%, rgba(56,189,248,.035) 0%,transparent 55%);
+  animation:lightDrift 30s ease-in-out infinite;
+}
+@keyframes lightDrift{
   0%,100%{transform:translate(0,0) scale(1)}
-  33%{transform:translate(60px,-60px) scale(1.1)}
-  66%{transform:translate(-40px,40px) scale(.92)}
+  25%    {transform:translate(18px,-12px) scale(1.02)}
+  50%    {transform:translate(-14px,10px) scale(.98)}
+  75%    {transform:translate(10px,16px)  scale(1.01)}
+}
+
+/* ── VIGNETTE — depth framing ── */
+.bg-vignette{
+  position:absolute;inset:0;
+  background:
+    /* top: bright, pulls focus to hero */
+    radial-gradient(ellipse 110% 30% at 50% -2%,rgba(255,255,255,.92) 0%,transparent 100%),
+    /* bottom: soft floor */
+    radial-gradient(ellipse 120% 28% at 50% 102%,rgba(240,245,255,.65) 0%,transparent 100%),
+    /* left/right edges: gentle inward fade */
+    radial-gradient(ellipse 20% 100% at -2% 50%,rgba(255,255,255,.55) 0%,transparent 100%),
+    radial-gradient(ellipse 20% 100% at 102% 50%,rgba(255,255,255,.55) 0%,transparent 100%);
+  pointer-events:none;
+}
+
+/* ── MOUSE GLOW — bigger, more elegant ── */
+#mouse-glow{
+  position:fixed;top:0;left:0;
+  width:700px;height:700px;
+  border-radius:50%;pointer-events:none;z-index:2;
+  background:radial-gradient(circle,
+    rgba(2,132,199,.048) 0%,
+    rgba(2,132,199,.018) 38%,
+    rgba(99,102,241,.008) 60%,
+    transparent 72%);
+  transform:translate(-50%,-50%);
+  transition:transform .18s linear;
+  will-change:transform;
 }
 
 /* =============================================
@@ -172,8 +249,8 @@ nav.stuck{padding:14px 56px;background:rgba(255,255,255,.96);box-shadow:0 1px 0 
    LAYOUT UTILITIES
    ============================================= */
 .wrap{max-width:1400px;margin-inline:auto;padding-inline:56px;position:relative;z-index:2}
-.sec{padding:140px 0;position:relative;z-index:2}
-.sec-sm{padding:100px 0;position:relative;z-index:2}
+.sec{padding:88px 0;position:relative;z-index:2}
+.sec-sm{padding:64px 0;position:relative;z-index:2}
 .tag{
   display:inline-flex;align-items:center;gap:8px;
   font-family:var(--f-body);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
@@ -260,7 +337,7 @@ h2.ttl span{color:var(--c-acc)}
 #hero{
   min-height:100vh;
   display:flex;align-items:center;
-  padding:130px 0 80px;
+  padding:100px 0 64px;
   position:relative;z-index:2;
   overflow:hidden;
 }
@@ -452,7 +529,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    ABOUT
    ============================================= */
-#about{padding:140px 0}
+#about{padding:88px 0}
 .about-grid{
   display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center;
 }
@@ -515,7 +592,7 @@ h1.hero-h .acc{color:var(--c-acc)}
    SERVICES — Holographic 3D Coverflow
    ============================================= */
 #services {
-  padding: 140px 0 180px;
+  padding: 88px 0 112px;
   position: relative;
   overflow: hidden;
   z-index: 2;
@@ -551,7 +628,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 
 /* ── Section Header ── */
 .services-hd {
-  text-align: center; margin-bottom: 70px;
+  text-align: center; margin-bottom: 52px;
   position: relative; z-index: 10;
 }
 .services-hd .sub { margin-inline: auto; }
@@ -612,8 +689,9 @@ h1.hero-h .acc{color:var(--c-acc)}
   position: absolute; inset: 0;
   transform-style: preserve-3d;
   transition: transform .8s cubic-bezier(.34,1.1,.64,1);
+  transform: rotateX(var(--svc-tx, 0deg)) rotateY(var(--svc-ty, 0deg));
 }
-.svc-holo-card.flipped .svc-card-flipper { transform: rotateY(180deg); }
+.svc-holo-card.flipped .svc-card-flipper { transform: rotateX(0deg) rotateY(180deg); }
 
 /* shared face */
 .svc-card-face {
@@ -744,6 +822,17 @@ h1.hero-h .acc{color:var(--c-acc)}
 @keyframes arrowBounce {
   0%,100% { transform: translateX(0); }
   50%      { transform: translateX(4px); }
+}
+
+/* Smooth flip transition when hover triggers it */
+@media(hover:hover){
+  .svc-holo-card.is-center:hover .svc-card-front{
+    box-shadow:
+      0 2px 0 rgba(255,255,255,.95) inset,
+      0 32px 90px rgba(2,132,199,.28),
+      0 0 0 1.5px rgba(2,132,199,.45),
+      0 8px 30px rgba(8,17,30,.15);
+  }
 }
 
 /* Gradient border ring on center card */
@@ -915,7 +1004,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    WHY US
    ============================================= */
-#why{padding:140px 0; display: none;}
+#why{padding:88px 0; display: none;}
 
 /* ── Why section 3D corner decorations ── */
 #why { position: relative; overflow: visible; }
@@ -989,8 +1078,8 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    TECH STACK
    ============================================= */
-#tech{padding:70px 0}
-.tech-hd{text-align:center;margin-bottom:64px}
+#tech{padding:48px 0}
+.tech-hd{text-align:center;margin-bottom:44px}
 .tech-hd .sub{margin-inline:auto}
 .tech-row-wrap{overflow:hidden;padding:6px 0;
   mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent)}
@@ -1014,8 +1103,8 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    PROCESS
    ============================================= */
-#process{padding:140px 0}
-.proc-hd{text-align:center;margin-bottom:72px}
+#process{padding:88px 0}
+.proc-hd{text-align:center;margin-bottom:52px}
 .proc-hd .sub{margin-inline:auto}
 .proc-steps{
   display:grid;grid-template-columns:repeat(7,1fr);
@@ -1048,8 +1137,8 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    PORTFOLIO — Sticky stack scroll
    ============================================= */
-#portfolio { padding: 100px 0 0; }
-.port-hd   { text-align: center; margin-bottom: 52px; }
+#portfolio { padding: 72px 0 0; }
+.port-hd   { text-align: center; margin-bottom: 40px; }
 .port-hd .sub { margin-inline: auto; }
 
 /* Tab bar — sticky below nav */
@@ -1102,7 +1191,7 @@ h1.hero-h .acc{color:var(--c-acc)}
   border: 1px solid rgba(8,17,30,.09);
   box-shadow: 0 6px 32px rgba(8,17,30,.08), inset 0 1px 0 rgba(255,255,255,.95);
   transform-origin: top center;
-  will-change: transform, filter;
+  will-change: transform;
 }
 .pcard:nth-child(even) { grid-template-columns: 1fr 1fr; direction: rtl; }
 .pcard:nth-child(even) > * { direction: ltr; }
@@ -1189,7 +1278,7 @@ h1.hero-h .acc{color:var(--c-acc)}
   .pcard-title { font-size: 1.15rem; }
 }
 @media (max-width: 600px) {
-  #portfolio  { padding: 72px 0 0; }
+  #portfolio  { padding: 52px 0 0; }
   .port-tabs  { top: 60px; padding: 10px 0 12px; gap: 5px; }
   .port-tab   { padding: 7px 13px; font-size: .73rem; }
   .pcard      { top: 116px; border-radius: 20px; }
@@ -1200,9 +1289,9 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    STATS
    ============================================= */
-#stats{padding:140px 0}
+#stats{padding:88px 0}
 .stats-card{
-  padding:72px 64px;border-radius:32px;
+  padding:52px 48px;border-radius:32px;
   background:rgba(255,255,255,.85);border:1px solid rgba(2,132,199,.14);
   backdrop-filter:var(--glass-blur);
   box-shadow:0 8px 50px rgba(8,17,30,.09),inset 0 1px 0 rgba(255,255,255,.95),0 0 0 rgba(2,132,199,.0);
@@ -1230,7 +1319,7 @@ h1.hero-h .acc{color:var(--c-acc)}
    TESTIMONIALS — 3D Coverflow Reviews
    ============================================= */
 #testimonials {
-  padding: 140px 0 180px;
+  padding: 88px 0 112px;
   position: relative;
   overflow: hidden;
   z-index: 2;
@@ -1252,7 +1341,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 
 /* ── Header ── */
 .rev-hd {
-  text-align: center; margin-bottom: 70px;
+  text-align: center; margin-bottom: 52px;
   position: relative; z-index: 10;
 }
 .rev-hd .sub { margin-inline: auto; }
@@ -1506,9 +1595,9 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    VIDEO REVIEWS — Accordion 3-card portrait
    ============================================= */
-#video-test { padding: 140px 0; }
+#video-test { padding: 88px 0; }
 #video-test .wrap { overflow: visible; }
-.vt-hd { text-align: center; margin-bottom: 64px; }
+.vt-hd { text-align: center; margin-bottom: 48px; }
 .vt-hd .sub { margin-inline: auto; }
 
 /* Wrapper */
@@ -1538,7 +1627,7 @@ h1.hero-h .acc{color:var(--c-acc)}
     box-shadow .5s cubic-bezier(.22,1,.36,1),
     border-color .4s,
     transform .5s cubic-bezier(.22,1,.36,1);
-  will-change: flex;
+  will-change: auto;
   z-index: 1;
 }
 
@@ -1726,7 +1815,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 
 /* ── MOBILE ── */
 @media (max-width: 640px) {
-  #video-test { padding: 80px 0; }
+  #video-test { padding: 56px 0; }
 
   .vt-accordion {
     flex-direction: column;
@@ -1762,9 +1851,9 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    CTA
    ============================================= */
-#cta{padding:140px 0}
+#cta{padding:88px 0}
 .cta-box{
-  border-radius:36px;padding:88px 72px;text-align:center;
+  border-radius:36px;padding:64px 52px;text-align:center;
   background:linear-gradient(135deg,rgba(2,132,199,.07) 0%,rgba(99,102,241,.05) 50%,rgba(2,132,199,.05) 100%);
   border:1px solid rgba(2,132,199,.18);
   backdrop-filter:blur(32px);
@@ -1797,7 +1886,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    FAQ
    ============================================= */
-#faq{padding:140px 0}
+#faq{padding:88px 0}
 .faq-wrap{display:grid;grid-template-columns:1fr 1.7fr;gap:88px;align-items:start}
 .faq-sidebar .tag{margin-bottom:20px}
 .faq-aside-card{
@@ -1915,6 +2004,265 @@ footer{
   .footer-back-top{align-self:flex-end;margin-top:-44px}
   .footer-links{flex-wrap:wrap;justify-content:center}
 }
+
+/* =============================================
+   ✦ PREMIUM ENHANCEMENT LAYER
+   ============================================= */
+
+/* PAGE LOADER */
+#pg-loader{
+  position:fixed;inset:0;z-index:20000;
+  background:var(--c-bg);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:18px;
+  transition:opacity .8s var(--ease) .05s, visibility .8s .05s;
+}
+#pg-loader.done{opacity:0;visibility:hidden;pointer-events:none}
+.pgl-logo{
+  font-family:var(--f-head);font-size:1.55rem;font-weight:800;
+  letter-spacing:-.04em;color:var(--c-white);
+  opacity:0;animation:pglUp .5s var(--ease) .05s both;
+}
+.pgl-logo em{color:var(--c-acc);font-style:normal}
+.pgl-track{
+  width:140px;height:1.5px;background:var(--c-w08);border-radius:2px;overflow:hidden;
+  opacity:0;animation:pglUp .5s var(--ease) .15s both;
+}
+.pgl-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--c-acc),rgba(99,102,241,.85));
+  border-radius:2px;transition:width .22s var(--ease);
+}
+.pgl-num{
+  font-family:var(--f-head);font-size:.68rem;font-weight:700;
+  color:var(--c-w35);letter-spacing:.14em;
+  opacity:0;animation:pglUp .5s var(--ease) .2s both;
+}
+@keyframes pglUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* SCROLL PROGRESS BAR (inside nav) */
+#sbar{
+  position:absolute;bottom:-1px;left:0;
+  height:2px;width:0%;
+  background:linear-gradient(90deg,var(--c-acc),rgba(99,102,241,.75),var(--c-acc));
+  background-size:200%;
+  animation:sbarShimmer 3s linear infinite;
+  transition:width .12s linear;
+  pointer-events:none;
+  border-radius:0 2px 2px 0;
+}
+@keyframes sbarShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+
+/* HERO WEBGL CANVAS */
+#hero-cvs{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;
+  border-radius:inherit;opacity:.85;
+}
+
+/* HERO HEADING — ANIMATED GRADIENT ON .acc */
+h1.hero-h .acc{
+  background:linear-gradient(135deg,#0ea5e9 0%,var(--c-acc) 30%,#38bdf8 60%,#0369a1 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:accGrad 6s linear infinite;
+  color:transparent !important;
+}
+@keyframes accGrad{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+
+/* OUTLINE TEXT DEPTH */
+h1.hero-h .outline{
+  -webkit-text-stroke:1.5px rgba(2,132,199,.52);
+  filter:drop-shadow(0 0 40px rgba(2,132,199,.07));
+}
+
+/* BTN-P — GRADIENT SHIFT ON HOVER */
+.btn-p{
+  background:linear-gradient(135deg,var(--c-acc) 0%,#0369a1 50%,var(--c-acc) 100%) !important;
+  background-size:200% 100% !important;
+  transition:all .4s var(--ease), background-position .5s var(--ease) !important;
+}
+.btn-p:hover{
+  background-position:100% 0 !important;
+  box-shadow:0 14px 52px rgba(2,132,199,.5), 0 4px 16px rgba(2,132,199,.25) !important;
+  transform:translateY(-4px) scale(1.03) !important;
+}
+
+/* CTA BOX — BREATHING GLOW */
+.cta-box{
+  animation:ctaGlow 5.5s ease-in-out infinite;
+}
+@keyframes ctaGlow{
+  0%,100%{box-shadow:0 12px 60px rgba(8,17,30,.08),0 0 0 1px rgba(2,132,199,.18),inset 0 1px 0 rgba(255,255,255,.95)}
+  50%    {box-shadow:0 16px 80px rgba(8,17,30,.10),0 0 80px rgba(2,132,199,.07),0 0 0 1.5px rgba(2,132,199,.32),inset 0 1px 0 rgba(255,255,255,.98)}
+}
+
+/* PROCESS ANIMATED FILL LINE */
+.proc-fill{
+  position:absolute;top:44px;left:7%;height:1px;z-index:1;
+  background:linear-gradient(90deg,var(--c-acc),rgba(99,102,241,.65),rgba(2,132,199,.35));
+  width:0%;transition:width 1.9s var(--ease);
+  pointer-events:none;
+}
+#process.proc-lit .proc-fill{width:86%}
+
+/* PROCESS CIRCLE HOVER */
+.proc-step:hover .proc-circle{
+  box-shadow:0 0 0 8px rgba(2,132,199,.07),0 0 32px rgba(2,132,199,.18),0 8px 28px rgba(8,17,30,.10) !important;
+  border-color:rgba(2,132,199,.38) !important;
+}
+
+/* STATS — GRADIENT NUMBERS */
+.s-num{
+  background:linear-gradient(135deg,var(--c-acc),#38bdf8 60%,var(--c-acc2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:none;
+}
+.stat-it{
+  padding-block:10px;
+  border-radius:14px;
+  transition:background .3s,box-shadow .3s;
+}
+.stat-it:hover{
+  background:rgba(2,132,199,.03);
+  box-shadow:0 0 0 1px rgba(2,132,199,.08);
+}
+
+/* MARQUEE — CRISP EDGE FADE */
+.marquee-sec{
+  -webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);
+  mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);
+}
+
+/* ABOUT CODE — BLINKING CURSOR */
+.code-cur{
+  display:inline-block;width:1.5px;height:1em;
+  background:var(--c-acc);margin-left:2px;
+  vertical-align:text-bottom;
+  animation:blinkCur .9s step-end infinite;
+}
+@keyframes blinkCur{0%,100%{opacity:1}50%{opacity:0}}
+
+/* GLASSMORPHISM CARD — RICHER HOVER */
+.gcard:hover{
+  box-shadow:0 22px 72px rgba(8,17,30,.14),
+             0 0 0 1px rgba(2,132,199,.10),
+             inset 0 1px 0 rgba(255,255,255,.98) !important;
+}
+
+/* SCROLL REVEAL — will-change OPTIMIZED */
+.anim{will-change:opacity,transform}
+.anim.in{will-change:auto}
+
+/* TRUST AVATARS HOVER */
+.trust-av{transition:transform .35s var(--easeB)}
+.trust-avatars:hover .trust-av{transform:translateX(-3px)}
+.trust-avatars:hover .trust-av:first-child{transform:none}
+
+/* FOOTER POLISH */
+footer{
+  background:linear-gradient(to bottom,rgba(244,247,255,.5),rgba(255,255,255,.92));
+  backdrop-filter:blur(8px);
+}
+
+/* SECTION STACKING */
+section{isolation:isolate}
+
+/* HERO VISUAL GROUND SHADOW */
+.hero-visual::before{
+  content:'';position:absolute;
+  bottom:-20px;left:10%;right:10%;height:1px;
+  background:linear-gradient(to right,transparent,rgba(2,132,199,.18),transparent);
+  pointer-events:none;z-index:1;
+}
+
+/* PCARD IMPROVEMENT */
+.pcard{
+  box-shadow:0 8px 40px rgba(8,17,30,.08),0 0 0 1px rgba(8,17,30,.05),inset 0 1px 0 rgba(255,255,255,.95);
+}
+.pcard:hover{
+  box-shadow:0 16px 60px rgba(8,17,30,.12),0 0 0 1.5px rgba(2,132,199,.15),inset 0 1px 0 rgba(255,255,255,.98);
+}
+
+/* BUTTON RIPPLE */
+.btn-p,.btn-s,.nav-btn{overflow:hidden;position:relative;}
+.btn-ripple{
+  position:absolute;border-radius:50%;
+  background:rgba(255,255,255,.28);
+  transform:scale(0);pointer-events:none;
+  animation:btnRipple .7s ease-out forwards;
+}
+@keyframes btnRipple{to{transform:scale(5);opacity:0;}}
+
+/* MOBILE MENU STAGGER */
+@keyframes mobSlideIn{
+  from{opacity:0;transform:translateY(-18px) scale(.97)}
+  to  {opacity:1;transform:none}
+}
+@keyframes mobLinkIn{
+  from{opacity:0;transform:translateY(10px)}
+  to  {opacity:1;transform:none}
+}
+.mob-menu.open{animation:mobSlideIn .38s var(--ease) both;}
+.mob-menu.open a:nth-child(1){animation:mobLinkIn .36s .06s var(--ease) both;}
+.mob-menu.open a:nth-child(2){animation:mobLinkIn .36s .12s var(--ease) both;}
+.mob-menu.open a:nth-child(3){animation:mobLinkIn .36s .18s var(--ease) both;}
+.mob-menu.open a:nth-child(4){animation:mobLinkIn .36s .24s var(--ease) both;}
+.mob-menu.open a:nth-child(5){animation:mobLinkIn .36s .30s var(--ease) both;}
+.mob-menu.open a:nth-child(6){animation:mobLinkIn .36s .36s var(--ease) both;}
+
+/* SECTION TINTED BACKGROUNDS */
+#services,#stats,#cta,#about{position:relative;}
+#services::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 90% 10%,rgba(2,132,199,.04) 0%,transparent 65%),
+    radial-gradient(ellipse 55% 40% at 5%  80%,rgba(99,102,241,.03) 0%,transparent 60%);
+}
+#stats::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%,rgba(2,132,199,.035) 0%,transparent 70%);
+}
+#cta::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 65% 55% at 80% 20%,rgba(56,189,248,.045) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 45% at 15% 85%,rgba(99,102,241,.035) 0%,transparent 60%);
+}
+#services>*:not(::before),#stats>*:not(::before),#cta>*:not(::before),#about>*:not(::before){
+  position:relative;z-index:1;
+}
+
+/* 3D TILT CARD PERSPECTIVE */
+.tilt-wrap{transform-style:preserve-3d;perspective:900px;}
+
+/* LAYOUT CONTAINMENT — prevents reflow in one section from propagating to
+   the document root. Safe on sections with no floats crossing boundaries.
+   "style" alone (not "layout") avoids breaking position:fixed children. */
+#about,#process,#stats,#faq,#showcase-reel{
+  contain:style;
+}
+/* Stronger containment on sections whose internals never affect outside layout */
+#video-test,#cta{
+  contain:layout style;
+}
+
+/* REDUCE MOTION SUPPORT */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+  .orb,.hero-streak,.orbit-track,.ring,.hc,
+  #hero-cvs,.svc-blob,.rev-blob{animation:none !important}
+}
+
 /* =============================================
    MOBILE MENU
    ============================================= */
@@ -1955,7 +2303,7 @@ footer{
   .wrap{padding-inline:28px}
   .nav-links,.nav-btn{display:none}
   .nav-hamburger{display:flex}
-  .sec,.sec-sm{padding:100px 0}
+  .sec,.sec-sm{padding:64px 0}
   h1.hero-h{font-size:clamp(2.4rem,8vw,3.6rem)}
   .hero-inner{grid-template-columns:1fr;gap:44px}
   .hero-visual{height:420px}
@@ -1966,7 +2314,7 @@ footer{
   .svc-grid{grid-template-columns:repeat(2,1fr)}
   .test-grid{grid-template-columns:repeat(2,1fr)}
   .port-grid{grid-template-columns:repeat(2,1fr)}
-  .cta-box{padding:56px 36px}
+  .cta-box{padding:44px 32px}
   .proc-steps{grid-template-columns:repeat(3,1fr);gap:20px}
   .stats-row{grid-template-columns:repeat(3,1fr)}
 }
@@ -1979,33 +2327,323 @@ footer{
   .hero-ctas{flex-direction:column}
   .hero-trust{flex-direction:column;align-items:flex-start;gap:12px}
   .trust-sep{display:none}
-  .stats-card{padding:48px 24px}
+  /* Mobile section padding — 48px keeps density without feeling cramped */
+  .sec,.sec-sm{padding:48px 0}
+  #hero{padding:72px 0 48px}
+  #showcase-reel{padding:48px 0 44px}
+  .stats-card{padding:36px 24px}
   .stats-row{grid-template-columns:repeat(2,1fr);gap:36px}
   .stat-divv{display:none}
   .proc-steps{grid-template-columns:repeat(2,1fr);gap:18px}
+  .cta-box{padding:40px 24px}
   .cta-perks{flex-direction:column;align-items:center}
   .footer-grid{grid-template-columns:1fr}
   .footer-bar{flex-direction:column;gap:8px;text-align:center}
+  /* background-position animation causes per-frame repaint on mobile.
+     Freeze gradient in place — still looks great, saves battery. */
+  h1.hero-h .acc{animation:none;background-position:60% 50%}
+  /* lightDrift is compositor-only (transform/scale) — fine to keep.
+     dotPulse and other tiny animations also fine. */
+}
+
+/* ==============================================
+   SHOWCASE REEL — Infinite Dual-Direction Slider
+   Strategy: CSS-only animation (compositor thread);
+   JS clones items once so -50% = exact 1-set width.
+   ============================================== */
+
+/* ── Section frame ── */
+#showcase-reel{
+  padding:88px 0 80px;
+  position:relative;
+  /* Isolate stacking context — prevents z-index bleed */
+  isolation:isolate;
+  overflow:hidden;
+}
+#showcase-reel::before{
+  /* Ambient section tint — matches site palette */
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 55% at 20% 15%,rgba(2,132,199,.038) 0%,transparent 65%),
+    radial-gradient(ellipse 60% 45% at 85% 80%,rgba(99,102,241,.028) 0%,transparent 60%);
+}
+#showcase-reel>.reel-hd,
+#showcase-reel>.reel-stage{position:relative;z-index:1;}
+
+/* ── Section header ── */
+.reel-hd{
+  text-align:center;
+  padding:0 24px;
+  margin-bottom:44px;
+}
+.reel-hd .sub,
+.reel-hd-sub{
+  max-width:420px;
+  margin:18px auto 0;
+  font-size:.95rem;
+  color:var(--c-w60);
+  line-height:1.65;
+  font-family:var(--f-body);
+}
+
+/* ── Stage: clips overflow, applies GPU-native edge fade ── */
+.reel-stage{
+  overflow:hidden;
+  /* mask-image renders on compositor — no extra elements needed */
+  -webkit-mask-image:linear-gradient(
+    to right,
+    transparent 0%,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+  mask-image:linear-gradient(
+    to right,
+    transparent 0%,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+  /* contain: prevents stage reflow from propagating up the tree */
+  contain:layout style;
+  /* Pause both tracks when hovering either stage */
+  cursor:none;
+}
+.reel-stage + .reel-stage{margin-top:18px;}
+
+/* ── Track: horizontal flex, GPU layer ── */
+.reel-track{
+  display:flex;
+  /* max-content: track width = sum of all slides + margins
+     This makes -50% translate = exactly 1 set width (8 slides).
+     No JS pixel math needed. */
+  width:max-content;
+  will-change:transform;
+  /* Force composited layer before animation starts */
+  transform:translate3d(0,0,0);
+}
+
+/* ── Keyframes — translate3d keeps animation on compositor ── */
+@keyframes reelFwd{
+  0%  {transform:translate3d(0,0,0)}
+  100%{transform:translate3d(-50%,0,0)}
+}
+@keyframes reelRev{
+  0%  {transform:translate3d(-50%,0,0)}
+  100%{transform:translate3d(0,0,0)}
+}
+
+/* Rail A: left → right, 52 s */
+.reel-track--fwd{animation:reelFwd 52s linear infinite;}
+/* Rail B: right → left, 40 s (different speed = organic, not mechanical) */
+.reel-track--rev{animation:reelRev 40s linear infinite;}
+
+/* Pause on hover — no JS needed */
+.reel-stage:hover .reel-track{animation-play-state:paused;}
+
+/* ── Individual slide ── */
+.reel-slide{
+  /* Fixed size + margin-right on EVERY slide (including last in each set)
+     so both sets contribute identical widths → -50% loop is pixel-perfect */
+  flex-shrink:0;
+  width:340px;
+  height:224px;
+  margin-right:16px;
+  border-radius:var(--r-lg); /* 28px */
+  overflow:hidden;
+  position:relative;
+  display:block;
+
+  /* Glassmorphism border */
+  border:1px solid rgba(255,255,255,.68);
+  box-shadow:
+    0 4px 20px rgba(8,17,30,.07),
+    0 0 0 1px rgba(8,17,30,.04),
+    inset 0 1px 0 rgba(255,255,255,.85);
+
+  /* Transitions only on transform/box-shadow — no layout props */
+  transition:
+    transform .48s var(--ease),
+    box-shadow .48s var(--ease);
+  cursor:none;
+  text-decoration:none;
+}
+.reel-slide:hover{
+  transform:scale(1.045) translateY(-7px);
+  box-shadow:
+    0 22px 64px rgba(8,17,30,.15),
+    0 0 0 1.5px rgba(2,132,199,.24),
+    inset 0 1px 0 rgba(255,255,255,.98);
+  /* Local z-index lift so shadow isn't clipped by sibling slides */
+  z-index:5;
+  position:relative;
+}
+
+/* Top accent bar — reveals on hover (scaleX, no layout) */
+.reel-slide::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;z-index:3;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(2,132,199,.75) 30%,
+    rgba(56,189,248,.6) 70%,
+    transparent 100%
+  );
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform .5s var(--ease);
+}
+.reel-slide:hover::before{transform:scaleX(1);}
+
+/* ── Image ── */
+.reel-slide img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  /* Subtle desaturation at rest — pops on hover */
+  filter:saturate(.88) brightness(.95);
+  transition:filter .5s ease,transform .5s var(--ease);
+  transform-origin:center;
+}
+.reel-slide:hover img{
+  filter:saturate(1.06) brightness(1.02);
+  /* Ken Burns micro-zoom — GPU transform only */
+  transform:scale(1.07);
+}
+
+/* ── Bottom gradient overlay ── */
+.reel-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(5,12,28,.76) 0%,
+    rgba(5,12,28,.24) 42%,
+    transparent 68%
+  );
+  opacity:0;
+  transition:opacity .4s var(--ease);
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  padding:16px 18px;
+  border-radius:inherit;
+}
+.reel-slide:hover .reel-ov{opacity:1;}
+
+/* Glass category chip */
+.reel-cat{
+  font-family:var(--f-body);
+  font-size:.6rem;
+  font-weight:500;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.58);
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:50px;
+  padding:3px 9px;
+  white-space:nowrap;
+}
+
+/* Glass project name pill */
+.reel-lbl{
+  font-family:var(--f-head);
+  font-size:.7rem;
+  font-weight:600;
+  letter-spacing:.04em;
+  color:#fff;
+  background:rgba(255,255,255,.13);
+  backdrop-filter:blur(12px) saturate(1.5);
+  -webkit-backdrop-filter:blur(12px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:50px;
+  padding:5px 13px;
+  white-space:nowrap;
+  transform:translateY(7px);
+  transition:transform .38s var(--ease);
+}
+.reel-slide:hover .reel-lbl{transform:translateY(0);}
+
+/* Index badge — top right */
+.reel-idx{
+  position:absolute;top:13px;right:13px;z-index:3;
+  font-family:var(--f-head);
+  font-size:.6rem;font-weight:700;
+  letter-spacing:.05em;
+  color:rgba(255,255,255,.82);
+  background:rgba(8,17,30,.38);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:50px;
+  padding:3px 9px;
+  opacity:0;
+  transform:translateY(-5px);
+  transition:opacity .3s var(--ease),transform .3s var(--ease);
+}
+.reel-slide:hover .reel-idx{opacity:1;transform:translateY(0);}
+
+/* Depth shimmer — inherits from .gcard shimmer concept */
+.reel-slide::after{
+  content:'';
+  position:absolute;top:0;left:-80%;
+  width:55%;height:100%;z-index:2;
+  background:linear-gradient(100deg,
+    transparent,
+    rgba(255,255,255,.07),
+    transparent
+  );
+  transition:left .65s var(--ease);
+  pointer-events:none;
+}
+.reel-slide:hover::after{left:130%;}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  #showcase-reel{padding:64px 0 56px;}
+  .reel-hd{margin-bottom:36px;}
+  .reel-slide{width:278px;height:184px;}
+  .reel-stage+.reel-stage{margin-top:14px;}
+}
+@media(max-width:640px){
+  /* 640px .sec rule above already covers this, but keep for specificity */
+  .reel-hd{margin-bottom:28px;}
+  .reel-slide{width:218px;height:148px;margin-right:12px;border-radius:var(--r-md);}
+  .reel-slide::before{height:1.5px;}
+  .reel-cat{display:none;}
+  .reel-stage+.reel-stage{margin-top:12px;}
+  /* Tighten edge mask on mobile (less wasted width) */
+  .reel-stage{
+    -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 6%,#000 94%,transparent 100%);
+    mask-image:linear-gradient(to right,transparent 0%,#000 6%,#000 94%,transparent 100%);
+  }
 }
 </style>
 </head>
 <body>
+
+<!-- PAGE LOADER -->
+<div id="pg-loader">
+  <div class="pgl-logo">drrio<em>web</em></div>
+  <div class="pgl-track"><div class="pgl-fill" id="pgl-fill"></div></div>
+  <div class="pgl-num" id="pgl-num">0%</div>
+</div>
 
 <!-- Cursor -->
 <div id="cur"></div>
 <div id="cur2"></div>
 <div id="mouse-glow"></div>
 
-<!-- Site BG -->
-<div class="site-bg">
-  <div class="grid-lines"></div>
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
+<!-- Site BG — upgraded -->
+<div class="site-bg" id="siteBg">
+  <canvas id="bg-mesh" aria-hidden="true"></canvas>
+  <div class="bg-grid"  aria-hidden="true"></div>
+  <div class="bg-light" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
 </div>
 
 <!-- ===== NAV ===== -->
 <nav id="nav">
+  <div id="sbar"></div>
   <div class="nav-brand">drrio<em>web</em><span class="dot"></span></div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
@@ -2063,6 +2701,7 @@ footer{
 
       <!-- RIGHT: visual — all rings/glow/cards fully contained here -->
       <div class="hero-visual" id="heroVisual">
+        <canvas id="hero-cvs" aria-hidden="true"></canvas>
         <div class="rings-wrap">
           <div class="ring"></div><div class="ring"></div>
           <div class="ring"></div><div class="ring"></div>
@@ -2128,6 +2767,176 @@ footer{
   </div>
 </div>
 
+<!-- ===== 11. SHOWCASE REEL ===== -->
+<section id="showcase-reel">
+
+  <!-- Section header -->
+  <!-- <div class="reel-hd anim">
+    <div class="tag">Project Gallery</div>
+    <h2 class="ttl">Work That <span>Speaks Volumes</span></h2>
+    <p class="reel-hd-sub">A glimpse into the digital experiences we craft for ambitious brands worldwide.</p>
+  </div> -->
+
+  <!-- ── RAIL A: continuously left → right ── -->
+  <div class="reel-stage" aria-label="Forward project showcase">
+    <div class="reel-track reel-track--fwd" id="reelA">
+
+      <a class="reel-slide" href="#portfolio" aria-label="PakCart E-Commerce Platform">
+        <img src="https://picsum.photos/seed/drrio01/680/448" alt="E-Commerce Platform" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">E-Commerce</span>
+          <span class="reel-lbl">PakCart Platform</span>
+        </div>
+        <span class="reel-idx">01</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Lumina SaaS Dashboard">
+        <img src="https://picsum.photos/seed/drrio02/680/448" alt="SaaS Dashboard" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">SaaS</span>
+          <span class="reel-lbl">Lumina Dashboard</span>
+        </div>
+        <span class="reel-idx">02</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Nova Fashion Store">
+        <img src="https://picsum.photos/seed/drrio03/680/448" alt="Fashion E-Commerce" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Fashion</span>
+          <span class="reel-lbl">Nova Fashion Store</span>
+        </div>
+        <span class="reel-idx">03</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="PropVault Real Estate App">
+        <img src="https://picsum.photos/seed/drrio04/680/448" alt="Real Estate Platform" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Real Estate</span>
+          <span class="reel-lbl">PropVault App</span>
+        </div>
+        <span class="reel-idx">04</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="PulseKit Fitness Platform">
+        <img src="https://picsum.photos/seed/drrio05/680/448" alt="Fitness Application" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Health &amp; Fitness</span>
+          <span class="reel-lbl">PulseKit Platform</span>
+        </div>
+        <span class="reel-idx">05</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Verdant Restaurant Website">
+        <img src="https://picsum.photos/seed/drrio06/680/448" alt="Restaurant Website" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Hospitality</span>
+          <span class="reel-lbl">Verdant Dining</span>
+        </div>
+        <span class="reel-idx">06</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Fintrek Finance App">
+        <img src="https://picsum.photos/seed/drrio07/680/448" alt="Fintech Platform" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Fintech</span>
+          <span class="reel-lbl">Fintrek Portal</span>
+        </div>
+        <span class="reel-idx">07</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Skyline Travel Portal">
+        <img src="https://picsum.photos/seed/drrio08/680/448" alt="Travel Platform" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Travel</span>
+          <span class="reel-lbl">Skyline Portal</span>
+        </div>
+        <span class="reel-idx">08</span>
+      </a>
+
+    </div><!-- /reel-track--fwd -->
+  </div><!-- /reel-stage -->
+
+  <!-- ── RAIL B: continuously right → left ── -->
+  <div class="reel-stage" aria-label="Reverse project showcase">
+    <div class="reel-track reel-track--rev" id="reelB">
+
+      <a class="reel-slide" href="#portfolio" aria-label="Framewerk Photography Studio">
+        <img src="https://picsum.photos/seed/drrio09/680/448" alt="Photography Studio Site" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Photography</span>
+          <span class="reel-lbl">Framewerk Studio</span>
+        </div>
+        <span class="reel-idx">09</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Medix Healthcare Portal">
+        <img src="https://picsum.photos/seed/drrio10/680/448" alt="Healthcare Portal" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Healthcare</span>
+          <span class="reel-lbl">Medix Portal</span>
+        </div>
+        <span class="reel-idx">10</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Evently Event Platform">
+        <img src="https://picsum.photos/seed/drrio11/680/448" alt="Event Management Platform" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Events</span>
+          <span class="reel-lbl">Evently Platform</span>
+        </div>
+        <span class="reel-idx">11</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Learnly Education App">
+        <img src="https://picsum.photos/seed/drrio12/680/448" alt="Education Application" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">EdTech</span>
+          <span class="reel-lbl">Learnly App</span>
+        </div>
+        <span class="reel-idx">12</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Luxe Hotel Booking Site">
+        <img src="https://picsum.photos/seed/drrio13/680/448" alt="Luxury Hotel Website" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Luxury</span>
+          <span class="reel-lbl">Luxe Hotels</span>
+        </div>
+        <span class="reel-idx">13</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="LexCore Legal Services">
+        <img src="https://picsum.photos/seed/drrio14/680/448" alt="Legal Services Site" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Legal</span>
+          <span class="reel-lbl">LexCore Services</span>
+        </div>
+        <span class="reel-idx">14</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Waveform Music Platform">
+        <img src="https://picsum.photos/seed/drrio15/680/448" alt="Music Streaming Platform" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Music</span>
+          <span class="reel-lbl">Waveform Stream</span>
+        </div>
+        <span class="reel-idx">15</span>
+      </a>
+
+      <a class="reel-slide" href="#portfolio" aria-label="Novalab Tech Startup">
+        <img src="https://picsum.photos/seed/drrio16/680/448" alt="Tech Startup Website" loading="lazy" decoding="async" width="680" height="448">
+        <div class="reel-ov">
+          <span class="reel-cat">Startup</span>
+          <span class="reel-lbl">Novalab Tech</span>
+        </div>
+        <span class="reel-idx">16</span>
+      </a>
+
+    </div><!-- /reel-track--rev -->
+  </div><!-- /reel-stage -->
+
+</section>
+
 <!-- ===== 2. ABOUT ===== -->
 <section id="about" class="sec">
   <div class="wrap">
@@ -2151,7 +2960,7 @@ footer{
 };
 
 <span class="kw">// Your vision → our obsession</span>
-drrioweb.launch(yourProject);
+drrioweb.launch(yourProject);<span class="code-cur"></span>
           </div>
           <div class="about-bottom">
             <div class="about-stats">
@@ -2584,6 +3393,7 @@ drrioweb.launch(yourProject);
     </div>
     <div class="proc-steps" style="margin-top:64px">
       <div class="proc-line"></div>
+      <div class="proc-fill"></div>
       <div class="proc-step anim d1"><div class="proc-circle"><span class="proc-num">01</span><span class="proc-ico">🔍</span></div><div class="proc-name">Discovery</div><div class="proc-info">Deep-dive into your goals, audience, and vision</div></div>
       <div class="proc-step anim d2"><div class="proc-circle"><span class="proc-num">02</span><span class="proc-ico">🗺️</span></div><div class="proc-name">Strategy</div><div class="proc-info">Roadmap, architecture, and content planning</div></div>
       <div class="proc-step anim d3"><div class="proc-circle"><span class="proc-num">03</span><span class="proc-ico">✏️</span></div><div class="proc-name">Design</div><div class="proc-info">Wireframes, UI systems, and brand alignment</div></div>
@@ -3257,7 +4067,8 @@ drrioweb.launch(yourProject);
     </div><!-- /vt-accordion -->
   </div>
 </section>
-<!-- ===== 11. CTA ===== -->
+
+<!-- ===== 12. CTA ===== -->
 <section id="cta" class="sec">
   <div class="wrap">
     <div class="cta-box anim">
@@ -3351,12 +4162,15 @@ const cur2 = document.getElementById('cur2');
 const mGlow = document.getElementById('mouse-glow');
 let mx=0,my=0,tx=0,ty=0;
 
+// passive:true — browser never waits for this handler to decide scroll direction
 document.addEventListener('mousemove',e=>{
   mx=e.clientX; my=e.clientY;
+  // Style writes removed from here — batched into rAF below (max 60fps, not per-event)
+},{passive:true});
+(function loop(){
+  // All cursor + glow style writes in ONE rAF callback = single compositor pass
   cur.style.left=mx+'px'; cur.style.top=my+'px';
   mGlow.style.left=mx+'px'; mGlow.style.top=my+'px';
-});
-(function loop(){
   tx+=(mx-tx)*.1; ty+=(my-ty)*.1;
   cur2.style.left=tx+'px'; cur2.style.top=ty+'px';
   requestAnimationFrame(loop);
@@ -4061,11 +4875,18 @@ window.addEventListener('load',()=>{
   /* ─── Go to card ─────────────────────────────────────── */
   function goTo(idx) {
     idx = ((idx % total) + total) % total;
+
+    // Unflip hover-flipped card when navigating away from it
+    if (cards[active] && flippedIdx !== active) {
+      cards[active].classList.remove('flipped');
+    }
+
     active = idx;
 
-    // Un-flip previously flipped card
+    // Un-flip click-flipped card if navigating away
     if (flippedIdx >= 0 && flippedIdx !== idx) {
       cards[flippedIdx].classList.remove('flipped');
+      flippedIdx = -1;
     }
 
     // Update dots
@@ -4083,21 +4904,42 @@ window.addEventListener('load',()=>{
     animateTo(idx);
   }
 
-  /* ─── Click on card ─────────────────────────────────── */
+  /* ─── Click + Hover on card ─────────────────────────── */
+  var canHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
   cards.forEach(function (card, i) {
+
+    /* ── Hover flip (desktop with fine pointer only) ── */
+    if (canHover) {
+      card.addEventListener('mouseenter', function () {
+        // Only flip the centre card, and only when not already click-locked
+        if (active !== i || flippedIdx >= 0) return;
+        card.classList.add('flipped');
+      });
+
+      card.addEventListener('mouseleave', function () {
+        // Don't unflip if the user click-locked it
+        if (flippedIdx === i) return;
+        card.classList.remove('flipped');
+      });
+    }
+
+    /* ── Click: navigate to card OR lock/unlock flip ── */
     card.addEventListener('click', function (e) {
       e.stopPropagation();
+      // Clicking a side card → just navigate
       if (active !== i) {
         goTo(i);
         return;
       }
-      // Toggle flip on center card
+      // Clicking centre card → toggle click-lock
       var isFlipped = card.classList.contains('flipped');
-      if (isFlipped) {
+      if (isFlipped && flippedIdx === i) {
+        // Already click-locked → unlock and let hover take over
         card.classList.remove('flipped');
         flippedIdx = -1;
       } else {
-        // Un-flip others first
+        // Lock flip (works for both hover-pre-flipped and non-flipped states)
         cards.forEach(function (c) { c.classList.remove('flipped'); });
         card.classList.add('flipped');
         flippedIdx = i;
@@ -4158,10 +5000,12 @@ window.addEventListener('load',()=>{
       var cy     = rect.top  + rect.height / 2;
       var dx     = (e.clientX - cx) / (rect.width  / 2);
       var dy     = (e.clientY - cy) / (rect.height / 2);
-      // Apply tilt on top of coverflow transform via a CSS var trick
+      // Apply tilt via CSS custom props — never overwrites inline transform,
+      // so .flipped class rule always wins regardless of tilt state
       var flipper = centerCard.querySelector('.svc-card-flipper');
-      if (flipper && !centerCard.classList.contains('flipped')) {
-        flipper.style.transform = 'rotateX(' + (-dy * 8) + 'deg) rotateY(' + (dx * 8) + 'deg)';
+      if (flipper) {
+        flipper.style.setProperty('--svc-tx', (-dy * 8).toFixed(2) + 'deg');
+        flipper.style.setProperty('--svc-ty', (dx  * 8).toFixed(2) + 'deg');
       }
     }, { passive: true });
 
@@ -4169,9 +5013,10 @@ window.addEventListener('load',()=>{
       var centerCard = cards[active];
       if (!centerCard) return;
       var flipper = centerCard.querySelector('.svc-card-flipper');
-      if (flipper && !centerCard.classList.contains('flipped')) {
+      if (flipper) {
         flipper.style.transition = 'transform .6s var(--ease)';
-        flipper.style.transform  = '';
+        flipper.style.removeProperty('--svc-tx');
+        flipper.style.removeProperty('--svc-ty');
         setTimeout(function () { if (flipper) flipper.style.transition = ''; }, 650);
       }
     });
@@ -4238,6 +5083,502 @@ window.addEventListener('load',()=>{
   // Make cards visible on load (they start at opacity 0 from CSS)
   cards.forEach(function (c) { c.style.transition = 'opacity .5s, z-index 0s'; });
 
+  // On hover-capable devices: update cue label to "Hover to flip"
+  if (canHover) {
+    document.querySelectorAll('.svc-card-flip-cue').forEach(function (el) {
+      el.innerHTML = '<span class="svc-flip-arrow">↻</span> Hover to flip';
+    });
+  }
+
+})();
+
+/* ═══════════════════════════════════════════════════════
+   BACKGROUND CANVAS — animated gradient mesh
+   ═══════════════════════════════════════════════════════ */
+
+// ─── BG MESH CANVAS ─────────────────────────────────────────
+(function () {
+  'use strict';
+
+  var cvs = document.getElementById('bg-mesh');
+  if (!cvs) return;
+
+  var ctx = cvs.getContext('2d');
+  var W = 0, H = 0, raf = null;
+  var scrollY = 0, smoothScrollY = 0;      // smoothed for parallax
+  var mouseX  = -9999, mouseY = -9999;     // global mouse follow
+  var mouseInfluence = 0;                  // fades in on first move
+
+  /* ── Gradient blob definitions ──────────────────────────── */
+  /* Each blob: normalized x/y position, radius (% of max dim),
+     velocity, RGB string, max opacity, parallax depth factor  */
+  var blobs = [
+    /* Top-right hero bloom */
+    { x:.72, y:.06,  r:.58, vx: .00011, vy: .00014, rgb:'2,132,199',  a:.072, depth:.06 },
+    /* Mid-left violet accent */
+    { x:.08, y:.48,  r:.50, vx:-.00016, vy: .00012, rgb:'99,102,241', a:.052, depth:.04 },
+    /* Bottom-center blue */
+    { x:.62, y:.82,  r:.52, vx: .00013, vy:-.00017, rgb:'2,132,199',  a:.065, depth:.05 },
+    /* Bottom-left sky */
+    { x:.18, y:.78,  r:.44, vx:-.00018, vy: .00020, rgb:'56,189,248', a:.042, depth:.03 },
+    /* Center violet — very soft */
+    { x:.50, y:.44,  r:.36, vx: .00009, vy:-.00011, rgb:'99,102,241', a:.030, depth:.02 },
+    /* Mouse-follow reactive ghost */
+    { x:.50, y:.50,  r:.28, vx: 0,      vy: 0,      rgb:'2,132,199',  a:.0,   depth: 0, isMouse:true },
+  ];
+
+  /* ── Canvas resize ─────────────────────────────────────── */
+  function resize () {
+    W = cvs.width  = window.innerWidth;
+    H = cvs.height = window.innerHeight;
+  }
+
+  /* ── Draw one frame ─────────────────────────────────────── */
+  function draw () {
+    ctx.clearRect(0, 0, W, H);
+
+    blobs.forEach(function (b) {
+      var px, py, alpha;
+
+      if (b.isMouse) {
+        /* Mouse-reactive ghost blob — fades in with mouseInfluence */
+        alpha = b.a + mouseInfluence * .055;
+        if (alpha <= .003) return;
+        px = mouseX; py = mouseY;
+      } else {
+        /* Parallax: blobs at different depths shift at different rates */
+        var parOff = smoothScrollY * b.depth;
+        px    = b.x * W;
+        py    = b.y * H + parOff;
+        alpha = b.a;
+      }
+
+      var r = b.r * Math.max(W, H) * .75;
+
+      /* Three-stop radial gradient: rich centre → mid fade → transparent */
+      var g = ctx.createRadialGradient(px, py, 0, px, py, r);
+      g.addColorStop(0,    'rgba(' + b.rgb + ',' + (alpha).toFixed(3)         + ')');
+      g.addColorStop(.40,  'rgba(' + b.rgb + ',' + (alpha * .40).toFixed(3)   + ')');
+      g.addColorStop(1,    'rgba(' + b.rgb + ',0)');
+
+      ctx.beginPath();
+      ctx.arc(px, py, r, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
+
+      /* Drift autonomous blobs */
+      if (!b.isMouse) {
+        b.x += b.vx;  b.y += b.vy;
+        /* Soft bounce at padded edges */
+        if (b.x < -.08 || b.x > 1.08) b.vx *= -1;
+        if (b.y < -.08 || b.y > 1.08) b.vy *= -1;
+      }
+    });
+  }
+
+  /* ── Animation loop ─────────────────────────────────────── */
+  /* On mobile (< 768px) the background canvas throttles to ~30fps:
+     skips every other frame — halves GPU/CPU budget for background work.
+     The 30-second drift cycle is imperceptible at 30fps. Desktop stays 60fps. */
+  var _isMobileCanvas = window.innerWidth < 768;
+  var _bgFrameCount = 0;
+
+  function loop () {
+    raf = requestAnimationFrame(loop);
+
+    /* 30fps throttle on mobile — skip odd frames */
+    if (_isMobileCanvas && (++_bgFrameCount & 1)) return;
+
+    /* Smooth scroll interpolation for parallax */
+    smoothScrollY += (scrollY - smoothScrollY) * .055;
+
+    /* Update mouse-follow blob position toward cursor */
+    var mb = blobs[blobs.length - 1];
+    if (mouseX > -9000) {
+      mb.x = mouseX;
+      mb.y = mouseY;
+    }
+
+    draw();
+  }
+
+  /* ── Pause / resume when not visible ───────────────────── */
+  var bgObs = new IntersectionObserver(function (en) {
+    /* bg-mesh is fixed, so technically always visible — use body */
+  });
+  /* Simple visibility API fallback */
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { cancelAnimationFrame(raf); raf = null; }
+    else if (!raf)       { loop(); }
+  });
+
+  /* ── Event listeners ────────────────────────────────────── */
+  /* Scroll: used for parallax depth */
+  window.addEventListener('scroll', function () {
+    scrollY = window.scrollY || window.pageYOffset;
+  }, { passive: true });
+
+  /* Mouse: drive reactive ghost blob */
+  window.addEventListener('mousemove', function (e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (mouseInfluence < 1) mouseInfluence = Math.min(1, mouseInfluence + .06);
+  }, { passive: true });
+
+  /* Mouse-leave page: fade ghost */
+  document.addEventListener('mouseleave', function () {
+    mouseInfluence = 0;
+    mouseX = -9999; mouseY = -9999;
+  });
+
+  /* Dot grid mouse parallax */
+  var bgGrid = document.querySelector('.bg-grid');
+  if (bgGrid) {
+    var gx = 0, gy = 0, gmx = 0, gmy = 0, gridRafPending = false;
+    window.addEventListener('mousemove', function (e) {
+      gmx = e.clientX; gmy = e.clientY;
+      // rAF gate: coalesces rapid mousemove events to one style write per frame
+      if (!gridRafPending) {
+        gridRafPending = true;
+        requestAnimationFrame(function () {
+          var nx = (gmx / window.innerWidth  - .5) * 10;
+          var ny = (gmy / window.innerHeight - .5) * 8;
+          gx += (nx - gx) * .05;
+          gy += (ny - gy) * .05;
+          bgGrid.style.transform = 'translate(' + gx.toFixed(2) + 'px,' + gy.toFixed(2) + 'px)';
+          gridRafPending = false;
+        });
+      }
+    }, { passive: true });
+  }
+
+  /* Resize */
+  var resizeT;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(resize, 220);
+  });
+
+  /* ── Boot ───────────────────────────────────────────────── */
+  function boot () {
+    resize();
+    loop();
+    /* Fade in canvas gracefully after first render */
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        cvs.classList.add('rdy');
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  /* bg-light subtle tilt on scroll */
+  var bgLight = document.querySelector('.bg-light');
+  if (bgLight) {
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY;
+      bgLight.style.transform = 'translateY(' + (y * -.018).toFixed(1) + 'px)';
+    }, { passive: true });
+  }
+
+})();
+
+/* ═══════════════════════════════════════════════════════
+   PREMIUM ENHANCEMENTS — production-ready additions
+   ═══════════════════════════════════════════════════════ */
+
+// ─── PAGE LOADER ───────────────────────────────────────────
+(function(){
+  var loader  = document.getElementById('pg-loader');
+  var fill    = document.getElementById('pgl-fill');
+  var numEl   = document.getElementById('pgl-num');
+  if(!loader) return;
+
+  var pct = 0;
+  var interval = setInterval(function(){
+    pct = pct < 70 ? pct + (Math.random()*14 + 5) :
+          pct < 85 ? pct + (Math.random()*4  + 1) : pct;
+    pct = Math.min(pct, 85);
+    if(fill)  fill.style.width    = pct.toFixed(0) + '%';
+    if(numEl) numEl.textContent   = pct.toFixed(0) + '%';
+  }, 75);
+
+  function finish(){
+    clearInterval(interval);
+    if(fill)  fill.style.width  = '100%';
+    if(numEl) numEl.textContent = '100%';
+    setTimeout(function(){ loader.classList.add('done'); }, 250);
+  }
+
+  if(document.readyState === 'complete'){ setTimeout(finish, 120); }
+  else {
+    window.addEventListener('load', function(){ setTimeout(finish, 120); });
+    setTimeout(finish, 3500); // safety fallback
+  }
+})();
+
+// ─── SCROLL PROGRESS BAR ───────────────────────────────────
+(function(){
+  var sbar = document.getElementById('sbar');
+  if(!sbar) return;
+  function update(){
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    sbar.style.width = docH > 0 ? (window.scrollY / docH * 100).toFixed(2) + '%' : '0%';
+  }
+  window.addEventListener('scroll', update, {passive:true});
+  update();
+})();
+
+// ─── HERO CANVAS — Particle Network ────────────────────────
+(function(){
+  var canvas = document.getElementById('hero-cvs');
+  if(!canvas || window.innerWidth < 768) return;
+
+  var ctx = canvas.getContext('2d');
+  var W, H, raf;
+  var mouse = {x:-9999, y:-9999};
+  var NUM = 65, DIST = 115, SPD = 0.32;
+  var particles = [];
+
+  function resize(){
+    var p = canvas.parentElement;
+    W = canvas.width  = p ? p.offsetWidth  : 540;
+    H = canvas.height = p ? p.offsetHeight : 540;
+  }
+
+  function mkPt(){
+    return {
+      x:  Math.random()*W, y:  Math.random()*H,
+      vx: (Math.random()-.5)*SPD, vy: (Math.random()-.5)*SPD,
+      r:  Math.random()*1.5+.5,   a:  Math.random()*.5+.18
+    };
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // connections
+    for(var i=0;i<particles.length;i++){
+      var p=particles[i];
+      for(var j=i+1;j<particles.length;j++){
+        var q=particles[j];
+        var dx=p.x-q.x, dy=p.y-q.y, d=Math.sqrt(dx*dx+dy*dy);
+        if(d<DIST){
+          var al=(1-d/DIST)*0.2;
+          ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
+          ctx.strokeStyle='rgba(2,132,199,'+al.toFixed(3)+')';
+          ctx.lineWidth=.55; ctx.stroke();
+        }
+      }
+      // mouse lines
+      var mdx=p.x-mouse.x, mdy=p.y-mouse.y, md=Math.sqrt(mdx*mdx+mdy*mdy);
+      if(md<DIST*1.5){
+        var ma=(1-md/(DIST*1.5))*0.32;
+        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(mouse.x,mouse.y);
+        ctx.strokeStyle='rgba(2,132,199,'+ma.toFixed(3)+')';
+        ctx.lineWidth=.75; ctx.stroke();
+      }
+    }
+    // dots
+    particles.forEach(function(p){
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(2,132,199,'+p.a.toFixed(3)+')';
+      ctx.fill();
+    });
+  }
+
+  function update(){
+    particles.forEach(function(p){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W) p.vx*=-1;
+      if(p.y<0||p.y>H) p.vy*=-1;
+    });
+  }
+
+  function loop(){ raf=requestAnimationFrame(loop); update(); draw(); }
+
+  var hero = document.getElementById('hero');
+  if(hero){
+    hero.addEventListener('mousemove',function(e){
+      var r=canvas.getBoundingClientRect();
+      mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top;
+    },{passive:true});
+    hero.addEventListener('mouseleave',function(){ mouse.x=-9999; mouse.y=-9999; });
+  }
+
+  var rt;
+  window.addEventListener('resize',function(){
+    clearTimeout(rt); rt=setTimeout(function(){ resize(); particles=[]; for(var i=0;i<NUM;i++) particles.push(mkPt()); },250);
+  });
+
+  // Pause when hero not visible
+  var heroObs=new IntersectionObserver(function(en){
+    if(en[0].isIntersecting){ if(!raf) loop(); }
+    else { cancelAnimationFrame(raf); raf=null; }
+  },{threshold:.01});
+  if(hero) heroObs.observe(hero);
+
+  resize();
+  for(var i=0;i<NUM;i++) particles.push(mkPt());
+  loop();
+})();
+
+// ─── PROCESS SECTION — animated line reveal ────────────────
+(function(){
+  var sec = document.getElementById('process');
+  if(!sec) return;
+  var obs = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting){ sec.classList.add('proc-lit'); obs.disconnect(); }
+  },{threshold:.2});
+  obs.observe(sec);
+})();
+
+// ─── MAGNETIC BUTTONS ───────────────────────────────────────
+(function(){
+  if(!window.matchMedia('(hover:hover)').matches) return;
+  document.querySelectorAll('.btn-p,.btn-s,.nav-btn').forEach(function(btn){
+    btn.addEventListener('mousemove',function(e){
+      var r=btn.getBoundingClientRect();
+      var dx=e.clientX-(r.left+r.width/2), dy=e.clientY-(r.top+r.height/2);
+      btn.style.transform='translate('+(dx*.16).toFixed(1)+'px,'+(dy*.2).toFixed(1)+'px) scale(1.04)';
+    });
+    btn.addEventListener('mouseleave',function(){
+      btn.style.transition='transform .5s var(--ease)';
+      btn.style.transform='';
+      setTimeout(function(){ btn.style.transition=''; },520);
+    });
+  });
+})();
+
+// ─── NAV ACTIVE LINK HIGHLIGHT ─────────────────────────────
+(function(){
+  var links=document.querySelectorAll('.nav-links a');
+  if(!links.length) return;
+  var secObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting) return;
+      var id=en.target.id;
+      links.forEach(function(l){
+        var isActive=l.getAttribute('href')==='#'+id;
+        l.style.color=isActive?'var(--c-acc)':'';
+        if(isActive) l.style.setProperty('--line-w','100%');
+        else         l.style.removeProperty('--line-w');
+      });
+    });
+  },{threshold:.35,rootMargin:'-80px 0px -40% 0px'});
+  links.forEach(function(l){
+    var id=l.getAttribute('href').replace('#','');
+    var s=document.getElementById(id);
+    if(s) secObs.observe(s);
+  });
+})();
+
+/* ── BUTTON RIPPLE ───────────────────────────────────── */
+(function(){
+  function addRipple(e){
+    var btn=e.currentTarget;
+    var r=btn.getBoundingClientRect();
+    var size=Math.max(r.width,r.height)*1.6;
+    var x=e.clientX-r.left-size/2;
+    var y=e.clientY-r.top -size/2;
+    var rpl=document.createElement('span');
+    rpl.className='btn-ripple';
+    rpl.style.cssText='width:'+size+'px;height:'+size+'px;left:'+x+'px;top:'+y+'px;';
+    btn.appendChild(rpl);
+    rpl.addEventListener('animationend',function(){rpl.remove();});
+  }
+  document.querySelectorAll('.btn-p,.btn-s,.nav-btn').forEach(function(b){
+    b.addEventListener('click',addRipple);
+  });
+})();
+
+/* ── 3D CARD TILT ────────────────────────────────────── */
+(function(){
+  var mq=window.matchMedia('(pointer:fine)');
+  if(!mq.matches) return;
+  var CARDS='.av-item,.wf-card,.faq-aside-card,.gcard';
+  var MAX=9;
+  document.querySelectorAll(CARDS).forEach(function(card){
+    card.style.transition='transform .18s ease,box-shadow .18s ease';
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var cx=r.left+r.width/2, cy=r.top+r.height/2;
+      var dx=(e.clientX-cx)/(r.width/2);
+      var dy=(e.clientY-cy)/(r.height/2);
+      var rx= dy*MAX, ry=-dx*MAX;
+      card.style.transform='perspective(800px) rotateX('+rx+'deg) rotateY('+ry+'deg) scale3d(1.018,1.018,1.018)';
+    });
+    card.addEventListener('mouseleave',function(){
+      card.style.transform='perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+    });
+  });
+})();
+
+/* ── SCROLL SECTION ATMOSPHERE ───────────────────────── */
+(function(){
+  var bg=document.getElementById('siteBg');
+  if(!bg) return;
+  var sections=['hero','services','about','process','stats','portfolio','testimonials','showcase-reel','cta','faq'];
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting) bg.setAttribute('data-sec',en.target.id);
+    });
+  },{threshold:.4});
+  sections.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) obs.observe(el);
+  });
+})();
+
+/* ── SHOWCASE REEL — seamless clone + IntersectionObserver pause ── */
+(function(){
+  /* Skip if user prefers reduced motion — browser will collapse the
+     animation to a single frame via the @media rule anyway, but we
+     also skip the clone to keep DOM lean */
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+  ['reelA','reelB'].forEach(function(id){
+    var track=document.getElementById(id);
+    if(!track) return;
+
+    /* 1. Clone all original slides and append — this makes the track
+          exactly 2× the single-set width, so CSS translateX(-50%)
+          lands precisely at the start of the clone set (invisible reset). */
+    var originals=Array.from(track.children);
+    originals.forEach(function(slide){
+      var clone=slide.cloneNode(true);
+      /* Clones are aria-hidden: screen readers only need the originals */
+      clone.setAttribute('aria-hidden','true');
+      clone.setAttribute('tabindex','-1');
+      track.appendChild(clone);
+    });
+  });
+
+  /* 2. Pause animation when the section scrolls out of view —
+        saves GPU cycles when the user is elsewhere on the page. */
+  var section=document.getElementById('showcase-reel');
+  if(!section) return;
+
+  var stages=section.querySelectorAll('.reel-stage');
+  var paused=false;
+
+  var reelObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      var shouldPause=!en.isIntersecting;
+      if(shouldPause===paused) return;
+      paused=shouldPause;
+      stages.forEach(function(stage){
+        var track=stage.querySelector('.reel-track');
+        if(track) track.style.animationPlayState=paused?'paused':'running';
+      });
+    });
+  },{rootMargin:'200px 0px 200px 0px'}); /* pre-resume before entering view */
+
+  reelObs.observe(section);
 })();
 </script>
 </body>

@@ -21,6 +21,11 @@
 <!-- Theme color — Chrome mobile address bar matches brand accent -->
 <meta name="theme-color" content="#0284c7"/>
 <meta name="description" content="drrioweb — Premium Web Development Studio. High-performance websites and web applications for ambitious brands worldwide."/>
+<!-- Swiper 11 — loaded only on mobile to avoid shipping slider code to desktop -->
+<link rel="preload" as="style"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+      onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/></noscript>
 <style>
 /* =============================================
    DESIGN TOKENS — Liquid Crystal Tech
@@ -2617,6 +2622,388 @@ section{isolation:isolate}
     mask-image:linear-gradient(to right,transparent 0%,#000 6%,#000 94%,transparent 100%);
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE PORTRAIT SLIDER — Reviews + Video Reviews
+   Visible ONLY on ≤768px. Desktop layout is untouched.
+═══════════════════════════════════════════════════════════ */
+
+/* ── Hide originals on mobile ─────────────────────────────── */
+@media(max-width:768px){
+  #testimonials,
+  #video-test { display:none !important; }
+}
+
+/* ── Section wrapper — hidden desktop, block mobile ──────── */
+#mob-reviews {
+  display: none;
+  padding: 52px 0 64px;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;          /* clip Swiper overflow at section edge */
+}
+@media(max-width:768px){
+  #mob-reviews { display: block; }
+}
+
+/* ── Section header ───────────────────────────────────────── */
+.mobrev-hd {
+  text-align: center;
+  padding: 0 20px;
+  margin-bottom: 32px;
+}
+.mobrev-hd .tag  { margin: 0 auto 10px; }
+.mobrev-hd .ttl  { font-size: clamp(1.6rem, 5.5vw, 2.1rem); }
+.mobrev-hd .sub  { margin-top: 8px; font-size: .87rem; color: #6b7280; }
+
+/* ── Swiper container overrides ───────────────────────────── */
+#mobRevSwiper {
+  width: 100%;
+  padding: 12px 0 56px !important;   /* bottom pad = pagination space */
+  overflow: visible;                  /* let side-peek bleed past wrap */
+}
+/* centre-peek: 82 vw card width + auto side offsets */
+#mobRevSwiper .swiper-wrapper { align-items: stretch; }
+#mobRevSwiper .swiper-slide   {
+  width: 82vw !important;
+  max-width: 340px;
+  height: auto;
+  transition: transform .4s cubic-bezier(.25,.46,.45,.94),
+              opacity   .4s cubic-bezier(.25,.46,.45,.94);
+}
+/* Dim and scale down non-active slides for depth */
+#mobRevSwiper .swiper-slide:not(.swiper-slide-active) {
+  transform: scale(.93);
+  opacity: .55;
+}
+
+/* ── Swiper pagination bullets ────────────────────────────── */
+#mobRevSwiper .swiper-pagination {
+  bottom: 18px !important;
+}
+#mobRevSwiper .swiper-pagination-bullet {
+  width: 7px;
+  height: 7px;
+  background: #cbd5e1;
+  opacity: 1;
+  transition: width .25s, background .25s;
+}
+#mobRevSwiper .swiper-pagination-bullet-active {
+  width: 22px;
+  border-radius: 4px;
+  background: #0284c7;
+}
+
+/* ══ BASE CARD ═══════════════════════════════════════════════ */
+.mrc {
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  /* Unified portrait ratio — both review and video cards are
+     identical in size so the slider feels consistent */
+  aspect-ratio: 3 / 4;
+}
+
+/* ══ REVIEW (TEXT) CARD ══════════════════════════════════════ */
+.mrc-review {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.07);
+  box-shadow: 0 8px 32px rgba(0,0,0,.09), 0 1px 4px rgba(0,0,0,.05);
+  padding: 24px 20px 20px;
+  /* flex column so author row pins to bottom via margin-top:auto */
+  display: flex;
+  flex-direction: column;
+  /* fill the shared aspect-ratio box exactly */
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Top gradient accent bar */
+.mrc-accent {
+  height: 3px;
+  border-radius: 2px 2px 0 0;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+}
+
+/* Stars */
+.mrc-stars {
+  display: flex;
+  gap: 2px;
+  margin: 14px 0 10px;   /* below accent bar */
+}
+.mrc-stars span,
+.mrc-stars .rev-star {
+  color: #f59e0b !important;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Opening quote mark */
+.mrc-quote-mark {
+  font-size: 3rem;
+  line-height: .7;
+  font-family: Georgia, serif;
+  color: #0284c7;
+  opacity: .22;
+  display: block;
+  margin-bottom: 4px;
+  user-select: none;
+}
+
+/* Body copy — clamped so long reviews fit the shared card height */
+.mrc-body {
+  font-size: .9rem;
+  line-height: 1.68;
+  color: #374151;
+  flex: 1;
+  margin: 0 0 14px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+}
+
+/* Result pill */
+.mrc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  background: rgba(2,132,199,.09);
+  color: #0369a1;
+}
+
+/* Author row */
+.mrc-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(0,0,0,.07);
+  margin-top: auto;
+}
+.mrc-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .72rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: .5px;
+}
+.mrc-author-info .mrc-name {
+  font-size: .86rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.25;
+}
+.mrc-author-info .mrc-role {
+  font-size: .74rem;
+  color: #6b7280;
+  line-height: 1.3;
+}
+.mrc-verified {
+  margin-left: auto;
+  font-size: .67rem;
+  font-weight: 600;
+  color: #0284c7;
+  background: rgba(2,132,199,.1);
+  padding: 3px 9px;
+  border-radius: 100px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ══ VIDEO CARD ══════════════════════════════════════════════ */
+.mrc-video {
+  /* aspect-ratio inherited from .mrc — same size as review card */
+  background: #0a0a0f;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  box-shadow: 0 12px 40px rgba(0,0,0,.22);
+}
+
+/* Actual video element — lazy-loaded on tap */
+.mrc-video video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
+}
+.mrc-video.mrv-playing video { opacity: 1; }
+
+/* Colour gradient background (shown before video loads) */
+.mrc-vid-gradient {
+  position: absolute;
+  inset: 0;
+  transition: opacity .4s ease;
+}
+.mrc-video.mrv-playing .mrc-vid-gradient { opacity: .18; }
+
+/* Bottom vignette — makes text readable over any video */
+.mrc-vid-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,.18) 0%,
+    transparent     30%,
+    transparent     45%,
+    rgba(0,0,0,.85) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Play button overlay ── */
+.mrc-vid-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity .25s ease;
+  pointer-events: none;
+}
+.mrc-video.mrv-playing .mrc-vid-play { opacity: 0; }
+
+.mrc-vid-play-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(255,255,255,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  color: #fff;
+  padding-left: 4px;           /* optical-centre triangle */
+  transition: transform .18s, background .18s;
+}
+.mrc-video:active .mrc-vid-play-btn {
+  transform: scale(.88);
+  background: rgba(255,255,255,.28);
+}
+
+/* ── Video type badge (top-left) ── */
+.mrc-vid-type-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0,0,0,.48);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  letter-spacing: .04em;
+  pointer-events: none;
+}
+.mrc-vid-type-badge .badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ef4444;
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+@keyframes badge-pulse {
+  0%,100% { opacity: 1; transform: scale(1);   }
+  50%      { opacity: .5; transform: scale(.75); }
+}
+
+/* ── Duration badge (top-right) ── */
+.mrc-vid-dur {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(0,0,0,.48);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 100px;
+  pointer-events: none;
+}
+
+/* Pause indicator — replaces play btn text when playing */
+.mrc-video.mrv-playing .mrc-vid-dur::before {
+  content: '❚❚  ';
+  font-size: .55rem;
+  letter-spacing: 1px;
+}
+
+/* ── Bottom info panel ── */
+.mrc-vid-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 20px 18px 22px;
+  pointer-events: none;
+}
+.mrc-vid-stars {
+  color: #f59e0b;
+  font-size: .82rem;
+  margin-bottom: 5px;
+  letter-spacing: 3px;
+}
+.mrc-vid-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+.mrc-vid-role {
+  font-size: .74rem;
+  color: rgba(255,255,255,.6);
+  margin: 2px 0 8px;
+  line-height: 1.3;
+}
+.mrc-vid-quote {
+  font-size: .78rem;
+  color: rgba(255,255,255,.82);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* ── Swipe hint arrow (fades out after first swipe) ─────── */
+.mobrev-swipe-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: .75rem;
+  color: #9ca3af;
+  letter-spacing: .04em;
+  transition: opacity .5s ease;
+}
+.mobrev-swipe-hint.hidden { opacity: 0; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -4066,6 +4453,39 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
 
     </div><!-- /vt-accordion -->
   </div>
+</section>
+
+<!-- ===== 11. MOBILE PORTRAIT SLIDER — Reviews + Video Reviews (≤768px) ===== -->
+<!--
+  Hidden on desktop/tablet via CSS (display:none above 768px).
+  JS reads data from #revStage + #vtAccordion, interleaves
+  review/video cards, injects them as Swiper slides, then
+  initialises Swiper with centeredSlides + loop.
+-->
+<section id="mob-reviews" aria-label="Client and video reviews">
+
+  <!-- Section header -->
+  <div class="wrap">
+    <div class="mobrev-hd anim">
+      <div class="tag">Reviews</div>
+      <h2 class="ttl">What Our <span>Clients Say</span></h2>
+      <p class="sub">Swipe to explore real results.</p>
+    </div>
+  </div>
+
+  <!-- Swiper root — JS populates .swiper-wrapper -->
+  <div class="swiper" id="mobRevSwiper">
+    <div class="swiper-wrapper" id="mobRevWrapper">
+      <!-- slides injected by JS -->
+    </div>
+    <div class="swiper-pagination" id="mobRevPagination"></div>
+  </div>
+
+  <!-- Swipe hint — hidden after first interaction -->
+  <div class="mobrev-swipe-hint" id="mobRevHint" aria-hidden="true">
+    <span>← Swipe to browse →</span>
+  </div>
+
 </section>
 
 <!-- ===== 12. CTA ===== -->
@@ -5579,6 +5999,290 @@ window.addEventListener('load',()=>{
   },{rootMargin:'200px 0px 200px 0px'}); /* pre-resume before entering view */
 
   reelObs.observe(section);
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE PORTRAIT SLIDER
+   — Reads review + video data from existing DOM sections
+   — Builds alternating Swiper slides (review → video → …)
+   — Loads Swiper JS on demand (mobile breakpoint only)
+   — Lazy-loads videos on first tap
+═══════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+
+  /* Only run when the section exists */
+  var wrapper = document.getElementById('mobRevWrapper');
+  var swiperEl = document.getElementById('mobRevSwiper');
+  var hint     = document.getElementById('mobRevHint');
+  if(!wrapper || !swiperEl) return;
+
+  /* ── Tiny helpers ─────────────────────────────────────── */
+  function esc(s){
+    return String(s)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+  function q(el,sel)   { return el && el.querySelector(sel); }
+  function txt(el,sel) { var n=q(el,sel); return n ? n.textContent.trim() : ''; }
+  function ih(el,sel)  { var n=q(el,sel); return n ? n.innerHTML : ''; }
+
+  /* ── 1. Scrape text reviews from existing #revStage ────── */
+  var reviews = [];
+  document.querySelectorAll('#revStage .rev-card').forEach(function(card){
+    var st = card.getAttribute('style') || '';
+    var m1 = st.match(/--rev-c1:\s*([^;]+)/);
+    var m2 = st.match(/--rev-c2:\s*([^;]+)/);
+    reviews.push({
+      c1:     m1 ? m1[1].trim() : '#0284c7',
+      c2:     m2 ? m2[1].trim() : '#38bdf8',
+      stars:  ih(card,  '.rev-stars'),
+      text:   txt(card, '.rev-text'),
+      pill:   txt(card, '.rev-result-pill'),
+      avatar: txt(card, '.rev-avatar'),
+      name:   txt(card, '.rev-name'),
+      role:   txt(card, '.rev-role')
+    });
+  });
+
+  /* ── 2. Scrape video reviews from existing #vtAccordion ── */
+  var videos = [];
+  document.querySelectorAll('#vtAccordion .vtc').forEach(function(card){
+    var gradEl = q(card, '.vtc-gradient');
+    videos.push({
+      src:   card.getAttribute('data-src') || '',
+      grad:  gradEl ? (gradEl.getAttribute('style') || '') : '',
+      stars: ih(card,  '.vtc-stars'),
+      name:  txt(card, '.vtc-name'),
+      role:  txt(card, '.vtc-role'),
+      quote: txt(card, '.vtc-quote'),
+      dur:   txt(card, '.vtc-dur')
+    });
+  });
+
+  if(!reviews.length && !videos.length) return;
+
+  /* ── 3. Interleave: R, V, R, V … exhaust the longer list ─ */
+  var items = [];
+  var ri = 0, vi = 0;
+  while(ri < reviews.length || vi < videos.length){
+    if(ri < reviews.length) items.push({ type:'review', d: reviews[ri++] });
+    if(vi < videos.length)  items.push({ type:'video',  d: videos[vi++]  });
+  }
+
+  /* ── 4. Card HTML builders ────────────────────────────── */
+  function buildReview(r){
+    return '<div class="mrc mrc-review">'
+      /* full-width accent stripe at top */
+      +'<div class="mrc-accent" style="background:linear-gradient(90deg,'+r.c1+','+r.c2+')"></div>'
+      /* stars row */
+      +'<div class="mrc-stars">'+r.stars+'</div>'
+      /* decorative quote mark */
+      +'<span class="mrc-quote-mark" aria-hidden="true">\u201c</span>'
+      /* review copy */
+      +'<p class="mrc-body">'+esc(r.text)+'</p>'
+      /* result pill (optional) */
+      +(r.pill
+        ? '<div class="mrc-pill">'
+          +'<svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">'
+          +'<path d="M5 1l1.18 2.39L9 3.82 7 5.76l.47 2.74L5 7.1 2.53 8.5 3 5.76 1 3.82l2.82-.43z" fill="#0284c7"/>'
+          +'</svg>'
+          +esc(r.pill)+'</div>'
+        : '')
+      /* author footer */
+      +'<div class="mrc-author">'
+        +'<div class="mrc-avatar" style="background:linear-gradient(135deg,'+r.c1+','+r.c2+')" aria-hidden="true">'+esc(r.avatar)+'</div>'
+        +'<div class="mrc-author-info">'
+          +'<div class="mrc-name">'+esc(r.name)+'</div>'
+          +'<div class="mrc-role">'+esc(r.role)+'</div>'
+        +'</div>'
+        +'<div class="mrc-verified" aria-label="Verified client">&#10003; Verified</div>'
+      +'</div>'
+    +'</div>';
+  }
+
+  function buildVideo(v){
+    return '<div class="mrc mrc-video" data-vsrc="'+esc(v.src)+'"'
+        +' role="button" tabindex="0"'
+        +' aria-label="Play video review by '+esc(v.name)+'">'
+      /* colour backdrop before video loads */
+      +'<div class="mrc-vid-gradient" style="'+esc(v.grad)+'" aria-hidden="true"></div>'
+      /* lazy <video> — src injected on first tap */
+      +'<video preload="none" loop playsinline></video>'
+      /* bottom scrim — ensures info text is always readable */
+      +'<div class="mrc-vid-vignette" aria-hidden="true"></div>'
+      /* "VIDEO REVIEW" badge with pulsing red dot */
+      +'<div class="mrc-vid-type-badge" aria-hidden="true">'
+        +'<span class="badge-dot"></span>VIDEO REVIEW'
+      +'</div>'
+      /* duration badge */
+      +(v.dur ? '<div class="mrc-vid-dur" aria-hidden="true">'+esc(v.dur)+'</div>' : '')
+      /* centred play button */
+      +'<div class="mrc-vid-play" aria-hidden="true">'
+        +'<div class="mrc-vid-play-btn">&#9654;</div>'
+      +'</div>'
+      /* bottom info panel */
+      +'<div class="mrc-vid-info">'
+        +'<div class="mrc-vid-stars" aria-hidden="true">'+v.stars+'</div>'
+        +'<div class="mrc-vid-name">'+esc(v.name)+'</div>'
+        +'<div class="mrc-vid-role">'+esc(v.role)+'</div>'
+        +'<div class="mrc-vid-quote">'+esc(v.quote)+'</div>'
+      +'</div>'
+    +'</div>';
+  }
+
+  /* ── 5. Inject slides into Swiper wrapper ─────────────── */
+  wrapper.innerHTML = items.map(function(item){
+    var inner = item.type === 'review'
+      ? buildReview(item.d)
+      : buildVideo(item.d);
+    return '<div class="swiper-slide">'+inner+'</div>';
+  }).join('');
+
+  /* ── 6. Wire video tap-to-play ────────────────────────── */
+  function wireVideos(root){
+    root.querySelectorAll('.mrc-video').forEach(function(card){
+      var video  = card.querySelector('video');
+      var src    = card.getAttribute('data-vsrc');
+      var loaded = false;
+
+      function pauseOthers(){
+        root.querySelectorAll('.mrc-video.mrv-playing').forEach(function(c){
+          if(c === card) return;
+          c.querySelector('video').pause();
+          c.classList.remove('mrv-playing');
+        });
+      }
+
+      function togglePlay(){
+        if(!loaded && src){ video.src = src; video.load(); loaded = true; }
+        if(card.classList.contains('mrv-playing')){
+          video.pause();
+          card.classList.remove('mrv-playing');
+        } else {
+          pauseOthers();
+          video.play().catch(function(){});
+          card.classList.add('mrv-playing');
+        }
+      }
+
+      card.addEventListener('click',   togglePlay);
+      card.addEventListener('keydown', function(e){
+        if(e.key==='Enter'||e.key===' '){ e.preventDefault(); togglePlay(); }
+      });
+      video.addEventListener('ended', function(){
+        card.classList.remove('mrv-playing');
+      });
+    });
+  }
+  wireVideos(wrapper);
+
+  /* ── 7. Load Swiper JS then initialise ────────────────── */
+  function initSwiper(){
+    /* Swiper CSS was preloaded in <head>; JS loaded here lazily */
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+    script.onload = function(){
+
+      var swiper = new Swiper('#mobRevSwiper', {
+        /* Layout */
+        slidesPerView:    'auto',    /* each slide declares its own width */
+        centeredSlides:   true,
+        spaceBetween:     16,
+
+        /* Loop — requires at least 2× loopedSlides for short lists */
+        loop:             items.length > 2,
+
+        /* Touch */
+        grabCursor:       true,
+        touchRatio:       1,
+        touchAngle:       45,
+        threshold:        5,         /* px — ignore micro-jitters */
+
+        /* Snap */
+        freeMode:         false,
+
+        /* Speed */
+        speed:            380,
+
+        /* Pagination dots */
+        pagination:{
+          el:         '#mobRevPagination',
+          clickable:  true,
+          dynamicBullets: true
+        },
+
+        /* Pause video when slide changes */
+        on:{
+          slideChange: function(){
+            wrapper.querySelectorAll('.mrc-video.mrv-playing').forEach(function(c){
+              c.querySelector('video').pause();
+              c.classList.remove('mrv-playing');
+            });
+          }
+        }
+      });
+
+      /* When Swiper clones slides for loop mode, wire the clone videos too */
+      if(items.length > 2){
+        swiperEl.querySelectorAll('.swiper-slide-duplicate .mrc-video').forEach(function(card){
+          var orig = card.closest('.swiper-slide-duplicate');
+          if(!orig) return;
+          /* clones share video state via the original — re-wire is safe */
+          var video  = card.querySelector('video');
+          var src    = card.getAttribute('data-vsrc');
+          var loaded = false;
+          function tp(){
+            if(!loaded&&src){ video.src=src; video.load(); loaded=true; }
+            if(card.classList.contains('mrv-playing')){
+              video.pause(); card.classList.remove('mrv-playing');
+            } else {
+              swiperEl.querySelectorAll('.mrc-video.mrv-playing').forEach(function(c){
+                c.querySelector('video').pause(); c.classList.remove('mrv-playing');
+              });
+              video.play().catch(function(){});
+              card.classList.add('mrv-playing');
+            }
+          }
+          card.addEventListener('click', tp);
+          card.addEventListener('keydown', function(e){
+            if(e.key==='Enter'||e.key===' '){ e.preventDefault(); tp(); }
+          });
+        });
+      }
+    };
+    document.head.appendChild(script);
+  }
+
+  /* ── 8. Swipe hint — fade out on first user interaction ── */
+  if(hint){
+    function dismissHint(){
+      hint.classList.add('hidden');
+      swiperEl.removeEventListener('touchstart', dismissHint);
+      swiperEl.removeEventListener('mousedown',  dismissHint);
+    }
+    swiperEl.addEventListener('touchstart', dismissHint, { passive:true, once:true });
+    swiperEl.addEventListener('mousedown',  dismissHint, { once:true });
+  }
+
+  /* ── 9. Only initialise when the section enters viewport ─
+          (avoids loading Swiper JS on pages where this section
+           is never scrolled to — saves ~35 KB on desktop too) */
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){
+        io.disconnect();
+        initSwiper();
+      }
+    },{ rootMargin:'300px 0px' });
+    io.observe(swiperEl);
+  } else {
+    /* Fallback: init immediately */
+    initSwiper();
+  }
+
 })();
 </script>
 </body>

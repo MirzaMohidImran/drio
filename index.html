@@ -995,13 +995,13 @@ h1.hero-h .acc{color:var(--c-acc)}
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
-  .svc-holo-card { width: 290px; height: 400px; margin-top: -200px; margin-left: -145px; }
+  .svc-holo-card { width: 320px; height: 450px; margin-top: -200px; margin-left: -145px; }
   .svc-stage-wrap { height: 460px; }
   .svc-card-band  { height: 150px; }
   .svc-band-icon  { font-size: 2.6rem; }
 }
 @media (max-width: 480px) {
-  .svc-holo-card { width: 270px; height: 380px; margin-top: -190px; margin-left: -135px; }
+  .svc-holo-card { width: 300px; height: 420px; margin-top: -190px; margin-left: -135px; }
   .svc-stage-wrap { height: 430px; }
 }
 
@@ -2314,7 +2314,7 @@ section{isolation:isolate}
   .hero-visual{height:420px}
   .rings-wrap{width:380px;height:380px}
   .about-grid,.why-grid,.faq-wrap{grid-template-columns:1fr;gap:52px}
-  .about-visual-wrap{height:340px}
+  .about-visual-wrap{height:440px}
   .tag-float{display:none}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
   .test-grid{grid-template-columns:repeat(2,1fr)}
@@ -2620,6 +2620,226 @@ section{isolation:isolate}
   .reel-stage{
     -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 6%,#000 94%,transparent 100%);
     mask-image:linear-gradient(to right,transparent 0%,#000 6%,#000 94%,transparent 100%);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE DEEP AUDIT — Performance + Layout + Overflow Fixes
+   All rules scoped to ≤768 / ≤640 / ≤480 px.
+   Desktop and tablet are completely unaffected.
+═══════════════════════════════════════════════════════════ */
+
+/* ── 1. Touch devices: kill custom cursor + mouse glow
+        `hover:none` is the most reliable signal for touch ── */
+@media(hover:none){
+  #cur, #cur2  { display: none !important; }
+  #mouse-glow  { display: none !important; }
+  body         { cursor: auto !important; }
+}
+
+/* ── 2. Decorative fixed/absolute elements — mobile sizes ─ */
+@media(max-width:768px){
+  /* 680px glow with right:-8% overflows the viewport width
+     on any phone.  Shrink and re-anchor it. */
+  .hero-glow-center {
+    width: 280px; height: 280px;
+    right: 0; top: 30%;
+    transform: none;
+  }
+  /* 700px fixed blob — wasteful GPU layer on mobile */
+  #mouse-glow { width: 260px; height: 260px; }
+  /* bg-light uses `transform` (compositor) but the gradient
+     repaints itself on Safari — freeze for mobile battery */
+  .bg-light  { animation: none; }
+  /* Diagonal streak: invisible at mobile width, just noise */
+  .hero-streak { display: none; }
+}
+
+/* ── 3. Hero section — 640px and below ─────────────────── */
+@media(max-width:640px){
+  /* Heading scale — prevent clipping on 360px screens */
+  h1.hero-h {
+    font-size: clamp(1.9rem, 7.5vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -.04em;
+  }
+  /* Body copy: slightly smaller + tighter bottom margin */
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.72;
+    margin: 18px 0 28px;
+    max-width: 100%;
+  }
+  /* Centre-align hero text column */
+  .hero-content  { text-align: center; }
+  .hero-eyebrow  { margin: 0 auto 22px; }
+  /* CTA buttons: full-width column, thumb-friendly */
+  .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-ctas .btn-p,
+  .hero-ctas .btn-s {
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  /* Trust row: centred */
+  .hero-trust   { align-items: center; }
+  .trust-text   { text-align: center; }
+
+  /* Ring system: scale to fit a ≤390px viewport */
+  .hero-visual  { height: 260px; }
+  .rings-wrap   { width: 240px; height: 240px; }
+  .ot1          { width: 190px; height: 190px; }
+  .ot2          { width: 135px; height: 135px; }
+  /* Floating stat cards: too cramped in single-col layout */
+  .hc           { display: none; }
+  /* Hero glow: already shrunk at 768px, fully remove at 640px */
+  .hero-glow-center { display: none; }
+  /* Scroll indicator overlaps next section on short viewports */
+  .scroll-indicator { display: none; }
+}
+
+/* ── 4. Global typography — 640px ──────────────────────── */
+@media(max-width:640px){
+  h2.ttl { font-size: clamp(1.55rem, 5.8vw, 2.1rem); }
+  .sub   { font-size: .88rem; line-height: 1.65; }
+  /* Tags / section labels */
+  .tag   { font-size: .68rem; padding: 7px 16px; }
+}
+
+/* ── 5. Portfolio cards — stack to single column ─────── */
+@media(max-width:640px){
+  .pcard {
+    grid-template-columns: 1fr !important;
+    min-height: auto;
+    direction: ltr !important;
+  }
+  .pcard > * { direction: ltr !important; }
+  .pcard-img { min-height: 200px; font-size: 2.5rem; }
+  /* Shorter spacer keeps scroll snapping comfortable on mobile */
+  .pcard-spacer { height: 55vh; }
+  /* Portfolio tab bar: smaller pills, tighter gap */
+  .port-tabs { gap: 6px; padding: 10px 0 12px; top: 64px; }
+  .port-tab  { padding: 7px 13px; font-size: .76rem; }
+}
+
+/* ── 6. Process steps — tighter circles + vertical fill ─ */
+@media(max-width:640px){
+  .proc-circle { width: 76px; height: 76px; }
+  .proc-name   { font-size: .78rem; }
+  .proc-info   { font-size: .7rem; }
+
+  /* Give the grid rows breathing room so the vertical line
+     has meaningful height to fill through */
+  .proc-steps  { row-gap: 32px; }
+
+  /* Re-show the track line as a vertical centre axis.
+     (It was set to display:none at ≤1100px for desktop.) */
+  .proc-line {
+    display: block;
+    /* Vertical geometry */
+    position: absolute;
+    left: calc(50% - 1px);   /* centred on the circle column   */
+    top:  44px;               /* starts at first circle centre  */
+    bottom: 44px;             /* ends   at last  circle centre  */
+    width: 2px;
+    height: auto;             /* span between top/bottom anchors */
+    right: auto;              /* cancel the desktop right:7%     */
+    background: linear-gradient(
+      to bottom,
+      transparent              0%,
+      rgba(2,132,199,.14)     12%,
+      rgba(2,132,199,.14)     88%,
+      transparent            100%
+    );
+  }
+
+  /* ── Vertical animated fill ──────────────────────────────
+     Uses transform:scaleY instead of width so the browser
+     handles it entirely on the compositor thread (no layout,
+     no paint — pure GPU transform). */
+  .proc-fill {
+    /* Match the track line exactly */
+    position: absolute;
+    left:   calc(50% - 1px);
+    top:    44px;
+    bottom: 44px;
+    width:  2px;
+    height: auto;
+    right:  auto;
+
+    /* Gradient fills from accent → indigo → lighter accent */
+    background: linear-gradient(
+      to bottom,
+      var(--c-acc)              0%,
+      rgba(99,102,241,.75)     50%,
+      rgba(2,132,199,.45)     100%
+    );
+    /* Glow: makes the line feel alive */
+    box-shadow: 0 0 8px rgba(2,132,199,.35),
+                0 0 2px rgba(2,132,199,.6);
+
+    /* Initial state: collapsed — origin at bottom so fill
+       grows upward (bottom → top) matching the user's scroll-up
+       mental model: progress reveals as you scroll down) */
+    transform: scaleY(0);
+    transform-origin: bottom center;
+
+    /* Animation: transition ONLY transform — zero reflow,
+       compositor-thread only.  1.5s with strong ease-out. */
+    transition: transform 1.5s cubic-bezier(.16,1,.3,1);
+  }
+
+  /* Active state — dedicated mobile class set by the
+     mobile-only IntersectionObserver in JS below.
+     Decoupled from the desktop proc-lit class so each
+     can use a different threshold without conflict. */
+  #process.proc-active .proc-fill {
+    width: 2px;           /* cancel the desktop width:86% rule  */
+    transform: scaleY(1); /* fill from bottom → top              */
+  }
+}
+
+/* ── 7. FAQ: remove inline max-width on sidebar text ─── */
+@media(max-width:640px){
+  .faq-sidebar .sub { max-width: 100% !important; }
+}
+
+/* ── 8. Marquee: tighten padding on mobile ────────────── */
+@media(max-width:640px){
+  .marquee-sec { padding: 20px 0; }
+}
+
+/* ── 9. Very small phones ≤ 480px ─────────────────────── */
+@media(max-width:480px){
+  /* Wrap: tighter side gutter gives content more room */
+  .wrap { padding-inline: 18px; }
+
+  /* Headings: ensure minimum size never clips on 360px */
+  h1.hero-h { font-size: clamp(1.75rem, 8vw, 2.2rem); }
+  h2.ttl    { font-size: clamp(1.4rem, 6.5vw, 1.9rem); }
+
+  /* Services: force single column below 480px */
+  .svc-grid   { grid-template-columns: 1fr !important; }
+
+  /* Process: single column on narrow screens */
+  .proc-steps { grid-template-columns: 1fr !important; }
+  .proc-circle{ width: 68px; height: 68px; }
+
+  /* Stats row: keep 2-col but tighten gap */
+  .stats-row  { gap: 20px; }
+
+  /* CTA perks: smaller text */
+  .cp { font-size: .78rem; }
+
+  /* Footer: full-width book button */
+  .footer-book-btn {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
   }
 }
 
@@ -3324,7 +3544,7 @@ section{isolation:isolate}
 
 </section>
 
-<!-- ===== 2. ABOUT ===== -->
+<!-- ===== 2. ABOUT =====
 <section id="about" class="sec">
   <div class="wrap">
     <div class="about-grid">
@@ -3374,7 +3594,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- ===== 3. SERVICES ===== -->
 <section id="services" class="sec">
@@ -4576,30 +4796,33 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
      JAVASCRIPT — Production Quality
      =================================================== -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ─────────── CURSOR ───────────
+// ─────────── CURSOR (hover/fine-pointer devices only) ───────────
+// On touch devices this entire block is skipped — saves a continuous
+// rAF loop and three mousemove listeners running at 0fps anyway.
 const cur = document.getElementById('cur');
 const cur2 = document.getElementById('cur2');
 const mGlow = document.getElementById('mouse-glow');
-let mx=0,my=0,tx=0,ty=0;
 
-// passive:true — browser never waits for this handler to decide scroll direction
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX; my=e.clientY;
-  // Style writes removed from here — batched into rAF below (max 60fps, not per-event)
-},{passive:true});
-(function loop(){
-  // All cursor + glow style writes in ONE rAF callback = single compositor pass
-  cur.style.left=mx+'px'; cur.style.top=my+'px';
-  mGlow.style.left=mx+'px'; mGlow.style.top=my+'px';
-  tx+=(mx-tx)*.1; ty+=(my-ty)*.1;
-  cur2.style.left=tx+'px'; cur2.style.top=ty+'px';
-  requestAnimationFrame(loop);
-})();
+if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+  let mx=0,my=0,tx=0,ty=0;
 
-document.querySelectorAll('a,button,.svc-card,.port-card,.test-card,.wf-card,.proc-step').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
-});
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+  },{passive:true});
+
+  (function loop(){
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+    if(mGlow){ mGlow.style.left=mx+'px'; mGlow.style.top=my+'px'; }
+    tx+=(mx-tx)*.1; ty+=(my-ty)*.1;
+    cur2.style.left=tx+'px'; cur2.style.top=ty+'px';
+    requestAnimationFrame(loop);
+  })();
+
+  document.querySelectorAll('a,button,.svc-card,.port-card,.test-card,.wf-card,.proc-step').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
+  });
+}
 
 // ─────────── NAV SCROLL ───────────
 window.addEventListener('scroll',()=>{
@@ -5651,13 +5874,13 @@ window.addEventListener('load',()=>{
     mouseX = -9999; mouseY = -9999;
   });
 
-  /* Dot grid mouse parallax */
+  /* Dot grid mouse parallax — hover/fine-pointer only.
+     On touch devices the grid stays static; no listener registered. */
   var bgGrid = document.querySelector('.bg-grid');
-  if (bgGrid) {
+  if (bgGrid && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
     var gx = 0, gy = 0, gmx = 0, gmy = 0, gridRafPending = false;
     window.addEventListener('mousemove', function (e) {
       gmx = e.clientX; gmy = e.clientY;
-      // rAF gate: coalesces rapid mousemove events to one style write per frame
       if (!gridRafPending) {
         gridRafPending = true;
         requestAnimationFrame(function () {
@@ -5848,13 +6071,40 @@ window.addEventListener('load',()=>{
 })();
 
 // ─── PROCESS SECTION — animated line reveal ────────────────
+// Two independent observers:
+//   • Desktop  — threshold 0.2, adds proc-lit  → triggers width animation
+//   • Mobile   — threshold 0.5, adds proc-active → triggers scaleY animation
+//
+// Separating them means each can fire at the right moment for its
+// layout without interfering with the other.  Both disconnect after
+// firing once so there is zero risk of double-triggering.
 (function(){
   var sec = document.getElementById('process');
   if(!sec) return;
-  var obs = new IntersectionObserver(function(entries){
-    if(entries[0].isIntersecting){ sec.classList.add('proc-lit'); obs.disconnect(); }
-  },{threshold:.2});
-  obs.observe(sec);
+
+  // ── Desktop observer (unchanged behaviour) ──
+  var desktopObs = new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting){
+      sec.classList.add('proc-lit');
+      desktopObs.disconnect();
+    }
+  },{ threshold: 0.2 });
+
+  // ── Mobile observer — only registered on ≤768px viewports.
+  //    threshold:0.5 = animation fires when half the section
+  //    is on screen, which feels perfectly timed on phones.
+  var mobileObs = null;
+  if(window.matchMedia('(max-width:768px)').matches){
+    mobileObs = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){
+        sec.classList.add('proc-active');
+        mobileObs.disconnect();
+      }
+    },{ threshold: 0.5 });
+  }
+
+  desktopObs.observe(sec);
+  if(mobileObs) mobileObs.observe(sec);
 })();
 
 // ─── MAGNETIC BUTTONS ───────────────────────────────────────

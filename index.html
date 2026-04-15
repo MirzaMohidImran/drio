@@ -3161,6 +3161,35 @@ section{isolation:isolate}
 }
 .ct-success p { color: var(--c-w60); font-size: .88rem; line-height: 1.65; max-width: 270px; margin: 0; }
 
+/* ── API / network error banner ───────────────────────── */
+.ct-form-error {
+  display: none;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  margin-top: 12px;
+  background: rgba(239,68,68,.06);
+  border: 1px solid rgba(239,68,68,.22);
+  border-radius: var(--r-sm);
+  font-size: .82rem;
+  color: #b91c1c;
+  line-height: 1.55;
+  animation: ctSuccessIn .35s var(--ease) both;
+}
+.ct-form-error.ct-show { display: flex; }
+.ct-form-error::before {
+  content: '!';
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(239,68,68,.12);
+  border: 1px solid rgba(239,68,68,.28);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .78rem; color: #dc2626;
+  line-height: 22px;
+  text-align: center;
+}
+
 /* ── Responsive ───────────────────────────────────────── */
 @media(max-width:1100px){
   .ct-panel { padding: 56px 40px 56px 44px; }
@@ -5438,8 +5467,19 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <p class="ct-form-hd-sub">We respond within 2 hours with a clear plan and honest pricing.</p>
         </div>
 
-        <form action="https://api.web3forms.com/submit" method="POST" class="ct-form" id="contactForm" novalidate autocomplete="off" >
-           <input type="hidden" name="access_key" value="d67d1dd1-d2f1-4feb-b4f1-31314407fd24">
+        <form action="https://api.web3forms.com/submit" method="POST" class="ct-form" id="contactForm" novalidate autocomplete="off">
+
+          <!-- Web3Forms: required access key (quoted!) -->
+          <input type="hidden" name="access_key" value="d67d1dd1-d2f1-4feb-b4f1-31314407fd24"/>
+
+          <!-- Email subject line -->
+          <input type="hidden" name="subject" value="New Project Enquiry — drrioweb"/>
+
+          <!-- Prevent redirect after submit (we handle response in JS) -->
+          <input type="hidden" name="redirect" value="false"/>
+
+          <!-- Honeypot — bots fill this; humans don't; Web3Forms blocks if filled -->
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" aria-hidden="true"/>
 
           <!-- Name + Email -->
           <div class="ct-form-row">
@@ -5512,6 +5552,9 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <strong>Message sent!</strong>
           <p>Thanks — we'll review your project and reply within 2 hours.</p>
         </div>
+
+        <!-- Error state — shown on API / network failure -->
+        <div class="ct-form-error" id="ctFormError" role="alert" aria-live="polite"></div>
 
       </div><!-- /ct-form-panel -->
 
@@ -7344,19 +7387,22 @@ window.addEventListener('load',()=>{
     });
   }
 
-  /* ─── 3. FORM VALIDATION + SUBMISSION ────────────────── */
+  /* ─── 3. FORM VALIDATION + WEB3FORMS SUBMISSION ──────── */
   var form      = document.getElementById('contactForm');
   var success   = document.getElementById('ctSuccess');
+  var errBanner = document.getElementById('ctFormError');
   var submitBtn = document.getElementById('ctSubmit');
 
   if(!form) return;
 
-  /* Clear field error on user input */
+  /* Clear field error when user corrects input */
   form.addEventListener('input', function(e){
     var field = e.target.closest('.ct-field');
     if(field && field.classList.contains('ct-err')){
       field.classList.remove('ct-err');
     }
+    /* Also hide the API error banner when user edits anything */
+    if(errBanner) errBanner.classList.remove('ct-show');
   }, true);
 
   function isValidEmail(v){
@@ -7367,20 +7413,30 @@ window.addEventListener('load',()=>{
     if(el) el.classList[hasErr ? 'add' : 'remove']('ct-err');
     return hasErr;
   }
+  function showApiError(msg){
+    if(!errBanner) return;
+    errBanner.textContent = msg || 'Something went wrong. Please try again or email us directly.';
+    errBanner.classList.add('ct-show');
+  }
+  function resetBtn(){
+    submitBtn.classList.remove('ct-sending');
+    submitBtn.disabled = false;
+  }
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
 
+    /* ── Client-side validation ── */
     var name    = document.getElementById('ctName');
     var email   = document.getElementById('ctEmail');
     var project = document.getElementById('ctProject');
     var msg     = document.getElementById('ctMsg');
 
     var bad = false;
-    bad = markErr('ctFieldName',    !name.value.trim())          || bad;
-    bad = markErr('ctFieldEmail',   !isValidEmail(email.value))  || bad;
-    bad = markErr('ctFieldProject', !project.value)              || bad;
-    bad = markErr('ctFieldMsg',     msg.value.trim().length < 10)|| bad;
+    bad = markErr('ctFieldName',    !name.value.trim())           || bad;
+    bad = markErr('ctFieldEmail',   !isValidEmail(email.value))   || bad;
+    bad = markErr('ctFieldProject', !project.value)               || bad;
+    bad = markErr('ctFieldMsg',     msg.value.trim().length < 10) || bad;
 
     if(bad){
       var first = form.querySelector('.ct-err input,.ct-err select,.ct-err textarea');
@@ -7388,17 +7444,44 @@ window.addEventListener('load',()=>{
       return;
     }
 
-    /* Sending state */
+    /* ── Sending state ── */
     submitBtn.classList.add('ct-sending');
     submitBtn.disabled = true;
+    if(errBanner) errBanner.classList.remove('ct-show');
 
-    /* Replace with real fetch / Formspree / EmailJS etc. */
-    setTimeout(function(){
-      submitBtn.classList.remove('ct-sending');
-      /* Hide form, reveal success panel */
-      form.style.display = 'none';
-      if(success) success.classList.add('ct-show');
-    }, 1400);
+    /* ── POST to Web3Forms ── */
+    var data = new FormData(form);
+
+    fetch('https://api.web3forms.com/submit', {
+      method:  'POST',
+      headers: { 'Accept': 'application/json' },
+      body:    data
+    })
+    .then(function(res){
+      return res.json().then(function(json){
+        return { ok: res.ok, status: res.status, json: json };
+      });
+    })
+    .then(function(result){
+      resetBtn();
+      if(result.ok && result.json.success){
+        /* ✅ Success: hide form, show confirmation */
+        form.style.display = 'none';
+        if(success) success.classList.add('ct-show');
+      } else {
+        /* ❌ API returned an error (invalid key, spam, etc.) */
+        var apiMsg = (result.json && result.json.message)
+          ? result.json.message
+          : 'Submission failed (code ' + result.status + '). Please try again.';
+        showApiError(apiMsg);
+      }
+    })
+    .catch(function(err){
+      /* ❌ Network error — no internet, CORS, timeout */
+      resetBtn();
+      showApiError('Network error — please check your connection and try again.');
+      console.error('[Web3Forms]', err);
+    });
   });
 
 })();

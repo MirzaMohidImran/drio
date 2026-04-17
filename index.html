@@ -3406,9 +3406,17 @@ section{isolation:isolate}
   }
 }
 
-/* ── 7. FAQ: remove inline max-width on sidebar text ─── */
+/* ── 7. FAQ: mobile fixes ─── */
 @media(max-width:640px){
   .faq-sidebar .sub { max-width: 100% !important; }
+  /* Answers wrap to more lines on narrow screens — raise the cap so text isn't clipped */
+  .faq-it.open .faq-a { max-height: 480px; }
+  /* Tighter horizontal padding prevents overflow on small viewports */
+  .faq-q { padding: 18px 16px; font-size: .88rem; }
+  .faq-a, .faq-it.open .faq-a { padding-left: 16px; padding-right: 16px; }
+  /* Prevent long unbroken question text from causing horizontal scroll */
+  .faq-q { word-break: break-word; }
+  #faq { padding: 64px 0; }
 }
 
 /* ── 8. Marquee: tighten padding on mobile ────────────── */
@@ -4551,7 +4559,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="svc-card-face svc-card-front">
             <div class="svc-card-band" style="background:linear-gradient(145deg,#042f2e 0%,#0d9488 45%,#5eead4 100%)">
               <div class="svc-band-shimmer"></div>
-              <div class="svc-band-icon"><img src="https://cdn.simpleicons.org/chatgpt/ffffff" width="48" height="48" alt="OpenAI" loading="lazy" decoding="async"/></div>
+              <div class="svc-band-icon"><img src="Assets/Open_AI.png" width="48" height="48" alt="OpenAI" loading="lazy" decoding="async"/></div>
               <div class="svc-ghost-num">06</div>
             </div>
             <div class="svc-card-body">
@@ -4564,7 +4572,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="svc-card-face svc-card-back" style="background:linear-gradient(145deg,#042f2e,#0f766e)">
             <div class="svc-back-glow"></div>
             <div class="svc-back-top">
-              <div class="svc-back-icon-wrap"><img src="https://cdn.simpleicons.org/chatgpt/ffffff" width="28" height="28" alt="OpenAI" loading="lazy" decoding="async"/></div>
+              <div class="svc-back-icon-wrap"><img src="Assets/Open_AI.png" width="28" height="28" alt="OpenAI" loading="lazy" decoding="async"/></div>
               <div class="svc-back-badge">2026 Ready</div>
             </div>
             <div class="svc-back-title">AI Development</div>

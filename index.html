@@ -67,7 +67,7 @@
    RESET + BASE
    ============================================= */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;scroll-behavior:smooth}
+html{font-size:16px;scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
 body{
   font-family:var(--f-body);
   background:var(--c-bg);
@@ -330,7 +330,7 @@ h2.ttl span{color:var(--c-acc)}
 .anim.from-left{transform:translateX(-60px)}
 .anim.from-right{transform:translateX(60px)}
 .anim.from-scale{transform:scale(.88)}
-.anim.in{opacity:1;transform:none}
+.anim.in{opacity:1;}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 .d4{transition-delay:.32s}.d5{transition-delay:.40s}.d6{transition-delay:.48s}
 .d7{transition-delay:.56s}.d8{transition-delay:.64s}.d9{transition-delay:.72s}
@@ -1083,7 +1083,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    TECH STACK
    ============================================= */
-#tech{padding:48px 0}
+#tech{padding:48px 0;overflow:hidden}
 .tech-hd{text-align:center;margin-bottom:44px}
 .tech-hd .sub{margin-inline:auto}
 .tech-row-wrap{overflow:hidden;padding:6px 0;
@@ -1112,7 +1112,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    PROCESS
    ============================================= */
-#process{padding:88px 0}
+#process{padding:88px 0;overflow:hidden}
 .proc-hd{text-align:center;margin-bottom:52px}
 .proc-hd .sub{margin-inline:auto}
 .proc-steps{
@@ -1146,7 +1146,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    PORTFOLIO — Sticky stack scroll
    ============================================= */
-#portfolio { padding: 72px 0 0; }
+#portfolio { padding: 72px 0 0; overflow: hidden; }
 .port-hd   { text-align: center; margin-bottom: 40px; }
 .port-hd .sub { margin-inline: auto; }
 
@@ -1298,7 +1298,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    STATS
    ============================================= */
-#stats{padding:88px 0}
+#stats{padding:88px 0;overflow:hidden}
 .stats-card{
   padding:52px 48px;border-radius:32px;
   background:rgba(255,255,255,.85);border:1px solid rgba(2,132,199,.14);
@@ -1859,7 +1859,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    CTA
    ============================================= */
-#cta{padding:88px 0}
+#cta{padding:88px 0;overflow:hidden}
 .cta-box{
   border-radius:36px;padding:64px 52px;text-align:center;
   background:linear-gradient(135deg,rgba(2,132,199,.07) 0%,rgba(99,102,241,.05) 50%,rgba(2,132,199,.05) 100%);
@@ -1894,7 +1894,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 /* =============================================
    FAQ
    ============================================= */
-#faq{padding:88px 0}
+#faq{padding:88px 0;overflow:hidden}
 .faq-wrap{display:grid;grid-template-columns:1fr 1.7fr;gap:88px;align-items:start}
 .faq-sidebar .tag{margin-bottom:20px}
 .faq-aside-card{
@@ -3475,6 +3475,8 @@ section{isolation:isolate}
 }
 @media(max-width:768px){
   #mob-reviews { display: block; }
+  .anim.from-left{transform:translateX(0px)}
+.anim.from-right{transform:translateX(0px)}
 }
 
 /* ── Section header ───────────────────────────────────────── */
@@ -4786,7 +4788,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
         <div class="pcard-body">
           <div class="pcard-num">01</div>
           <div class="pcard-cat">Shopify · eCommerce</div>
-          <div class="pcard-title">LuxeCart — Premium Fashion Store</div>
+          <div class="pcard-title">Vital Lifestylez – Shopify Redesign</div>
           <div class="pcard-desc">Complete Shopify rebuild for a luxury fashion brand. Custom theme, conversion-optimised layouts, and a seamless checkout flow that turned browsers into buyers.</div>
           <div class="pcard-result">
             <span class="pcard-result-num">340%</span>

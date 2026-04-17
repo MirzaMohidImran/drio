@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>drrioweb — Premium Web Development Studio</title>
+<title>Shopify Development Company USA | eCommerce Experts — Drio Web</title>
 <!-- DNS prefetch — free parallel lookups, no connection cost -->
 <link rel="dns-prefetch" href="https://fonts.googleapis.com"/>
 <link rel="dns-prefetch" href="https://fonts.gstatic.com"/>
@@ -20,7 +20,7 @@
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"/></noscript>
 <!-- Theme color — Chrome mobile address bar matches brand accent -->
 <meta name="theme-color" content="#0284c7"/>
-<meta name="description" content="drrioweb — Premium Web Development Studio. High-performance websites and web applications for ambitious brands worldwide."/>
+<meta name="description" content="Drio Web builds high-converting Shopify and eCommerce stores for US brands. Expert Shopify developers, clean code, performance-first. Get a free strategy call today."/>
 <!-- Swiper 11 — loaded only on mobile to avoid shipping slider code to desktop -->
 <link rel="preload" as="style"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
@@ -1101,7 +1101,11 @@ h1.hero-h .acc{color:var(--c-acc)}
   backdrop-filter:blur(16px);transition:all .3s var(--ease);white-space:nowrap;cursor:default;
 }
 .tc:hover{border-color:var(--glass-bdr2);background:rgba(255,255,255,.97);transform:translateY(-3px)}
-.tc-ico{font-size:1.05rem}
+.tc-ico{font-size:1.05rem;display:flex;align-items:center;justify-content:center}
+.tc-ico img{width:22px;height:22px;display:block;object-fit:contain}
+.tc-ico svg{display:block}
+.svc-band-icon img{width:3rem;height:3rem;display:block;object-fit:contain}
+.svc-back-icon-wrap img{width:28px;height:28px;display:block;object-fit:contain}
 .tc-nm{font-family:var(--f-body);font-size:.84rem;font-weight:600;color:var(--c-w60);transition:color .3s}
 .tc:hover .tc-nm{color:var(--c-acc)}
 
@@ -3832,13 +3836,188 @@ section{isolation:isolate}
 .stat-divv:nth-child(3) {
     left: 76%;
 }
+
+/* =============================================
+   ANIMATED SVG ICON SYSTEM
+   ============================================= */
+.ani-icon{display:inline-block;width:1em;height:1em;vertical-align:middle;flex-shrink:0;overflow:visible}
+.svc-band-icon,.svc-back-icon-wrap{color:rgba(255,255,255,.92)}
+.pcard-img{color:rgba(255,255,255,.88)}
+.proc-ico{color:var(--c-acc)}
+.hc-icon{color:var(--c-acc)}
+.fai-icon{color:var(--c-acc)}
+
+/* Globe — dot orbits center */
+@keyframes gOrbit{from{transform:rotate(0deg) translateX(9px)}to{transform:rotate(360deg) translateX(9px)}}
+@keyframes gPulse{0%,100%{opacity:.45}50%{opacity:1}}
+.ani-globe .g-dot{transform-origin:12px 12px;animation:gOrbit 4s linear infinite}
+.ani-globe .g-eq{animation:gPulse 2.5s ease-in-out infinite}
+
+/* Lightning — flash */
+@keyframes zapFlash{0%,38%,62%,100%{opacity:1}50%{opacity:.3}}
+.ani-zap{animation:zapFlash 2.8s ease-in-out infinite}
+
+/* Target — outer ring pings out */
+@keyframes tPing{0%{transform:scale(1);opacity:1}75%{transform:scale(1.45);opacity:0}100%{transform:scale(1.45);opacity:0}}
+.ani-target .t-ping{transform-origin:12px 12px;transform-box:fill-box;animation:tPing 2.5s ease-out infinite}
+
+/* Cart / Bag — bounce */
+@keyframes cBounce{0%,100%{transform:translateY(0)}42%{transform:translateY(-5px)}68%{transform:translateY(-2px)}}
+.ani-cart,.ani-bag{animation:cBounce 2s ease-in-out infinite;display:inline-block}
+
+/* Sparkle — staggered pop + rotate */
+@keyframes sPop{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45) rotate(18deg);opacity:.75}}
+.ani-spark .s1{transform-origin:center;transform-box:fill-box;animation:sPop 2.4s ease-in-out infinite}
+.ani-spark .s2{transform-origin:center;transform-box:fill-box;animation:sPop 2.4s .5s ease-in-out infinite}
+.ani-spark .s3{transform-origin:center;transform-box:fill-box;animation:sPop 2.4s 1s ease-in-out infinite}
+
+/* Mobile — screen blink */
+@keyframes mBlink{0%,100%{opacity:.28}50%{opacity:.8}}
+.ani-mobile .m-sc{animation:mBlink 1.6s ease-in-out infinite}
+
+/* Palette — pendulum rock */
+@keyframes pRock{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+.ani-palette{animation:pRock 3.2s ease-in-out infinite;transform-origin:50% 80%;display:inline-block}
+
+/* Chain — links pull apart and snap */
+@keyframes cPull{0%,100%{transform:translateX(0)}50%{transform:translateX(2.5px)}}
+@keyframes cPull2{0%,100%{transform:translateX(0)}50%{transform:translateX(-2.5px)}}
+.ani-chain .c1{animation:cPull 2.2s ease-in-out infinite}
+.ani-chain .c2{animation:cPull2 2.2s ease-in-out infinite}
+
+/* Rocket — float up */
+@keyframes rLift{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.ani-rocket{animation:rLift 2.4s ease-in-out infinite;display:inline-block}
+
+/* Chat — typing dots bounce sequentially */
+@keyframes tDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+.ani-chat .d1{animation:tDot 1.5s ease-in-out infinite}
+.ani-chat .d2{animation:tDot 1.5s .24s ease-in-out infinite}
+.ani-chat .d3{animation:tDot 1.5s .48s ease-in-out infinite}
+
+/* Users / Shield / Plus — gentle pulse scale */
+@keyframes uPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.ani-users,.ani-shield,.ani-plus{animation:uPulse 2.2s ease-in-out infinite;display:inline-block}
+
+/* Cycle — spin */
+@keyframes cSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.ani-cycle .cy-g{transform-origin:12px 12px;transform-box:fill-box;animation:cSpin 3s linear infinite}
+
+/* Bulb — glow halo */
+@keyframes bGlow{0%,100%{opacity:.05}50%{opacity:.28}}
+.ani-bulb .b-gl{animation:bGlow 2.4s ease-in-out infinite}
+
+/* Layers — cascade lift */
+@keyframes lUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.ani-layers .la1{animation:lUp 2.2s ease-in-out infinite}
+.ani-layers .la2{animation:lUp 2.2s .22s ease-in-out infinite}
+.ani-layers .la3{animation:lUp 2.2s .44s ease-in-out infinite}
+
+/* Search — zoom pulse */
+@keyframes sZoom{0%,100%{transform:scale(1)}50%{transform:scale(.88)}}
+.ani-search{animation:sZoom 3s ease-in-out infinite;display:inline-block}
+
+/* Float group — map, doc, framer, ccard, brief, news */
+@keyframes mFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.ani-map,.ani-doc,.ani-framer,.ani-ccard,.ani-brief,.ani-news{animation:mFloat 3.2s ease-in-out infinite;display:inline-block}
+
+/* Pencil / Brush — write rock */
+@keyframes pWrite{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+.ani-pencil,.ani-brush{animation:pWrite 2.6s ease-in-out infinite;transform-origin:85% 85%;display:inline-block}
+
+/* Monitor — cursor blink */
+@keyframes curBlink{0%,100%{opacity:1}50%{opacity:0}}
+.ani-monitor .m-cur{animation:curBlink 1s step-end infinite}
+
+/* Beaker — bubbles rise */
+@keyframes bbRise{0%{transform:translateY(0);opacity:.8}100%{transform:translateY(-10px);opacity:0}}
+.ani-beaker .bb{animation:bbRise 1.7s ease-out infinite}
+.ani-beaker .bb2{animation:bbRise 1.7s .62s ease-out infinite}
+
+/* Leaf / Music — sway */
+@keyframes lfSway{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+.ani-leaf,.ani-music{animation:lfSway 3.5s ease-in-out infinite;transform-origin:50% 90%;display:inline-block}
+
+/* Clipboard — bounce */
+.ani-clip{animation:cBounce 2.2s ease-in-out infinite;display:inline-block}
+
+/* Graduation — float */
+@keyframes gFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.ani-grad{animation:gFloat 2.8s ease-in-out infinite;display:inline-block}
+
 </style>
+<!-- JSON-LD Schema Markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://drioweb.com/#organization",
+      "name": "Drio Web",
+      "url": "https://drioweb.com",
+      "logo": { "@type": "ImageObject", "url": "https://drioweb.com/images/drio-web-logo.png" },
+      "description": "Drio Web is a US-based Shopify and eCommerce web development company building high-converting stores for American brands.",
+      "parentOrganization": { "@type": "Organization", "name": "Trio" },
+      "areaServed": { "@type": "Country", "name": "United States" },
+      "serviceType": ["Shopify Development","eCommerce Web Development","Shopify Plus Development","WordPress Development","Full Stack Development","AI Development"],
+      "contactPoint": { "@type": "ContactPoint", "contactType": "sales", "availableLanguage": "English", "areaServed": "US" }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://drioweb.com/#website",
+      "url": "https://drioweb.com",
+      "name": "Drio Web",
+      "publisher": { "@id": "https://drioweb.com/#organization" }
+    },
+    {
+      "@type": "Service",
+      "name": "Shopify Development Services",
+      "provider": { "@id": "https://drioweb.com/#organization" },
+      "serviceType": "Shopify Development",
+      "areaServed": { "@type": "Country", "name": "United States" },
+      "description": "Custom Shopify store development, Shopify Plus builds, migrations, and app integrations for US eCommerce brands.",
+      "url": "https://drioweb.com/services/shopify-development/"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does Shopify development cost in the USA?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Shopify development costs in the US range from $3,000 for theme customizations to $25,000+ for fully custom Shopify Plus stores. Drio Web provides fixed-scope proposals after a discovery call." }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does it take to build a Shopify store?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A custom Shopify store build typically takes 4–10 weeks. Shopify Plus projects may take 10–16 weeks. Migrations from WooCommerce or Magento are typically scoped at 3–6 weeks." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you migrate my WooCommerce store to Shopify without losing SEO?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Drio Web's migration service includes full SEO preservation: 301 redirect mapping, metadata migration, sitemap resubmission, and post-migration rank monitoring." }
+        },
+        {
+          "@type": "Question",
+          "name": "What US cities does Drio Web serve?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Drio Web serves eCommerce brands in all major US cities including New York, Los Angeles, Chicago, Houston, Phoenix, Dallas, Miami, Atlanta, Seattle, Denver, Austin, and more." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer ongoing Shopify support after launch?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Every project includes a 30-day post-launch support window. Ongoing monthly retainers for maintenance, CRO, and feature development start at $1,500/month." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
 <!-- PAGE LOADER -->
 <div id="pg-loader">
-  <div class="pgl-logo">drrio<em>web</em></div>
+  <div class="pgl-logo">drio<em>web</em></div>
   <div class="pgl-track"><div class="pgl-fill" id="pgl-fill"></div></div>
   <div class="pgl-num" id="pgl-num">0%</div>
 </div>
@@ -3859,7 +4038,7 @@ section{isolation:isolate}
 <!-- ===== NAV ===== -->
 <nav id="nav">
   <div id="sbar"></div>
-  <div class="nav-brand">drrio<em>web</em><span class="dot"></span></div>
+  <div class="nav-brand">drio<em>web</em><span class="dot"></span></div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
@@ -3868,7 +4047,7 @@ section{isolation:isolate}
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#cta" class="nav-btn">Free Consultation →</a>
+  <a href="https://calendly.com/dayyanjavaid/30-minute-strategy-session" target="_blank" rel="noopener noreferrer" class="nav-btn">Free Consultation →</a>
   <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 <div class="mob-menu" id="mobMenu">
@@ -3879,7 +4058,7 @@ section{isolation:isolate}
   <a href="#testimonials" onclick="closeMob()">Reviews</a>
   <a href="#faq" onclick="closeMob()">FAQ</a>
   <a href="#contact" onclick="closeMob()">Contact</a>
-  <a href="#cta" class="btn-p" onclick="closeMob()" style="font-size:.95rem">Book Free Call →</a>
+  <a href="https://calendly.com/dayyanjavaid/30-minute-strategy-session" target="_blank" rel="noopener noreferrer" class="btn-p" onclick="closeMob()" style="font-size:.95rem">Book Free Call →</a>
 </div>
 
 <!-- ===== 1. HERO ===== -->
@@ -3890,17 +4069,17 @@ section{isolation:isolate}
 
       <!-- LEFT: text content -->
       <div class="hero-content">
-        <div class="hero-eyebrow">Premium Web Development Studio</div>
+        <div class="hero-eyebrow">Shopify Development Company USA</div>
         <h1 class="hero-h">
-          We Craft<br>
-          <span class="acc">Digital Worlds</span><br>
-          <span class="outline">That Dominate.</span>
+          Shopify Stores<br>
+          <span class="acc">Built to Convert</span><br>
+          <span class="outline">Built to Scale.</span>
         </h1>
         <p class="hero-desc">
-          drrioweb engineers high-performance, visually extraordinary websites and web applications — built to convert, built to scale, built to last.
+          Drio Web builds custom Shopify and eCommerce stores for serious US brands — no templates, no guesswork, just clean development and measurable revenue growth.
         </p>
         <div class="hero-ctas">
-          <a href="#cta" class="btn-p">Start Your Project &rarr;</a>
+          <a href="https://calendly.com/dayyanjavaid/30-minute-strategy-session" target="_blank" rel="noopener noreferrer" class="btn-p">Start Your Project &rarr;</a>
           <a href="#portfolio" class="btn-s">View Our Work</a>
         </div>
         <div class="hero-trust">
@@ -3910,7 +4089,7 @@ section{isolation:isolate}
             <div class="trust-av">LK</div>
             <div class="trust-av">TC</div>
           </div>
-          <div class="trust-text"><strong>150+ clients</strong> trust drrioweb</div>
+          <div class="trust-text"><strong>150+ Shopify stores</strong> launched by Drio Web</div>
           <div class="trust-sep"></div>
           <div class="trust-badge"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.9/5 rating</div>
         </div>
@@ -3930,7 +4109,7 @@ section{isolation:isolate}
         <div class="hero-glow-center"></div>
         <div class="hc hc-a">
           <div class="hc-num">150+</div>
-          <div class="hc-lbl">Projects Delivered</div>
+          <div class="hc-lbl">Shopify Stores Launched</div>
         </div>
         <div class="hc hc-b">
           <div class="hc-pills">
@@ -3939,13 +4118,13 @@ section{isolation:isolate}
           </div>
         </div>
         <div class="hc hc-c">
-          <div class="hc-icon">&#9889;</div>
-          <div class="hc-title">PageSpeed 98+</div>
-          <div class="hc-sub">Performance-first builds</div>
+          <div class="hc-icon"><svg class="ani-icon ani-zap" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div>
+          <div class="hc-title">90+ Lighthouse</div>
+          <div class="hc-sub">Performance-first Shopify builds</div>
         </div>
         <div class="hc hc-d">
-          <div class="hc-num">98%</div>
-          <div class="hc-lbl">Client Satisfaction</div>
+          <div class="hc-num">+34%</div>
+          <div class="hc-lbl">Avg Conversion Lift</div>
         </div>
       </div><!-- /hero-visual -->
 
@@ -3961,26 +4140,26 @@ section{isolation:isolate}
 <div class="marquee-sec" style="position:relative;z-index:2">
   <div class="marquee-track">
     <!-- 2× for seamless loop -->
-    <div class="marquee-item">Custom Websites <span>✦</span></div>
-    <div class="marquee-item">React & Next.js <span>✦</span></div>
-    <div class="marquee-item">Shopify Stores <span>✦</span></div>
-    <div class="marquee-item">WordPress <span>✦</span></div>
-    <div class="marquee-item">UI/UX Design <span>✦</span></div>
-    <div class="marquee-item">Web Applications <span>✦</span></div>
-    <div class="marquee-item">Speed Optimization <span>✦</span></div>
-    <div class="marquee-item">eCommerce <span>✦</span></div>
+    <div class="marquee-item">Shopify Development <span>✦</span></div>
+    <div class="marquee-item">eCommerce Stores <span>✦</span></div>
+    <div class="marquee-item">Shopify Plus <span>✦</span></div>
+    <div class="marquee-item">WooCommerce Migration <span>✦</span></div>
+    <div class="marquee-item">Conversion Optimization <span>✦</span></div>
+    <div class="marquee-item">Headless Commerce <span>✦</span></div>
+    <div class="marquee-item">WordPress Development <span>✦</span></div>
     <div class="marquee-item">Full Stack Dev <span>✦</span></div>
-    <div class="marquee-item">Landing Pages <span>✦</span></div>
-    <div class="marquee-item">Custom Websites <span>✦</span></div>
-    <div class="marquee-item">React & Next.js <span>✦</span></div>
-    <div class="marquee-item">Shopify Stores <span>✦</span></div>
-    <div class="marquee-item">WordPress <span>✦</span></div>
-    <div class="marquee-item">UI/UX Design <span>✦</span></div>
-    <div class="marquee-item">Web Applications <span>✦</span></div>
-    <div class="marquee-item">Speed Optimization <span>✦</span></div>
-    <div class="marquee-item">eCommerce <span>✦</span></div>
+    <div class="marquee-item">AI Development <span>✦</span></div>
+    <div class="marquee-item">Shopify App Dev <span>✦</span></div>
+    <div class="marquee-item">Shopify Development <span>✦</span></div>
+    <div class="marquee-item">eCommerce Stores <span>✦</span></div>
+    <div class="marquee-item">Shopify Plus <span>✦</span></div>
+    <div class="marquee-item">WooCommerce Migration <span>✦</span></div>
+    <div class="marquee-item">Conversion Optimization <span>✦</span></div>
+    <div class="marquee-item">Headless Commerce <span>✦</span></div>
+    <div class="marquee-item">WordPress Development <span>✦</span></div>
     <div class="marquee-item">Full Stack Dev <span>✦</span></div>
-    <div class="marquee-item">Landing Pages <span>✦</span></div>
+    <div class="marquee-item">AI Development <span>✦</span></div>
+    <div class="marquee-item">Shopify App Dev <span>✦</span></div>
   </div>
 </div>
 
@@ -3999,7 +4178,7 @@ section{isolation:isolate}
     <div class="reel-track reel-track--fwd" id="reelA">
 
       <a class="reel-slide" href="#portfolio" aria-label="PakCart E-Commerce Platform">
-        <img src="https://picsum.photos/seed/drrio01/680/448" alt="E-Commerce Platform" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/1.webp" alt="E-Commerce Platform" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">E-Commerce</span>
           <span class="reel-lbl">PakCart Platform</span>
@@ -4008,7 +4187,7 @@ section{isolation:isolate}
       </a>
 
       <a class="reel-slide" href="#portfolio" aria-label="Lumina SaaS Dashboard">
-        <img src="https://picsum.photos/seed/drrio02/680/448" alt="SaaS Dashboard" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/10.webp" alt="SaaS Dashboard" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">SaaS</span>
           <span class="reel-lbl">Lumina Dashboard</span>
@@ -4017,7 +4196,7 @@ section{isolation:isolate}
       </a>
 
       <a class="reel-slide" href="#portfolio" aria-label="Nova Fashion Store">
-        <img src="https://picsum.photos/seed/drrio03/680/448" alt="Fashion E-Commerce" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/2.webp" alt="Fashion E-Commerce" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">Fashion</span>
           <span class="reel-lbl">Nova Fashion Store</span>
@@ -4026,7 +4205,7 @@ section{isolation:isolate}
       </a>
 
       <a class="reel-slide" href="#portfolio" aria-label="PropVault Real Estate App">
-        <img src="https://picsum.photos/seed/drrio04/680/448" alt="Real Estate Platform" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/9.webp" alt="Real Estate Platform" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">Real Estate</span>
           <span class="reel-lbl">PropVault App</span>
@@ -4035,39 +4214,12 @@ section{isolation:isolate}
       </a>
 
       <a class="reel-slide" href="#portfolio" aria-label="PulseKit Fitness Platform">
-        <img src="https://picsum.photos/seed/drrio05/680/448" alt="Fitness Application" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/3.webp" alt="Fitness Application" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">Health &amp; Fitness</span>
           <span class="reel-lbl">PulseKit Platform</span>
         </div>
         <span class="reel-idx">05</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Verdant Restaurant Website">
-        <img src="https://picsum.photos/seed/drrio06/680/448" alt="Restaurant Website" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Hospitality</span>
-          <span class="reel-lbl">Verdant Dining</span>
-        </div>
-        <span class="reel-idx">06</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Fintrek Finance App">
-        <img src="https://picsum.photos/seed/drrio07/680/448" alt="Fintech Platform" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Fintech</span>
-          <span class="reel-lbl">Fintrek Portal</span>
-        </div>
-        <span class="reel-idx">07</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Skyline Travel Portal">
-        <img src="https://picsum.photos/seed/drrio08/680/448" alt="Travel Platform" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Travel</span>
-          <span class="reel-lbl">Skyline Portal</span>
-        </div>
-        <span class="reel-idx">08</span>
       </a>
 
     </div><!-- /reel-track--fwd -->
@@ -4078,7 +4230,7 @@ section{isolation:isolate}
     <div class="reel-track reel-track--rev" id="reelB">
 
       <a class="reel-slide" href="#portfolio" aria-label="Framewerk Photography Studio">
-        <img src="https://picsum.photos/seed/drrio09/680/448" alt="Photography Studio Site" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/8.webp" alt="Photography Studio Site" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">Photography</span>
           <span class="reel-lbl">Framewerk Studio</span>
@@ -4087,7 +4239,7 @@ section{isolation:isolate}
       </a>
 
       <a class="reel-slide" href="#portfolio" aria-label="Medix Healthcare Portal">
-        <img src="https://picsum.photos/seed/drrio10/680/448" alt="Healthcare Portal" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/4.webp" alt="Healthcare Portal" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">Healthcare</span>
           <span class="reel-lbl">Medix Portal</span>
@@ -4096,7 +4248,7 @@ section{isolation:isolate}
       </a>
 
       <a class="reel-slide" href="#portfolio" aria-label="Evently Event Platform">
-        <img src="https://picsum.photos/seed/drrio11/680/448" alt="Event Management Platform" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/7.webp" alt="Event Management Platform" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">Events</span>
           <span class="reel-lbl">Evently Platform</span>
@@ -4105,7 +4257,7 @@ section{isolation:isolate}
       </a>
 
       <a class="reel-slide" href="#portfolio" aria-label="Learnly Education App">
-        <img src="https://picsum.photos/seed/drrio12/680/448" alt="Education Application" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/5.webp" alt="Education Application" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">EdTech</span>
           <span class="reel-lbl">Learnly App</span>
@@ -4114,7 +4266,7 @@ section{isolation:isolate}
       </a>
 
       <a class="reel-slide" href="#portfolio" aria-label="Luxe Hotel Booking Site">
-        <img src="https://picsum.photos/seed/drrio13/680/448" alt="Luxury Hotel Website" loading="lazy" decoding="async" width="680" height="448">
+        <img src="Assets/Portfolio/6.webp" alt="Luxury Hotel Website" loading="lazy" decoding="async" width="680" height="448">
         <div class="reel-ov">
           <span class="reel-cat">Luxury</span>
           <span class="reel-lbl">Luxe Hotels</span>
@@ -4122,32 +4274,6 @@ section{isolation:isolate}
         <span class="reel-idx">13</span>
       </a>
 
-      <a class="reel-slide" href="#portfolio" aria-label="LexCore Legal Services">
-        <img src="https://picsum.photos/seed/drrio14/680/448" alt="Legal Services Site" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Legal</span>
-          <span class="reel-lbl">LexCore Services</span>
-        </div>
-        <span class="reel-idx">14</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Waveform Music Platform">
-        <img src="https://picsum.photos/seed/drrio15/680/448" alt="Music Streaming Platform" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Music</span>
-          <span class="reel-lbl">Waveform Stream</span>
-        </div>
-        <span class="reel-idx">15</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Novalab Tech Startup">
-        <img src="https://picsum.photos/seed/drrio16/680/448" alt="Tech Startup Website" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Startup</span>
-          <span class="reel-lbl">Novalab Tech</span>
-        </div>
-        <span class="reel-idx">16</span>
-      </a>
 
     </div><!-- /reel-track--rev -->
   </div><!-- /reel-stage -->
@@ -4218,8 +4344,8 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
     <!-- Header -->
     <div class="services-hd anim" id="svcHd">
       <div class="tag">What We Build</div>
-      <h2 class="ttl" id="svcTitle">Full-Spectrum <span>Web Development</span></h2>
-      <p class="sub">From pixel to production — we engineer every layer of your digital presence with craft and intention.</p>
+      <h2 class="ttl" id="svcTitle">Shopify &amp; eCommerce <span>Development Services</span></h2>
+      <p class="sub">From custom Shopify builds to full-stack eCommerce — every project engineered for conversion performance and long-term revenue growth.</p>
       <div class="svc-ribbon">
         <div class="svc-ribbon-line left"></div>
         <span>6 Core Services</span>
@@ -4239,13 +4365,13 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="svc-card-face svc-card-front">
             <div class="svc-card-band" style="background:linear-gradient(145deg,#0c2d4a 0%,#0369a1 45%,#38bdf8 100%)">
               <div class="svc-band-shimmer"></div>
-              <div class="svc-band-icon">🌐</div>
+              <div class="svc-band-icon"><img src="https://cdn.simpleicons.org/shopify/ffffff" width="48" height="48" alt="Shopify" loading="lazy" decoding="async"/></div>
               <div class="svc-ghost-num">01</div>
             </div>
             <div class="svc-card-body">
               <div class="svc-card-num-pill">Service 01</div>
-              <div class="svc-card-title">Custom Website Development</div>
-              <div class="svc-card-tagline">Bespoke, handcrafted websites engineered from the ground up — perfectly aligned with your brand and goals.</div>
+              <div class="svc-card-title">Shopify Development</div>
+              <div class="svc-card-tagline">Custom Shopify stores built from the ground up — no templates, pure Liquid code engineered to convert and scale.</div>
               <div class="svc-card-flip-cue"><span class="svc-flip-arrow">↻</span> Click to flip</div>
             </div>
           </div>
@@ -4253,19 +4379,19 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="svc-card-face svc-card-back" style="background:linear-gradient(145deg,#0c2d4a,#0284c7)">
             <div class="svc-back-glow"></div>
             <div class="svc-back-top">
-              <div class="svc-back-icon-wrap">🌐</div>
+              <div class="svc-back-icon-wrap"><img src="https://cdn.simpleicons.org/shopify/ffffff" width="28" height="28" alt="Shopify" loading="lazy" decoding="async"/></div>
               <div class="svc-back-badge">Most Popular</div>
             </div>
-            <div class="svc-back-title">Custom Website Development</div>
-            <div class="svc-back-desc">Every pixel handcrafted — zero templates, pure custom code that makes your brand stand out and convert.</div>
+            <div class="svc-back-title">Shopify Development</div>
+            <div class="svc-back-desc">Custom Liquid themes, migration-ready architecture, and checkout flows built to eliminate friction and maximize revenue.</div>
             <div class="svc-back-feats">
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Mobile-first responsive</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>95+ PageSpeed score</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>SEO-optimized markup</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Custom Liquid theme development</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Mobile-first, 90+ Lighthouse</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Conversion-focused UX</div>
             </div>
             <div class="svc-back-stat">
-              <div class="svc-stat-num">100%</div>
-              <div class="svc-stat-lbl">Custom — no templates ever</div>
+              <div class="svc-stat-num">+34%</div>
+              <div class="svc-stat-lbl">Avg conversion rate lift</div>
             </div>
           </div>
         </div>
@@ -4277,32 +4403,32 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="svc-card-face svc-card-front">
             <div class="svc-card-band" style="background:linear-gradient(145deg,#1a0533 0%,#6d28d9 45%,#a78bfa 100%)">
               <div class="svc-band-shimmer"></div>
-              <div class="svc-band-icon">🎨</div>
+              <div class="svc-band-icon"><img src="https://cdn.simpleicons.org/woocommerce/ffffff" width="48" height="48" alt="WooCommerce" loading="lazy" decoding="async"/></div>
               <div class="svc-ghost-num">02</div>
             </div>
             <div class="svc-card-body">
               <div class="svc-card-num-pill">Service 02</div>
-              <div class="svc-card-title">Frontend Development</div>
-              <div class="svc-card-tagline">Pixel-perfect, buttery-smooth interfaces that users remember, trust, and keep coming back to.</div>
+              <div class="svc-card-title">eCommerce Development</div>
+              <div class="svc-card-tagline">Headless, WooCommerce, or custom-stack — revenue-optimized eCommerce built to handle scale and drive growth.</div>
               <div class="svc-card-flip-cue"><span class="svc-flip-arrow">↻</span> Click to flip</div>
             </div>
           </div>
           <div class="svc-card-face svc-card-back" style="background:linear-gradient(145deg,#1a0533,#7c3aed)">
             <div class="svc-back-glow"></div>
             <div class="svc-back-top">
-              <div class="svc-back-icon-wrap">🎨</div>
-              <div class="svc-back-badge">High Demand</div>
+              <div class="svc-back-icon-wrap"><img src="https://cdn.simpleicons.org/woocommerce/ffffff" width="28" height="28" alt="WooCommerce" loading="lazy" decoding="async"/></div>
+              <div class="svc-back-badge">Revenue Driver</div>
             </div>
-            <div class="svc-back-title">Frontend Development</div>
-            <div class="svc-back-desc">React, Next.js & vanilla mastery — micro-interactions, animations, and WCAG-compliant UIs built for delight.</div>
+            <div class="svc-back-title">eCommerce Development</div>
+            <div class="svc-back-desc">Headless Shopify, Next.js storefronts, WooCommerce — checkout flows that eliminate friction and maximize AOV.</div>
             <div class="svc-back-feats">
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>React & Next.js</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Micro-interactions</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>WCAG accessibility</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Headless & Next.js builds</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Payment & ERP integrations</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Checkout optimization</div>
             </div>
             <div class="svc-back-stat">
-              <div class="svc-stat-num">60ms</div>
-              <div class="svc-stat-lbl">Avg interaction response time</div>
+              <div class="svc-stat-num">80+</div>
+              <div class="svc-stat-lbl">eCommerce stores launched</div>
             </div>
           </div>
         </div>
@@ -4314,32 +4440,32 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="svc-card-face svc-card-front">
             <div class="svc-card-band" style="background:linear-gradient(145deg,#052e16 0%,#16a34a 45%,#4ade80 100%)">
               <div class="svc-band-shimmer"></div>
-              <div class="svc-band-icon">🔗</div>
+              <div class="svc-band-icon"><img src="https://cdn.simpleicons.org/shopify/ffffff" width="48" height="48" alt="Shopify Plus" loading="lazy" decoding="async"/></div>
               <div class="svc-ghost-num">03</div>
             </div>
             <div class="svc-card-body">
               <div class="svc-card-num-pill">Service 03</div>
-              <div class="svc-card-title">Full Stack Development</div>
-              <div class="svc-card-tagline">End-to-end ownership — frontend, backend, databases, deployment, and everything between.</div>
+              <div class="svc-card-title">Shopify Plus Development</div>
+              <div class="svc-card-tagline">For brands doing $1M+ — unlock custom checkout, B2B flows, and automation that standard Shopify can't touch.</div>
               <div class="svc-card-flip-cue"><span class="svc-flip-arrow">↻</span> Click to flip</div>
             </div>
           </div>
           <div class="svc-card-face svc-card-back" style="background:linear-gradient(145deg,#052e16,#15803d)">
             <div class="svc-back-glow"></div>
             <div class="svc-back-top">
-              <div class="svc-back-icon-wrap">🔗</div>
-              <div class="svc-back-badge">Full Service</div>
+              <div class="svc-back-icon-wrap"><img src="https://cdn.simpleicons.org/shopify/ffffff" width="28" height="28" alt="Shopify Plus" loading="lazy" decoding="async"/></div>
+              <div class="svc-back-badge">Enterprise Ready</div>
             </div>
-            <div class="svc-back-title">Full Stack Development</div>
-            <div class="svc-back-desc">Node.js APIs, PostgreSQL/MongoDB, Redis caching, Docker deployments — the whole stack, owned by us.</div>
+            <div class="svc-back-title">Shopify Plus Development</div>
+            <div class="svc-back-desc">Custom checkout.liquid, B2B/wholesale portals, Launchpad automation, and multi-storefront architecture at enterprise scale.</div>
             <div class="svc-back-feats">
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Node.js & REST APIs</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Database architecture</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Cloud deployment</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Custom checkout flows</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>B2B wholesale portal</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Flow & Launchpad automation</div>
             </div>
             <div class="svc-back-stat">
-              <div class="svc-stat-num">99.9%</div>
-              <div class="svc-stat-lbl">Uptime SLA guaranteed</div>
+              <div class="svc-stat-num">$1M+</div>
+              <div class="svc-stat-lbl">Revenue threshold unlocked</div>
             </div>
           </div>
         </div>
@@ -4351,32 +4477,32 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="svc-card-face svc-card-front">
             <div class="svc-card-band" style="background:linear-gradient(145deg,#431407 0%,#ea580c 45%,#fb923c 100%)">
               <div class="svc-band-shimmer"></div>
-              <div class="svc-band-icon">🛒</div>
+              <div class="svc-band-icon"><img src="https://cdn.simpleicons.org/wordpress/ffffff" width="48" height="48" alt="WordPress" loading="lazy" decoding="async"/></div>
               <div class="svc-ghost-num">04</div>
             </div>
             <div class="svc-card-body">
               <div class="svc-card-num-pill">Service 04</div>
-              <div class="svc-card-title">eCommerce Development</div>
-              <div class="svc-card-tagline">Conversion-optimized stores engineered to maximize revenue and grow customer lifetime value.</div>
+              <div class="svc-card-title">WordPress Development</div>
+              <div class="svc-card-tagline">High-performance WooCommerce and WordPress builds for content-driven brands that need eCommerce built in.</div>
               <div class="svc-card-flip-cue"><span class="svc-flip-arrow">↻</span> Click to flip</div>
             </div>
           </div>
           <div class="svc-card-face svc-card-back" style="background:linear-gradient(145deg,#431407,#c2410c)">
             <div class="svc-back-glow"></div>
             <div class="svc-back-top">
-              <div class="svc-back-icon-wrap">🛒</div>
-              <div class="svc-back-badge">Revenue Driver</div>
+              <div class="svc-back-icon-wrap"><img src="https://cdn.simpleicons.org/wordpress/ffffff" width="28" height="28" alt="WordPress" loading="lazy" decoding="async"/></div>
+              <div class="svc-back-badge">CMS Power</div>
             </div>
-            <div class="svc-back-title">eCommerce Development</div>
-            <div class="svc-back-desc">Shopify, WooCommerce, headless commerce — checkout flows that eliminate friction and maximize conversions.</div>
+            <div class="svc-back-title">WordPress Development</div>
+            <div class="svc-back-desc">Custom themes, WooCommerce stores, plugin development, and Gutenberg-native architectures built for performance.</div>
             <div class="svc-back-feats">
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Shopify & WooCommerce</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Checkout optimization</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Payment integrations</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Custom themes & plugins</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>WooCommerce development</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>90+ PageSpeed scores</div>
             </div>
             <div class="svc-back-stat">
-              <div class="svc-stat-num">+34%</div>
-              <div class="svc-stat-lbl">Avg conversion rate lift</div>
+              <div class="svc-stat-num">100%</div>
+              <div class="svc-stat-lbl">Custom — no off-the-shelf themes</div>
             </div>
           </div>
         </div>
@@ -4388,32 +4514,32 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="svc-card-face svc-card-front">
             <div class="svc-card-band" style="background:linear-gradient(145deg,#1e1b4b 0%,#4f46e5 45%,#818cf8 100%)">
               <div class="svc-band-shimmer"></div>
-              <div class="svc-band-icon">✨</div>
+              <div class="svc-band-icon"><img src="https://cdn.simpleicons.org/nodedotjs/ffffff" width="48" height="48" alt="Node.js" loading="lazy" decoding="async"/></div>
               <div class="svc-ghost-num">05</div>
             </div>
             <div class="svc-card-body">
               <div class="svc-card-num-pill">Service 05</div>
-              <div class="svc-card-title">UI/UX Design</div>
-              <div class="svc-card-tagline">Intuitive, beautiful interfaces designed to delight every user and achieve your business goals.</div>
+              <div class="svc-card-title">Full Stack Development</div>
+              <div class="svc-card-tagline">End-to-end ownership — APIs, databases, deployment, and custom app logic for complex eCommerce requirements.</div>
               <div class="svc-card-flip-cue"><span class="svc-flip-arrow">↻</span> Click to flip</div>
             </div>
           </div>
           <div class="svc-card-face svc-card-back" style="background:linear-gradient(145deg,#1e1b4b,#4338ca)">
             <div class="svc-back-glow"></div>
             <div class="svc-back-top">
-              <div class="svc-back-icon-wrap">✨</div>
-              <div class="svc-back-badge">Award Level</div>
+              <div class="svc-back-icon-wrap"><img src="https://cdn.simpleicons.org/nodedotjs/ffffff" width="28" height="28" alt="Node.js" loading="lazy" decoding="async"/></div>
+              <div class="svc-back-badge">Full Service</div>
             </div>
-            <div class="svc-back-title">UI/UX Design</div>
-            <div class="svc-back-desc">Figma prototyping, user research, design systems — every touchpoint crafted to guide, delight, and convert.</div>
+            <div class="svc-back-title">Full Stack Development</div>
+            <div class="svc-back-desc">Node.js APIs, PostgreSQL, Redis, Docker — custom Shopify app development and third-party integrations built to last.</div>
             <div class="svc-back-feats">
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Figma prototyping</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>User research & testing</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Design systems</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Custom Shopify app development</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>ERP / CRM integrations</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>API-first architecture</div>
             </div>
             <div class="svc-back-stat">
-              <div class="svc-stat-num">2.8×</div>
-              <div class="svc-stat-lbl">Avg engagement improvement</div>
+              <div class="svc-stat-num">99.9%</div>
+              <div class="svc-stat-lbl">Uptime SLA guaranteed</div>
             </div>
           </div>
         </div>
@@ -4425,32 +4551,32 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="svc-card-face svc-card-front">
             <div class="svc-card-band" style="background:linear-gradient(145deg,#042f2e 0%,#0d9488 45%,#5eead4 100%)">
               <div class="svc-band-shimmer"></div>
-              <div class="svc-band-icon">📱</div>
+              <div class="svc-band-icon"><img src="https://cdn.simpleicons.org/chatgpt/ffffff" width="48" height="48" alt="OpenAI" loading="lazy" decoding="async"/></div>
               <div class="svc-ghost-num">06</div>
             </div>
             <div class="svc-card-body">
               <div class="svc-card-num-pill">Service 06</div>
-              <div class="svc-card-title">Web App Development</div>
-              <div class="svc-card-tagline">Complex, scalable web applications architected for performance and seamless long-term growth.</div>
+              <div class="svc-card-title">AI Development</div>
+              <div class="svc-card-tagline">AI-powered eCommerce experiences — smart product recommendations, LLM integrations, and dynamic pricing engines.</div>
               <div class="svc-card-flip-cue"><span class="svc-flip-arrow">↻</span> Click to flip</div>
             </div>
           </div>
           <div class="svc-card-face svc-card-back" style="background:linear-gradient(145deg,#042f2e,#0f766e)">
             <div class="svc-back-glow"></div>
             <div class="svc-back-top">
-              <div class="svc-back-icon-wrap">📱</div>
-              <div class="svc-back-badge">SaaS Ready</div>
+              <div class="svc-back-icon-wrap"><img src="https://cdn.simpleicons.org/chatgpt/ffffff" width="28" height="28" alt="OpenAI" loading="lazy" decoding="async"/></div>
+              <div class="svc-back-badge">2026 Ready</div>
             </div>
-            <div class="svc-back-title">Web App Development</div>
-            <div class="svc-back-desc">SaaS platforms, dashboards, real-time apps — architected for 10x scale with auth, security, and DX baked in.</div>
+            <div class="svc-back-title">AI Development</div>
+            <div class="svc-back-desc">AI search, personalized product recommendations, LLM-powered customer service, and dynamic pricing — built on OpenAI & Anthropic APIs.</div>
             <div class="svc-back-feats">
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>SaaS architecture</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Real-time WebSockets</div>
-              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Auth & security</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>AI product recommendations</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>LLM customer service layer</div>
+              <div class="svc-back-feat"><div class="svc-feat-check">✓</div>Dynamic pricing logic</div>
             </div>
             <div class="svc-back-stat">
-              <div class="svc-stat-num">10×</div>
-              <div class="svc-stat-lbl">Designed to scale from day one</div>
+              <div class="svc-stat-num">AI</div>
+              <div class="svc-stat-lbl">Infrastructure, not just a feature</div>
             </div>
           </div>
         </div>
@@ -4541,60 +4667,60 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
   <div style="margin-top:52px">
     <div class="tech-row-wrap">
       <div class="tech-belt">
-        <div class="tc"><span class="tc-ico">🌐</span><span class="tc-nm">HTML5</span></div>
-        <div class="tc"><span class="tc-ico">🎨</span><span class="tc-nm">CSS3</span></div>
-        <div class="tc"><span class="tc-ico">⚡</span><span class="tc-nm">JavaScript</span></div>
-        <div class="tc"><span class="tc-ico">🔷</span><span class="tc-nm">TypeScript</span></div>
-        <div class="tc"><span class="tc-ico">⚛️</span><span class="tc-nm">React</span></div>
-        <div class="tc"><span class="tc-ico">▲</span><span class="tc-nm">Next.js</span></div>
-        <div class="tc"><span class="tc-ico">🟢</span><span class="tc-nm">Node.js</span></div>
-        <div class="tc"><span class="tc-ico">🐘</span><span class="tc-nm">PHP</span></div>
-        <div class="tc"><span class="tc-ico">🛒</span><span class="tc-nm">Shopify</span></div>
-        <div class="tc"><span class="tc-ico">📝</span><span class="tc-nm">WordPress</span></div>
-        <div class="tc"><span class="tc-ico">💨</span><span class="tc-nm">Tailwind</span></div>
-        <div class="tc"><span class="tc-ico">🔌</span><span class="tc-nm">REST APIs</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/html5" width="22" height="22" alt="HTML5" loading="lazy" decoding="async"/></span><span class="tc-nm">HTML5</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/css3" width="22" height="22" alt="CSS3" loading="lazy" decoding="async"/></span><span class="tc-nm">CSS3</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/javascript" width="22" height="22" alt="JavaScript" loading="lazy" decoding="async"/></span><span class="tc-nm">JavaScript</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/typescript" width="22" height="22" alt="TypeScript" loading="lazy" decoding="async"/></span><span class="tc-nm">TypeScript</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/react" width="22" height="22" alt="React" loading="lazy" decoding="async"/></span><span class="tc-nm">React</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/nextdotjs" width="22" height="22" alt="Next.js" loading="lazy" decoding="async"/></span><span class="tc-nm">Next.js</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/nodedotjs" width="22" height="22" alt="Node.js" loading="lazy" decoding="async"/></span><span class="tc-nm">Node.js</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/php" width="22" height="22" alt="PHP" loading="lazy" decoding="async"/></span><span class="tc-nm">PHP</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/shopify" width="22" height="22" alt="Shopify" loading="lazy" decoding="async"/></span><span class="tc-nm">Shopify</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/wordpress" width="22" height="22" alt="WordPress" loading="lazy" decoding="async"/></span><span class="tc-nm">WordPress</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/tailwindcss" width="22" height="22" alt="Tailwind CSS" loading="lazy" decoding="async"/></span><span class="tc-nm">Tailwind</span></div>
+        <div class="tc"><span class="tc-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="8" height="10" rx="1"/><rect x="14" y="7" width="8" height="10" rx="1"/><path d="M10 12h4"/><path d="M5 4v3M9 4v3M15 4v3M19 4v3M5 17v3M9 17v3M15 17v3M19 17v3"/></svg></span><span class="tc-nm">REST APIs</span></div>
         <!-- dupe -->
-        <div class="tc"><span class="tc-ico">🌐</span><span class="tc-nm">HTML5</span></div>
-        <div class="tc"><span class="tc-ico">🎨</span><span class="tc-nm">CSS3</span></div>
-        <div class="tc"><span class="tc-ico">⚡</span><span class="tc-nm">JavaScript</span></div>
-        <div class="tc"><span class="tc-ico">🔷</span><span class="tc-nm">TypeScript</span></div>
-        <div class="tc"><span class="tc-ico">⚛️</span><span class="tc-nm">React</span></div>
-        <div class="tc"><span class="tc-ico">▲</span><span class="tc-nm">Next.js</span></div>
-        <div class="tc"><span class="tc-ico">🟢</span><span class="tc-nm">Node.js</span></div>
-        <div class="tc"><span class="tc-ico">🐘</span><span class="tc-nm">PHP</span></div>
-        <div class="tc"><span class="tc-ico">🛒</span><span class="tc-nm">Shopify</span></div>
-        <div class="tc"><span class="tc-ico">📝</span><span class="tc-nm">WordPress</span></div>
-        <div class="tc"><span class="tc-ico">💨</span><span class="tc-nm">Tailwind</span></div>
-        <div class="tc"><span class="tc-ico">🔌</span><span class="tc-nm">REST APIs</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/html5" width="22" height="22" alt="HTML5" loading="lazy" decoding="async"/></span><span class="tc-nm">HTML5</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/css3" width="22" height="22" alt="CSS3" loading="lazy" decoding="async"/></span><span class="tc-nm">CSS3</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/javascript" width="22" height="22" alt="JavaScript" loading="lazy" decoding="async"/></span><span class="tc-nm">JavaScript</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/typescript" width="22" height="22" alt="TypeScript" loading="lazy" decoding="async"/></span><span class="tc-nm">TypeScript</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/react" width="22" height="22" alt="React" loading="lazy" decoding="async"/></span><span class="tc-nm">React</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/nextdotjs" width="22" height="22" alt="Next.js" loading="lazy" decoding="async"/></span><span class="tc-nm">Next.js</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/nodedotjs" width="22" height="22" alt="Node.js" loading="lazy" decoding="async"/></span><span class="tc-nm">Node.js</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/php" width="22" height="22" alt="PHP" loading="lazy" decoding="async"/></span><span class="tc-nm">PHP</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/shopify" width="22" height="22" alt="Shopify" loading="lazy" decoding="async"/></span><span class="tc-nm">Shopify</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/wordpress" width="22" height="22" alt="WordPress" loading="lazy" decoding="async"/></span><span class="tc-nm">WordPress</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/tailwindcss" width="22" height="22" alt="Tailwind CSS" loading="lazy" decoding="async"/></span><span class="tc-nm">Tailwind</span></div>
+        <div class="tc"><span class="tc-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="8" height="10" rx="1"/><rect x="14" y="7" width="8" height="10" rx="1"/><path d="M10 12h4"/><path d="M5 4v3M9 4v3M15 4v3M19 4v3M5 17v3M9 17v3M15 17v3M19 17v3"/></svg></span><span class="tc-nm">REST APIs</span></div>
       </div>
     </div>
     <div class="tech-row-wrap" style="margin-top:14px">
       <div class="tech-belt rev">
-        <div class="tc"><span class="tc-ico">🍃</span><span class="tc-nm">MongoDB</span></div>
-        <div class="tc"><span class="tc-ico">🐬</span><span class="tc-nm">MySQL</span></div>
-        <div class="tc"><span class="tc-ico">🐘</span><span class="tc-nm">PostgreSQL</span></div>
-        <div class="tc"><span class="tc-ico">🔥</span><span class="tc-nm">Firebase</span></div>
-        <div class="tc"><span class="tc-ico">☁️</span><span class="tc-nm">Vercel</span></div>
-        <div class="tc"><span class="tc-ico">🚀</span><span class="tc-nm">Netlify</span></div>
-        <div class="tc"><span class="tc-ico">🐙</span><span class="tc-nm">GitHub</span></div>
-        <div class="tc"><span class="tc-ico">🖌️</span><span class="tc-nm">Figma</span></div>
-        <div class="tc"><span class="tc-ico">📦</span><span class="tc-nm">GraphQL</span></div>
-        <div class="tc"><span class="tc-ico">💳</span><span class="tc-nm">Stripe</span></div>
-        <div class="tc"><span class="tc-ico">🔐</span><span class="tc-nm">JWT Auth</span></div>
-        <div class="tc"><span class="tc-ico">🎭</span><span class="tc-nm">Framer</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/mongodb" width="22" height="22" alt="MongoDB" loading="lazy" decoding="async"/></span><span class="tc-nm">MongoDB</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/mysql" width="22" height="22" alt="MySQL" loading="lazy" decoding="async"/></span><span class="tc-nm">MySQL</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/postgresql" width="22" height="22" alt="PostgreSQL" loading="lazy" decoding="async"/></span><span class="tc-nm">PostgreSQL</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/firebase" width="22" height="22" alt="Firebase" loading="lazy" decoding="async"/></span><span class="tc-nm">Firebase</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/vercel" width="22" height="22" alt="Vercel" loading="lazy" decoding="async"/></span><span class="tc-nm">Vercel</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/netlify" width="22" height="22" alt="Netlify" loading="lazy" decoding="async"/></span><span class="tc-nm">Netlify</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/github" width="22" height="22" alt="GitHub" loading="lazy" decoding="async"/></span><span class="tc-nm">GitHub</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/figma" width="22" height="22" alt="Figma" loading="lazy" decoding="async"/></span><span class="tc-nm">Figma</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/graphql" width="22" height="22" alt="GraphQL" loading="lazy" decoding="async"/></span><span class="tc-nm">GraphQL</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/stripe" width="22" height="22" alt="Stripe" loading="lazy" decoding="async"/></span><span class="tc-nm">Stripe</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/jsonwebtokens" width="22" height="22" alt="JWT Auth" loading="lazy" decoding="async"/></span><span class="tc-nm">JWT Auth</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/framer" width="22" height="22" alt="Framer" loading="lazy" decoding="async"/></span><span class="tc-nm">Framer</span></div>
         <!-- dupe -->
-        <div class="tc"><span class="tc-ico">🍃</span><span class="tc-nm">MongoDB</span></div>
-        <div class="tc"><span class="tc-ico">🐬</span><span class="tc-nm">MySQL</span></div>
-        <div class="tc"><span class="tc-ico">🐘</span><span class="tc-nm">PostgreSQL</span></div>
-        <div class="tc"><span class="tc-ico">🔥</span><span class="tc-nm">Firebase</span></div>
-        <div class="tc"><span class="tc-ico">☁️</span><span class="tc-nm">Vercel</span></div>
-        <div class="tc"><span class="tc-ico">🚀</span><span class="tc-nm">Netlify</span></div>
-        <div class="tc"><span class="tc-ico">🐙</span><span class="tc-nm">GitHub</span></div>
-        <div class="tc"><span class="tc-ico">🖌️</span><span class="tc-nm">Figma</span></div>
-        <div class="tc"><span class="tc-ico">📦</span><span class="tc-nm">GraphQL</span></div>
-        <div class="tc"><span class="tc-ico">💳</span><span class="tc-nm">Stripe</span></div>
-        <div class="tc"><span class="tc-ico">🔐</span><span class="tc-nm">JWT Auth</span></div>
-        <div class="tc"><span class="tc-ico">🎭</span><span class="tc-nm">Framer</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/mongodb" width="22" height="22" alt="MongoDB" loading="lazy" decoding="async"/></span><span class="tc-nm">MongoDB</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/mysql" width="22" height="22" alt="MySQL" loading="lazy" decoding="async"/></span><span class="tc-nm">MySQL</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/postgresql" width="22" height="22" alt="PostgreSQL" loading="lazy" decoding="async"/></span><span class="tc-nm">PostgreSQL</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/firebase" width="22" height="22" alt="Firebase" loading="lazy" decoding="async"/></span><span class="tc-nm">Firebase</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/vercel" width="22" height="22" alt="Vercel" loading="lazy" decoding="async"/></span><span class="tc-nm">Vercel</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/netlify" width="22" height="22" alt="Netlify" loading="lazy" decoding="async"/></span><span class="tc-nm">Netlify</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/github" width="22" height="22" alt="GitHub" loading="lazy" decoding="async"/></span><span class="tc-nm">GitHub</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/figma" width="22" height="22" alt="Figma" loading="lazy" decoding="async"/></span><span class="tc-nm">Figma</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/graphql" width="22" height="22" alt="GraphQL" loading="lazy" decoding="async"/></span><span class="tc-nm">GraphQL</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/stripe" width="22" height="22" alt="Stripe" loading="lazy" decoding="async"/></span><span class="tc-nm">Stripe</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/jsonwebtokens" width="22" height="22" alt="JWT Auth" loading="lazy" decoding="async"/></span><span class="tc-nm">JWT Auth</span></div>
+        <div class="tc"><span class="tc-ico"><img src="https://cdn.simpleicons.org/framer" width="22" height="22" alt="Framer" loading="lazy" decoding="async"/></span><span class="tc-nm">Framer</span></div>
       </div>
     </div>
   </div>
@@ -4611,13 +4737,13 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
     <div class="proc-steps" style="margin-top:64px">
       <div class="proc-line"></div>
       <div class="proc-fill"></div>
-      <div class="proc-step anim d1"><div class="proc-circle"><span class="proc-num">01</span><span class="proc-ico">🔍</span></div><div class="proc-name">Discovery</div><div class="proc-info">Deep-dive into your goals, audience, and vision</div></div>
-      <div class="proc-step anim d2"><div class="proc-circle"><span class="proc-num">02</span><span class="proc-ico">🗺️</span></div><div class="proc-name">Strategy</div><div class="proc-info">Roadmap, architecture, and content planning</div></div>
-      <div class="proc-step anim d3"><div class="proc-circle"><span class="proc-num">03</span><span class="proc-ico">✏️</span></div><div class="proc-name">Design</div><div class="proc-info">Wireframes, UI systems, and brand alignment</div></div>
-      <div class="proc-step anim d4"><div class="proc-circle"><span class="proc-num">04</span><span class="proc-ico">💻</span></div><div class="proc-name">Development</div><div class="proc-info">Clean, optimized, future-proof code</div></div>
-      <div class="proc-step anim d5"><div class="proc-circle"><span class="proc-num">05</span><span class="proc-ico">🧪</span></div><div class="proc-name">Testing</div><div class="proc-info">Rigorous QA across all devices and browsers</div></div>
-      <div class="proc-step anim d6"><div class="proc-circle"><span class="proc-num">06</span><span class="proc-ico">🚀</span></div><div class="proc-name">Launch</div><div class="proc-info">Smooth deployment, zero surprises</div></div>
-      <div class="proc-step anim d7"><div class="proc-circle"><span class="proc-num">07</span><span class="proc-ico">🛡️</span></div><div class="proc-name">Support</div><div class="proc-info">Ongoing care, updates, and growth</div></div>
+      <div class="proc-step anim d1"><div class="proc-circle"><span class="proc-num">01</span><span class="proc-ico"><svg class="ani-icon ani-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span></div><div class="proc-name">Discovery</div><div class="proc-info">Deep-dive into your goals, audience, and vision</div></div>
+      <div class="proc-step anim d2"><div class="proc-circle"><span class="proc-num">02</span><span class="proc-ico"><svg class="ani-icon ani-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span></div><div class="proc-name">Strategy</div><div class="proc-info">Roadmap, architecture, and content planning</div></div>
+      <div class="proc-step anim d3"><div class="proc-circle"><span class="proc-num">03</span><span class="proc-ico"><svg class="ani-icon ani-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></span></div><div class="proc-name">Design</div><div class="proc-info">Wireframes, UI systems, and brand alignment</div></div>
+      <div class="proc-step anim d4"><div class="proc-circle"><span class="proc-num">04</span><span class="proc-ico"><svg class="ani-icon ani-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path class="m-cur" d="M7 8l3 3-3 3"/><line x1="13" y1="14" x2="17" y2="14"/></svg></span></div><div class="proc-name">Development</div><div class="proc-info">Clean, optimized, future-proof code</div></div>
+      <div class="proc-step anim d5"><div class="proc-circle"><span class="proc-num">05</span><span class="proc-ico"><svg class="ani-icon ani-beaker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3h6M10 3v6l-5.3 8a2 2 0 001.7 3h11.2a2 2 0 001.7-3L14 9V3"/><circle class="bb" cx="10" cy="17" r="1.2" fill="currentColor" stroke="none"/><circle class="bb2" cx="14.5" cy="14.5" r="1" fill="currentColor" stroke="none" opacity=".5"/></svg></span></div><div class="proc-name">Testing</div><div class="proc-info">Rigorous QA across all devices and browsers</div></div>
+      <div class="proc-step anim d6"><div class="proc-circle"><span class="proc-num">06</span><span class="proc-ico"><svg class="ani-icon ani-rocket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span></div><div class="proc-name">Launch</div><div class="proc-info">Smooth deployment, zero surprises</div></div>
+      <div class="proc-step anim d7"><div class="proc-circle"><span class="proc-num">07</span><span class="proc-ico"><svg class="ani-icon ani-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span></div><div class="proc-name">Support</div><div class="proc-info">Ongoing care, updates, and growth</div></div>
     </div>
   </div>
 </section>
@@ -4633,11 +4759,11 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
   </div>
 
   <div class="port-tabs" id="portTabs">
-    <button class="port-tab active" data-tab="shopify"><span class="tab-icon">🛒</span> Shopify</button>
-    <button class="port-tab" data-tab="wordpress"><span class="tab-icon">📝</span> WordPress</button>
-    <button class="port-tab" data-tab="framer"><span class="tab-icon">🎭</span> Framer</button>
-    <button class="port-tab" data-tab="fullstack"><span class="tab-icon">🔗</span> Full Stack</button>
-    <button class="port-tab" data-tab="figma"><span class="tab-icon">🖌️</span> Figma</button>
+    <button class="port-tab active" data-tab="shopify"><span class="tab-icon"><svg class="ani-icon ani-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span> Shopify</button>
+    <button class="port-tab" data-tab="wordpress"><span class="tab-icon"><svg class="ani-icon ani-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> WordPress</button>
+    <button class="port-tab" data-tab="framer"><span class="tab-icon"><svg class="ani-icon ani-framer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 10h20M9 3v18"/></svg></span> Framer</button>
+    <button class="port-tab" data-tab="fullstack"><span class="tab-icon"><svg class="ani-icon ani-chain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path class="c1" d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path class="c2" d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></span> Full Stack</button>
+    <button class="port-tab" data-tab="figma"><span class="tab-icon"><svg class="ani-icon ani-brush" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18.37 2.63L14 7l-1.59-1.59a2 2 0 00-2.82 0L8 7l9 9 1.59-1.59a2 2 0 000-2.82L17 10l4.37-4.37a2.12 2.12 0 10-3-3z"/><path d="M9 8c-2 3-4 3.5-7 4l8 8c1-.5 3.5-2 4-7"/><path d="M14.5 17.5L4.5 15c-1.7.5-2 .5-3.5 3.5"/></svg></span> Figma</button>
   </div>
 
   <div class="wrap">
@@ -4646,7 +4772,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0c1a30,#1a3a6c)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c1a30 0%,#1a3a6c 70%)"></div>
-          <span style="position:relative;z-index:1">🛒</span>
+          <svg class="ani-icon ani-cart" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4665,7 +4791,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#1a0c2e,#3d1a5c)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#1a0c2e 0%,#3d1a5c 70%)"></div>
-          <span style="position:relative;z-index:1">💄</span>
+          <svg class="ani-icon ani-spark" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24"><path class="s1" d="M12 2l2.4 7.4L22 12l-7.6 2.6L12 22l-2.4-7.4L2 12l7.6-2.6z" fill="currentColor"/><circle class="s2" cx="19.5" cy="4" r="1.8" fill="currentColor"/><circle class="s3" cx="4.5" cy="20" r="1.3" fill="currentColor"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4684,7 +4810,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0c2a0c,#1a5c1a)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c2a0c 0%,#1a5c1a 70%)"></div>
-          <span style="position:relative;z-index:1">🌿</span>
+          <svg class="ani-icon ani-leaf" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c6-6 16-16 20-20C22 2 8 4 4 10c-3 4.5-2 12-2 12z"/><path d="M2 22l9-9"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4708,7 +4834,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0c1828,#173052)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c1828 0%,#173052 70%)"></div>
-          <span style="position:relative;z-index:1">🏥</span>
+          <svg class="ani-icon ani-plus" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4727,7 +4853,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#1a1a0c,#3a3a18)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#1a1a0c 0%,#3a3a18 70%)"></div>
-          <span style="position:relative;z-index:1">📰</span>
+          <svg class="ani-icon ani-news" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4746,7 +4872,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#2a0c18,#5c1a34)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#2a0c18 0%,#5c1a34 70%)"></div>
-          <span style="position:relative;z-index:1">🎓</span>
+          <svg class="ani-icon ani-grad" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M12 2L2 7l10 5 10-5-10-5z"/><path d="M6 10v5c0 2.76 2.69 5 6 5s6-2.24 6-5v-5"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4770,7 +4896,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#1e0c2e,#3d1a5c)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#1e0c2e 0%,#3d1a5c 70%)"></div>
-          <span style="position:relative;z-index:1">🎨</span>
+          <svg class="ani-icon ani-palette" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2a10 10 0 100 20c1.1 0 2-.9 2-2v-.5a1 1 0 011-1h2a3 3 0 000-6h-1A10 10 0 0012 2z"/><circle cx="8.5" cy="10.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12.5" cy="7.5" r="1.5" fill="currentColor" stroke="none" opacity=".7"/><circle cx="16" cy="11" r="1.5" fill="currentColor" stroke="none" opacity=".5"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4789,7 +4915,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0c1a2e,#1a3050)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c1a2e 0%,#1a3050 70%)"></div>
-          <span style="position:relative;z-index:1">🚀</span>
+          <svg class="ani-icon ani-rocket" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4808,7 +4934,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0a1f0a,#1a3d1a)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0a1f0a 0%,#1a3d1a 70%)"></div>
-          <span style="position:relative;z-index:1">🌱</span>
+          <svg class="ani-icon ani-leaf" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c6-6 16-16 20-20C22 2 8 4 4 10c-3 4.5-2 12-2 12z"/><path d="M2 22l9-9"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4832,7 +4958,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0c2218,#174d30)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c2218 0%,#174d30 70%)"></div>
-          <span style="position:relative;z-index:1">💳</span>
+          <svg class="ani-icon ani-ccard" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/><line x1="5" y1="15" x2="9" y2="15"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4851,7 +4977,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#1a1a0c,#353518)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#1a1a0c 0%,#353518 70%)"></div>
-          <span style="position:relative;z-index:1">📋</span>
+          <svg class="ani-icon ani-clip" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4870,7 +4996,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#140c28,#2a1a52)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#140c28 0%,#2a1a52 70%)"></div>
-          <span style="position:relative;z-index:1">🎵</span>
+          <svg class="ani-icon ani-music" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4894,7 +5020,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#2e0c1e,#5c1a3c)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#2e0c1e 0%,#5c1a3c 70%)"></div>
-          <span style="position:relative;z-index:1">💼</span>
+          <svg class="ani-icon ani-brief" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4913,7 +5039,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0e1a2e,#1c3050)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0e1a2e 0%,#1c3050 70%)"></div>
-          <span style="position:relative;z-index:1">🛍️</span>
+          <svg class="ani-icon ani-bag" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 11V7a4 4 0 00-8 0v4"/><path d="M5 9h14l1 12H4z"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4932,7 +5058,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0a1a10,#16382a)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0a1a10 0%,#16382a 70%)"></div>
-          <span style="position:relative;z-index:1">🏥</span>
+          <svg class="ani-icon ani-plus" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>
           <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
         </div>
         <div class="pcard-body">
@@ -4960,10 +5086,10 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="stats-row">
         <div class="stat-divv"></div><div class="stat-divv"></div>
         <div class="stat-divv"></div>
-        <div class="stat-it"><span class="s-num" data-target="150" data-sfx="+">0</span><div class="s-lbl">Projects Successfully Delivered</div></div>
+        <div class="stat-it"><span class="s-num" data-target="150" data-sfx="+">0</span><div class="s-lbl">Shopify Stores Launched</div></div>
         <div class="stat-it"><span class="s-num" data-target="98" data-sfx="%">0</span><div class="s-lbl">Client Satisfaction Rate</div></div>
-        <div class="stat-it"><span class="s-num" data-target="5" data-sfx="+">0</span><div class="s-lbl">Years of Studio Excellence</div></div>
-        <div class="stat-it"><span class="s-num" data-target="12" data-sfx="+">0</span><div class="s-lbl">Technologies Mastered</div></div>
+        <div class="stat-it"><span class="s-num" data-target="80" data-sfx="+">0</span><div class="s-lbl">eCommerce Migrations Completed</div></div>
+        <div class="stat-it"><span class="s-num" data-target="34" data-sfx="%">0</span><div class="s-lbl">Avg Conversion Rate Lift</div></div>
       </div>
     </div>
   </div>
@@ -4979,7 +5105,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
   <div class="wrap">
     <div class="rev-hd" id="revHd">
       <div class="tag">Client Reviews</div>
-      <h2 class="ttl">Trusted by <span>Ambitious Brands</span></h2>
+      <h2 class="ttl">Trusted by <span>US eCommerce Brands</span></h2>
       <!-- <p class="sub">Real results, real people, real businesses transformed by the drrioweb experience.</p> -->
       <div class="rev-ribbon">
         <div class="rev-ribbon-line lft"></div>
@@ -5018,7 +5144,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="rev-accent-band"></div>
           <div class="rev-quote-mark">"</div>
           <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
-          <div class="rev-text">drrioweb completely transformed our online presence. The new site isn't just beautiful — it's a revenue machine. Our conversions tripled within the first month alone.</div>
+          <div class="rev-text">Drio Web completely transformed our Shopify store. The new site isn't just beautiful — it's a revenue machine. Our conversions tripled within the first month alone.</div>
           <div class="rev-result-pill">Conversions +3×</div>
           <div class="rev-author">
             <div class="rev-avatar">AS</div>
@@ -5037,7 +5163,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="rev-accent-band"></div>
           <div class="rev-quote-mark">"</div>
           <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
-          <div class="rev-text">Working with drrioweb felt like having a world-class design studio in my corner every single day. The attention to detail is genuinely unmatched. Absolutely exceptional.</div>
+          <div class="rev-text">Working with Drio Web felt like having a world-class eCommerce team in my corner every single day. The attention to detail is genuinely unmatched. Absolutely exceptional.</div>
           <div class="rev-result-pill">Brand perception elevated</div>
           <div class="rev-author">
             <div class="rev-avatar">SJ</div>
@@ -5094,7 +5220,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="rev-accent-band"></div>
           <div class="rev-quote-mark">"</div>
           <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
-          <div class="rev-text">I've worked with agencies globally. drrioweb stands out for their quality, speed, and genuine care. They're not just developers — they're true strategic partners for growth.</div>
+          <div class="rev-text">I've worked with agencies globally. Drio Web stands out for their quality, speed, and genuine care. They're not just Shopify developers — they're true strategic partners for growth.</div>
           <div class="rev-result-pill">Partner since 2022</div>
           <div class="rev-author">
             <div class="rev-avatar">DP</div>
@@ -5113,7 +5239,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="rev-accent-band"></div>
           <div class="rev-quote-mark">"</div>
           <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
-          <div class="rev-text">Our WordPress site was a mess before drrioweb. Now it's lightning fast and SEO-optimized. Organic traffic has grown 180% in just four months post-launch. Phenomenal work.</div>
+          <div class="rev-text">Our WordPress site was a mess before Drio Web. Now it's lightning fast and SEO-optimized. Organic traffic has grown 180% in just four months post-launch. Phenomenal work.</div>
           <div class="rev-result-pill">Organic traffic +180%</div>
           <div class="rev-author">
             <div class="rev-avatar">NB</div>
@@ -5132,7 +5258,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="rev-accent-band"></div>
           <div class="rev-quote-mark">"</div>
           <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
-          <div class="rev-text">The landing page drrioweb built for our product launch generated over $120K in pre-orders. Clean design, blazing fast, and perfectly optimized for conversion. Life-changing.</div>
+          <div class="rev-text">The Shopify store Drio Web built for our product launch generated over $120K in pre-orders. Clean design, blazing fast, and perfectly optimized for conversion. Life-changing.</div>
           <div class="rev-result-pill">$120K pre-orders</div>
           <div class="rev-author">
             <div class="rev-avatar">TC</div>
@@ -5151,7 +5277,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="rev-accent-band"></div>
           <div class="rev-quote-mark">"</div>
           <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
-          <div class="rev-text">From the first call, I knew drrioweb was different. They asked the right questions, challenged our assumptions, and delivered a website we're immensely proud to show the world.</div>
+          <div class="rev-text">From the first call, I knew Drio Web was different. They asked the right questions, challenged our assumptions, and delivered a Shopify store we're immensely proud to show the world.</div>
           <div class="rev-result-pill">Launch exceeded targets</div>
           <div class="rev-author">
             <div class="rev-avatar">RA</div>
@@ -5170,7 +5296,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <div class="rev-accent-band"></div>
           <div class="rev-quote-mark">"</div>
           <div class="rev-stars"><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span><span class="rev-star">★</span></div>
-          <div class="rev-text">The UI redesign boosted our app's user retention by 60%. drrioweb has a rare gift for making complex systems feel simple, beautiful, and genuinely enjoyable to use every day.</div>
+          <div class="rev-text">The eCommerce redesign boosted our store's user retention by 60%. Drio Web has a rare gift for making complex systems feel simple, beautiful, and genuinely enjoyable to use every day.</div>
           <div class="rev-result-pill">Retention +60%</div>
           <div class="rev-author">
             <div class="rev-avatar">PO</div>
@@ -5322,15 +5448,15 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
   <div class="wrap">
     <div class="cta-box anim">
       <div class="cta-glow"></div>
-      <div class="cta-badge">🗓️ &nbsp;Free 10-Minute Consultation — No Obligation</div>
-      <h2 class="cta-h">Ready to Build Something<br><span style="color:var(--c-acc)">Truly Extraordinary?</span></h2>
-      <p class="cta-sub">Let's map your project to reality. In 10 minutes, we'll outline a clear path forward — zero pressure, maximum clarity.</p>
+      <div class="cta-badge">🗓️ &nbsp;Free 30-Minute Strategy Call — No Obligation</div>
+      <h2 class="cta-h">Ready to Build a Shopify Store<br><span style="color:var(--c-acc)">That Actually Converts?</span></h2>
+      <p class="cta-sub">Schedule a free strategy call with a Drio Web Shopify expert. We'll audit your store, identify growth gaps, and outline a development roadmap — no pressure, no pitch.</p>
       <div class="cta-btns">
-        <a href="/cdn-cgi/l/email-protection#563e333a3a39163224243f392133347835393b" class="btn-p" style="font-size:1.05rem">Book Your Free Call Now →</a>
+        <a href="https://calendly.com/dayyanjavaid/30-minute-strategy-session" target="_blank" rel="noopener noreferrer" class="btn-p" style="font-size:1.05rem">Book Your Free Call Now →</a>
       </div>
       <div class="cta-perks">
         <span class="cp">No commitment required</span>
-        <span class="cp">Response within 2 hours</span>
+        <span class="cp">US-timezone team</span>
         <span class="cp">Clear project roadmap</span>
         <span class="cp">Fixed pricing, no surprises</span>
       </div>
@@ -5344,31 +5470,31 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
     <div class="faq-wrap">
       <div class="faq-sidebar anim from-left">
         <div class="tag">FAQ</div>
-        <h2 class="ttl">Questions <span>Answered.</span></h2>
-        <p class="sub" style="max-width:340px">Everything you need to know about working with drrioweb. Still unsure? <a href="/cdn-cgi/l/email-protection#2b434e4747446b4f595942445c4e4905484446" style="color:var(--c-acc)">Email us →</a></p>
+        <h2 class="ttl">Shopify Questions <span>Answered.</span></h2>
+        <p class="sub" style="max-width:340px">Everything you need to know about working with Drio Web. Still unsure? <a href="mailto:dayyan@drioweb.com" style="color:var(--c-acc)">Email us →</a></p>
         <div class="faq-aside-card">
-          <div class="fai-icon">💬</div>
+          <div class="fai-icon"><svg class="ani-icon ani-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><circle class="d1" cx="8" cy="10" r="1" fill="currentColor" stroke="none"/><circle class="d2" cx="12" cy="10" r="1" fill="currentColor" stroke="none"/><circle class="d3" cx="16" cy="10" r="1" fill="currentColor" stroke="none"/></svg></div>
           <div class="fai-title">Still have questions?</div>
           <div class="fai-sub">Our team is available around the clock to help you get started and answer any questions about your project.</div>
-          <a href="/cdn-cgi/l/email-protection#b5ddd0d9d9daf5d1c7c7dcdac2d0d79bd6dad8" class="btn-p" style="font-size:.88rem;padding:12px 26px">Email Us Directly →</a>
+          <a href="mailto:dayyan@drioweb.com" class="btn-p" style="font-size:.88rem;padding:12px 26px">Email Us Directly →</a>
         </div>
       </div>
       <div class="faq-items anim from-right">
-        <div class="faq-it"><div class="faq-q">How long does a web project take?<span class="faq-plus">+</span></div><div class="faq-a">Timelines vary by scope: a landing page takes 3–7 days, a full business website 2–4 weeks, and a complex web application 6–12 weeks. We provide a detailed timeline after our discovery call.</div></div>
-        <div class="faq-it"><div class="faq-q">Do you work with Shopify and WordPress?<span class="faq-plus">+</span></div><div class="faq-a">Absolutely. We have deep expertise in both platforms. For Shopify, we build custom themes, apps, and headless setups. For WordPress, we develop custom themes, plugins, and high-performance architectures.</div></div>
-        <div class="faq-it"><div class="faq-q">Do you build custom or use templates?<span class="faq-plus">+</span></div><div class="faq-a">We build custom by default to ensure your site is unique and perfectly aligned with your brand. We may use premium frameworks where appropriate to save time, but every design and build is tailored specifically for you.</div></div>
-        <div class="faq-it"><div class="faq-q">Can you redesign my existing website?<span class="faq-plus">+</span></div><div class="faq-a">Yes — redesigns are one of our specialties. We audit your current site, identify opportunities, then craft an improved experience. We can also preserve your SEO rankings throughout the transition process.</div></div>
-        <div class="faq-it"><div class="faq-q">What support do you offer after launch?<span class="faq-plus">+</span></div><div class="faq-a">Every project includes 30 days of free post-launch support. After that, we offer flexible monthly maintenance plans covering updates, backups, security monitoring, performance tuning, and content changes.</div></div>
-        <div class="faq-it"><div class="faq-q">How do I get started?<span class="faq-plus">+</span></div><div class="faq-a">Book our free 10-minute consultation call. We'll discuss your project and goals. If we're a great fit, you'll receive a detailed proposal within 24 hours. No obligation, no pressure — ever.</div></div>
-        <div class="faq-it"><div class="faq-q">What does it cost?<span class="faq-plus">+</span></div><div class="faq-a">We offer transparent, fixed-price quotes. Landing pages start from $500, business websites from $1,500, and web apps from $3,000. Contact us for a precise quote based on your specific scope and requirements.</div></div>
-        <div class="faq-it"><div class="faq-q">Will I own the source code?<span class="faq-plus">+</span></div><div class="faq-a">Absolutely. Upon final payment, you receive complete ownership of all source code, design files, and assets. We're happy to sign NDAs. No licensing fees, no lock-in, no strings attached.</div></div>
+        <div class="faq-it"><div class="faq-q">How much does Shopify development cost in the USA?<span class="faq-plus">+</span></div><div class="faq-a">Shopify development in the US ranges from $3,000 for theme customizations to $25,000+ for fully custom Shopify Plus stores. Drio Web provides fixed-scope proposals after a discovery call — no hourly billing surprises.</div></div>
+        <div class="faq-it"><div class="faq-q">How long does it take to build a Shopify store?<span class="faq-plus">+</span></div><div class="faq-a">A custom Shopify store typically takes 4–10 weeks from kickoff to launch. Shopify Plus projects may take 10–16 weeks. Migrations from WooCommerce or Magento are scoped at 3–6 weeks depending on catalog size and data complexity.</div></div>
+        <div class="faq-it"><div class="faq-q">Can you migrate my WooCommerce store to Shopify without losing SEO?<span class="faq-plus">+</span></div><div class="faq-a">Yes. Our migration service includes full SEO preservation: URL mapping, 301 redirect implementation, metadata migration, sitemap resubmission, and post-migration rank monitoring. We've migrated 80+ stores without ranking drops.</div></div>
+        <div class="faq-it"><div class="faq-q">What is the difference between Shopify and Shopify Plus?<span class="faq-plus">+</span></div><div class="faq-a">Shopify Plus unlocks custom checkout flows, B2B/wholesale portals, Launchpad automation, and multi-storefront architecture — built for brands processing $1M+ annually. Drio Web develops both and can advise which tier fits your stage.</div></div>
+        <div class="faq-it"><div class="faq-q">Do you offer ongoing Shopify support after launch?<span class="faq-plus">+</span></div><div class="faq-a">Every project includes 30 days of free post-launch support. Ongoing monthly retainers covering maintenance, CRO testing, feature development, and performance monitoring start at $1,500/month.</div></div>
+        <div class="faq-it"><div class="faq-q">What US cities does Drio Web serve?<span class="faq-plus">+</span></div><div class="faq-a">Drio Web serves eCommerce brands across all major US cities — New York, Los Angeles, Chicago, Houston, Miami, Austin, Seattle, Denver, Atlanta, Dallas, Phoenix, and more. We operate fully remotely with US-timezone project management.</div></div>
+        <div class="faq-it"><div class="faq-q">Do you build custom Shopify stores or use templates?<span class="faq-plus">+</span></div><div class="faq-a">Custom only — no off-the-shelf themes. Every store is built with custom Liquid code tailored to your brand, product catalog, and conversion goals. You get full code ownership on delivery, no licensing fees, no lock-in.</div></div>
+        <div class="faq-it"><div class="faq-q">What makes Drio Web different from other Shopify agencies?<span class="faq-plus">+</span></div><div class="faq-a">We don't use templates, don't outsource project management, and tie every build decision to conversion performance — not just aesthetics. Drio Web operates under Trio, an established technology group, giving us infrastructure boutique freelancers can't match.</div></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ===== 13. CONTACT ===== -->
-<section id="contact" aria-label="Contact drrioweb">
+<section id="contact" aria-label="Contact Drio Web">
   <div class="wrap">
     <div class="ct-split anim">
 
@@ -5389,15 +5515,15 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
             Get In Touch
           </div>
           <h2 class="ct-panel-h">
-            Let's Build<br>Something<br><span>Remarkable.</span>
+            Let's Build<br>Your Shopify<br><span>Growth Engine.</span>
           </h2>
-          <p class="ct-panel-sub">Share your vision — we'll craft a high-performance digital product that sets you apart.</p>
+          <p class="ct-panel-sub">Share your eCommerce vision — we'll map a development roadmap that converts visitors into customers.</p>
 
           <div class="ct-panel-div"></div>
 
           <div class="ct-panel-items">
 
-            <a href="mailto:hello@drrioweb.com" class="ct-panel-item">
+            <a href="mailto:dayyan@drioweb.com" class="ct-panel-item">
               <div class="ct-panel-icon">
                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                   <rect x="1.5" y="3" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
@@ -5406,7 +5532,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
               </div>
               <div>
                 <div class="ct-panel-ilbl">Email</div>
-                <div class="ct-panel-ival">hello@drrioweb.com</div>
+                <div class="ct-panel-ival">dayyan@drioweb.com</div>
               </div>
             </a>
 
@@ -5435,7 +5561,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
               </div>
               <div>
                 <div class="ct-panel-ilbl">Location</div>
-                <div class="ct-panel-ival">Pakistan · Worldwide</div>
+                <div class="ct-panel-ival">United States · Worldwide</div>
               </div>
             </div>
 
@@ -5473,7 +5599,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
           <input type="hidden" name="access_key" value="d67d1dd1-d2f1-4feb-b4f1-31314407fd24"/>
 
           <!-- Email subject line -->
-          <input type="hidden" name="subject" value="New Project Enquiry — drrioweb"/>
+          <input type="hidden" name="subject" value="New Project Enquiry — Drio Web"/>
 
           <!-- Prevent redirect after submit (we handle response in JS) -->
           <input type="hidden" name="redirect" value="false"/>
@@ -5568,9 +5694,9 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
 
     <!-- Top row: CTA button left, Back to Top right -->
     <div class="footer-top">
-      <a href="#cta" class="footer-book-btn">
+      <a href="https://calendly.com/dayyanjavaid/30-minute-strategy-session" target="_blank" rel="noopener noreferrer" class="footer-book-btn">
         <span class="footer-book-avatar">dw</span>
-        Book a Free 10-min call
+        Book a Free 30-min Strategy Call
       </a>
       <button class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
         <span class="arr">↑</span> Back to Top
@@ -5579,7 +5705,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
 
     <!-- Bottom: copyright + links + socials centered -->
     <div class="footer-bottom">
-      <p class="footer-copy">Copyright &copy; 2025 drrioweb. All Rights Reserved.</p>
+      <p class="footer-copy">Copyright &copy; 2026 Drio Web. All Rights Reserved.</p>
       <ul class="footer-links">
         <li><a href="#">Terms of Service</a></li>
         <li><span class="sep">&#8226;</span></li>

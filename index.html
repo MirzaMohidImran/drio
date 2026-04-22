@@ -2352,275 +2352,149 @@ section{isolation:isolate}
 }
 
 /* ==============================================
-   SHOWCASE REEL — Infinite Dual-Direction Slider
-   Strategy: CSS-only animation (compositor thread);
-   JS clones items once so -50% = exact 1-set width.
+   SHOWCASE REEL — Bento Grid with Center Badge
    ============================================== */
 
-/* ── Section frame ── */
 #showcase-reel{
-  padding:88px 0 80px;
   position:relative;
-  /* Isolate stacking context — prevents z-index bleed */
-  isolation:isolate;
   overflow:hidden;
-}
-#showcase-reel::before{
-  /* Ambient section tint — matches site palette */
-  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 70% 55% at 20% 15%,rgba(2,132,199,.038) 0%,transparent 65%),
-    radial-gradient(ellipse 60% 45% at 85% 80%,rgba(99,102,241,.028) 0%,transparent 60%);
-}
-#showcase-reel>.reel-hd,
-#showcase-reel>.reel-stage{position:relative;z-index:1;}
-
-/* ── Section header ── */
-.reel-hd{
-  text-align:center;
-  padding:0 24px;
-  margin-bottom:44px;
-}
-.reel-hd .sub,
-.reel-hd-sub{
-  max-width:420px;
-  margin:18px auto 0;
-  font-size:.95rem;
-  color:var(--c-w60);
-  line-height:1.65;
-  font-family:var(--f-body);
+  padding:60px 0;
+  background:var(--c-bg);
 }
 
-/* ── Stage: clips overflow, applies GPU-native edge fade ── */
-.reel-stage{
-  overflow:hidden;
-  /* mask-image renders on compositor — no extra elements needed */
-  -webkit-mask-image:linear-gradient(
-    to right,
-    transparent 0%,
-    #000 9%,
-    #000 91%,
-    transparent 100%
-  );
-  mask-image:linear-gradient(
-    to right,
-    transparent 0%,
-    #000 9%,
-    #000 91%,
-    transparent 100%
-  );
-  /* contain: prevents stage reflow from propagating up the tree */
-  contain:layout style;
-  /* Pause both tracks when hovering either stage */
-  cursor:none;
-}
-.reel-stage + .reel-stage{margin-top:18px;}
-
-/* ── Track: horizontal flex, GPU layer ── */
-.reel-track{
+.sr-grid{
+  position:relative;
   display:flex;
-  /* max-content: track width = sum of all slides + margins
-     This makes -50% translate = exactly 1 set width (8 slides).
-     No JS pixel math needed. */
+  flex-direction:column;
+  gap:14px;
+}
+
+/* ── Row = clipping stage ── */
+.sr-row{
+  overflow:hidden;
+  contain:layout style;
+}
+
+/* ── Track = moving belt ── */
+.sr-track{
+  display:flex;
+  gap:14px;
   width:max-content;
   will-change:transform;
-  /* Force composited layer before animation starts */
   transform:translate3d(0,0,0);
 }
 
-/* ── Keyframes — translate3d keeps animation on compositor ── */
-@keyframes reelFwd{
+@keyframes srFwd{
   0%  {transform:translate3d(0,0,0)}
   100%{transform:translate3d(-50%,0,0)}
 }
-@keyframes reelRev{
+@keyframes srRev{
   0%  {transform:translate3d(-50%,0,0)}
   100%{transform:translate3d(0,0,0)}
 }
 
-/* Rail A: left → right, 52 s */
-.reel-track--fwd{animation:reelFwd 52s linear infinite;}
-/* Rail B: right → left, 40 s (different speed = organic, not mechanical) */
-.reel-track--rev{animation:reelRev 40s linear infinite;}
+.sr-track--fwd{animation:srFwd 36s linear infinite;}
+.sr-track--rev{animation:srRev 28s linear infinite;}
 
-/* Pause on hover — no JS needed */
-.reel-stage:hover .reel-track{animation-play-state:paused;}
+.sr-row:hover .sr-track{animation-play-state:paused;}
 
-/* ── Individual slide ── */
-.reel-slide{
-  /* Fixed size + margin-right on EVERY slide (including last in each set)
-     so both sets contribute identical widths → -50% loop is pixel-perfect */
-  flex-shrink:0;
-  width:340px;
-  height:224px;
-  margin-right:16px;
-  border-radius:var(--r-lg); /* 28px */
+.sr-card{
+  flex:0 0 300px;
+  height:196px;
+  border-radius:14px;
   overflow:hidden;
-  position:relative;
-  display:block;
-
-  /* Glassmorphism border */
-  border:1px solid rgba(255,255,255,.68);
-  box-shadow:
-    0 4px 20px rgba(8,17,30,.07),
-    0 0 0 1px rgba(8,17,30,.04),
-    inset 0 1px 0 rgba(255,255,255,.85);
-
-  /* Transitions only on transform/box-shadow — no layout props */
-  transition:
-    transform .48s var(--ease),
-    box-shadow .48s var(--ease);
-  cursor:none;
-  text-decoration:none;
-}
-.reel-slide:hover{
-  transform:scale(1.045) translateY(-7px);
-  box-shadow:
-    0 22px 64px rgba(8,17,30,.15),
-    0 0 0 1.5px rgba(2,132,199,.24),
-    inset 0 1px 0 rgba(255,255,255,.98);
-  /* Local z-index lift so shadow isn't clipped by sibling slides */
-  z-index:5;
+  border:1px solid rgba(255,255,255,.07);
   position:relative;
 }
 
-/* Top accent bar — reveals on hover (scaleX, no layout) */
-.reel-slide::before{
-  content:'';
-  position:absolute;top:0;left:0;right:0;height:2px;z-index:3;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    rgba(2,132,199,.75) 30%,
-    rgba(56,189,248,.6) 70%,
-    transparent 100%
-  );
-  transform:scaleX(0);
-  transform-origin:left center;
-  transition:transform .5s var(--ease);
-}
-.reel-slide:hover::before{transform:scaleX(1);}
-
-/* ── Image ── */
-.reel-slide img{
+.sr-card img{
   width:100%;height:100%;
   object-fit:cover;
   display:block;
-  /* Subtle desaturation at rest — pops on hover */
-  filter:saturate(.88) brightness(.95);
-  transition:filter .5s ease,transform .5s var(--ease);
-  transform-origin:center;
-}
-.reel-slide:hover img{
-  filter:saturate(1.06) brightness(1.02);
-  /* Ken Burns micro-zoom — GPU transform only */
-  transform:scale(1.07);
+  filter:brightness(.82) saturate(.88);
 }
 
-/* ── Bottom gradient overlay ── */
-.reel-ov{
-  position:absolute;inset:0;
-  background:linear-gradient(
-    to top,
-    rgba(5,12,28,.76) 0%,
-    rgba(5,12,28,.24) 42%,
-    transparent 68%
-  );
-  opacity:0;
-  transition:opacity .4s var(--ease);
+/* ── Center circular badge ── */
+.sr-badge{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:360px;height:360px;
+  border-radius:50%;
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(24px) saturate(1.8) brightness(1.1);
+  -webkit-backdrop-filter:blur(24px) saturate(1.8) brightness(1.1);
+  border:1px solid rgba(255,255,255,.18);
   display:flex;
-  align-items:flex-end;
-  gap:8px;
-  padding:16px 18px;
-  border-radius:inherit;
-}
-.reel-slide:hover .reel-ov{opacity:1;}
-
-/* Glass category chip */
-.reel-cat{
-  font-family:var(--f-body);
-  font-size:.6rem;
-  font-weight:500;
-  letter-spacing:.07em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.58);
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:50px;
-  padding:3px 9px;
-  white-space:nowrap;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:18px;
+  z-index:10;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    inset 0 -1px 0 rgba(255,255,255,.06),
+    0 8px 48px rgba(0,0,0,.25);
 }
 
-/* Glass project name pill */
-.reel-lbl{
+.sr-brand{
   font-family:var(--f-head);
-  font-size:.7rem;
+  font-size:.95rem;
   font-weight:600;
-  letter-spacing:.04em;
-  color:#fff;
-  background:rgba(255,255,255,.13);
-  backdrop-filter:blur(12px) saturate(1.5);
-  -webkit-backdrop-filter:blur(12px) saturate(1.5);
-  border:1px solid rgba(255,255,255,.22);
-  border-radius:50px;
-  padding:5px 13px;
-  white-space:nowrap;
-  transform:translateY(7px);
-  transition:transform .38s var(--ease);
+  color:rgba(255,255,255,.55);
+  letter-spacing:.12em;
+  text-transform:uppercase;
 }
-.reel-slide:hover .reel-lbl{transform:translateY(0);}
+.sr-brand span{color:var(--c-acc);}
 
-/* Index badge — top right */
-.reel-idx{
-  position:absolute;top:13px;right:13px;z-index:3;
+.sr-count{
   font-family:var(--f-head);
-  font-size:.6rem;font-weight:700;
-  letter-spacing:.05em;
-  color:rgba(255,255,255,.82);
-  background:rgba(8,17,30,.38);
-  backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:50px;
-  padding:3px 9px;
-  opacity:0;
-  transform:translateY(-5px);
-  transition:opacity .3s var(--ease),transform .3s var(--ease);
+  font-size:2.55rem;
+  font-weight:800;
+  line-height:1.15;
+  color:#fff;
+  letter-spacing:-.02em;
 }
-.reel-slide:hover .reel-idx{opacity:1;transform:translateY(0);}
 
-/* Depth shimmer — inherits from .gcard shimmer concept */
-.reel-slide::after{
-  content:'';
-  position:absolute;top:0;left:-80%;
-  width:55%;height:100%;z-index:2;
-  background:linear-gradient(100deg,
-    transparent,
-    rgba(255,255,255,.07),
-    transparent
-  );
-  transition:left .65s var(--ease);
-  pointer-events:none;
+.sr-cta-btn{
+  display:inline-block;
+  background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);
+  color:#fff;
+  font-family:var(--f-body);
+  font-size:.88rem;
+  font-weight:600;
+  padding:11px 28px;
+  border-radius:50px;
+  text-decoration:none;
+  box-shadow:0 4px 24px rgba(109,40,217,.45);
+  transition:transform .25s ease,box-shadow .25s ease;
 }
-.reel-slide:hover::after{left:130%;}
+.sr-cta-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 36px rgba(109,40,217,.65);
+}
 
 /* ── Responsive ── */
+@media(max-width:1100px){
+  .sr-card{flex:0 0 260px;height:170px;}
+  .sr-badge{width:310px;height:310px;}
+  .sr-count{font-size:2.1rem;}
+}
 @media(max-width:900px){
-  #showcase-reel{padding:64px 0 56px;}
-  .reel-hd{margin-bottom:36px;}
-  .reel-slide{width:278px;height:184px;}
-  .reel-stage+.reel-stage{margin-top:14px;}
+  #showcase-reel{padding:48px 0;}
+  .sr-card{flex:0 0 220px;height:144px;border-radius:10px;}
+  .sr-badge{width:270px;height:270px;gap:14px;}
+  .sr-count{font-size:1.8rem;}
+  .sr-brand{font-size:.82rem;}
 }
 @media(max-width:640px){
-  /* 640px .sec rule above already covers this, but keep for specificity */
-  .reel-hd{margin-bottom:28px;}
-  .reel-slide{width:218px;height:148px;margin-right:12px;border-radius:var(--r-md);}
-  .reel-slide::before{height:1.5px;}
-  .reel-cat{display:none;}
-  .reel-stage+.reel-stage{margin-top:12px;}
-  /* Tighten edge mask on mobile (less wasted width) */
-  .reel-stage{
-    -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 6%,#000 94%,transparent 100%);
-    mask-image:linear-gradient(to right,transparent 0%,#000 6%,#000 94%,transparent 100%);
-  }
+  #showcase-reel{padding:36px 0;}
+  .sr-card{flex:0 0 168px;height:110px;border-radius:8px;}
+  .sr-badge{width:210px;height:210px;gap:10px;}
+  .sr-count{font-size:1.35rem;}
+  .sr-brand{font-size:.7rem;letter-spacing:.08em;}
+  .sr-cta-btn{font-size:.74rem;padding:8px 18px;}
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -4169,120 +4043,41 @@ section{isolation:isolate}
 </div>
 
 <!-- ===== 11. SHOWCASE REEL ===== -->
-<section id="showcase-reel">
+<section id="showcase-reel" aria-label="Project showcase">
+  <div class="sr-grid">
 
-  <!-- Section header -->
-  <!-- <div class="reel-hd anim">
-    <div class="tag">Project Gallery</div>
-    <h2 class="ttl">Work That <span>Speaks Volumes</span></h2>
-    <p class="reel-hd-sub">A glimpse into the digital experiences we craft for ambitious brands worldwide.</p>
-  </div> -->
+    <!-- Row 1: left → right -->
+    <div class="sr-row">
+      <div class="sr-track sr-track--fwd" id="srA">
+        <div class="sr-card"><img src="Assets/Portfolio/1.webp"  alt="E-Commerce Platform" loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/2.webp"  alt="Fashion Store"        loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/3.webp"  alt="Fitness Platform"     loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/4.webp"  alt="Healthcare Portal"    loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/5.webp"  alt="Education App"        loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/6.webp"  alt="Hotel Booking Site"   loading="lazy" decoding="async"></div>
+      </div>
+    </div>
 
-  <!-- ── RAIL A: continuously left → right ── -->
-  <div class="reel-stage" aria-label="Forward project showcase">
-    <div class="reel-track reel-track--fwd" id="reelA">
+    <!-- Row 2: right → left -->
+    <div class="sr-row">
+      <div class="sr-track sr-track--rev" id="srB">
+        <div class="sr-card"><img src="Assets/Portfolio/7.webp"  alt="Event Platform"       loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/8.webp"  alt="Photography Studio"   loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/9.webp"  alt="Real Estate App"      loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/10.webp" alt="SaaS Dashboard"       loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/1.webp"  alt="E-Commerce Platform"  loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/2.webp"  alt="Fashion Store"        loading="lazy" decoding="async"></div>
+      </div>
+    </div>
 
-      <a class="reel-slide" href="#portfolio" aria-label="PakCart E-Commerce Platform">
-        <img src="Assets/Portfolio/1.webp" alt="E-Commerce Platform" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">E-Commerce</span>
-          <span class="reel-lbl">PakCart Platform</span>
-        </div>
-        <span class="reel-idx">01</span>
-      </a>
+    <!-- Center badge -->
+    <div class="sr-badge">
+      <div class="sr-brand">Drio <span>Web</span></div>
+      <div class="sr-count">150+ Projects<br>Delivered</div>
+      <a href="#portfolio" class="sr-cta-btn">View Projects</a>
+    </div>
 
-      <a class="reel-slide" href="#portfolio" aria-label="Lumina SaaS Dashboard">
-        <img src="Assets/Portfolio/10.webp" alt="SaaS Dashboard" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">SaaS</span>
-          <span class="reel-lbl">Lumina Dashboard</span>
-        </div>
-        <span class="reel-idx">02</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Nova Fashion Store">
-        <img src="Assets/Portfolio/2.webp" alt="Fashion E-Commerce" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Fashion</span>
-          <span class="reel-lbl">Nova Fashion Store</span>
-        </div>
-        <span class="reel-idx">03</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="PropVault Real Estate App">
-        <img src="Assets/Portfolio/9.webp" alt="Real Estate Platform" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Real Estate</span>
-          <span class="reel-lbl">PropVault App</span>
-        </div>
-        <span class="reel-idx">04</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="PulseKit Fitness Platform">
-        <img src="Assets/Portfolio/3.webp" alt="Fitness Application" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Health &amp; Fitness</span>
-          <span class="reel-lbl">PulseKit Platform</span>
-        </div>
-        <span class="reel-idx">05</span>
-      </a>
-
-    </div><!-- /reel-track--fwd -->
-  </div><!-- /reel-stage -->
-
-  <!-- ── RAIL B: continuously right → left ── -->
-  <div class="reel-stage" aria-label="Reverse project showcase">
-    <div class="reel-track reel-track--rev" id="reelB">
-
-      <a class="reel-slide" href="#portfolio" aria-label="Framewerk Photography Studio">
-        <img src="Assets/Portfolio/8.webp" alt="Photography Studio Site" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Photography</span>
-          <span class="reel-lbl">Framewerk Studio</span>
-        </div>
-        <span class="reel-idx">09</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Medix Healthcare Portal">
-        <img src="Assets/Portfolio/4.webp" alt="Healthcare Portal" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Healthcare</span>
-          <span class="reel-lbl">Medix Portal</span>
-        </div>
-        <span class="reel-idx">10</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Evently Event Platform">
-        <img src="Assets/Portfolio/7.webp" alt="Event Management Platform" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Events</span>
-          <span class="reel-lbl">Evently Platform</span>
-        </div>
-        <span class="reel-idx">11</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Learnly Education App">
-        <img src="Assets/Portfolio/5.webp" alt="Education Application" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">EdTech</span>
-          <span class="reel-lbl">Learnly App</span>
-        </div>
-        <span class="reel-idx">12</span>
-      </a>
-
-      <a class="reel-slide" href="#portfolio" aria-label="Luxe Hotel Booking Site">
-        <img src="Assets/Portfolio/6.webp" alt="Luxury Hotel Website" loading="lazy" decoding="async" width="680" height="448">
-        <div class="reel-ov">
-          <span class="reel-cat">Luxury</span>
-          <span class="reel-lbl">Luxe Hotels</span>
-        </div>
-        <span class="reel-idx">13</span>
-      </a>
-
-
-    </div><!-- /reel-track--rev -->
-  </div><!-- /reel-stage -->
-
+  </div>
 </section>
 
 <!-- ===== 2. ABOUT =====
@@ -7138,51 +6933,32 @@ window.addEventListener('load',()=>{
   });
 })();
 
-/* ── SHOWCASE REEL — seamless clone + IntersectionObserver pause ── */
+/* ── SHOWCASE REEL — infinite slider clone + pause ── */
 (function(){
-  /* Skip if user prefers reduced motion — browser will collapse the
-     animation to a single frame via the @media rule anyway, but we
-     also skip the clone to keep DOM lean */
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
 
-  ['reelA','reelB'].forEach(function(id){
+  ['srA','srB'].forEach(function(id){
     var track=document.getElementById(id);
     if(!track) return;
-
-    /* 1. Clone all original slides and append — this makes the track
-          exactly 2× the single-set width, so CSS translateX(-50%)
-          lands precisely at the start of the clone set (invisible reset). */
-    var originals=Array.from(track.children);
-    originals.forEach(function(slide){
-      var clone=slide.cloneNode(true);
-      /* Clones are aria-hidden: screen readers only need the originals */
+    Array.from(track.children).forEach(function(card){
+      var clone=card.cloneNode(true);
       clone.setAttribute('aria-hidden','true');
-      clone.setAttribute('tabindex','-1');
       track.appendChild(clone);
     });
   });
 
-  /* 2. Pause animation when the section scrolls out of view —
-        saves GPU cycles when the user is elsewhere on the page. */
   var section=document.getElementById('showcase-reel');
   if(!section) return;
-
-  var stages=section.querySelectorAll('.reel-stage');
+  var tracks=section.querySelectorAll('.sr-track');
   var paused=false;
-
-  var reelObs=new IntersectionObserver(function(entries){
+  new IntersectionObserver(function(entries){
     entries.forEach(function(en){
-      var shouldPause=!en.isIntersecting;
-      if(shouldPause===paused) return;
-      paused=shouldPause;
-      stages.forEach(function(stage){
-        var track=stage.querySelector('.reel-track');
-        if(track) track.style.animationPlayState=paused?'paused':'running';
-      });
+      var stop=!en.isIntersecting;
+      if(stop===paused) return;
+      paused=stop;
+      tracks.forEach(function(t){t.style.animationPlayState=paused?'paused':'running';});
     });
-  },{rootMargin:'200px 0px 200px 0px'}); /* pre-resume before entering view */
-
-  reelObs.observe(section);
+  },{rootMargin:'200px 0px 200px 0px'}).observe(section);
 })();
 
 /* ═══════════════════════════════════════════════════════════

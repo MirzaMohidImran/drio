@@ -7,26 +7,32 @@
 <!-- DNS prefetch — free parallel lookups, no connection cost -->
 <link rel="dns-prefetch" href="https://fonts.googleapis.com"/>
 <link rel="dns-prefetch" href="https://fonts.gstatic.com"/>
-<link rel="dns-prefetch" href="https://picsum.photos"/>
-<!-- Preconnect for font origin — establishes TCP+TLS socket before CSS arrives -->
+<link rel="dns-prefetch" href="https://cdn.simpleicons.org"/>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net"/>
+<!-- Preconnect — establishes TCP+TLS sockets before requests fire -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://cdn.simpleicons.org" crossorigin/>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
 <!-- Non-blocking font CSS: preload fetches in parallel, onload promotes
      to stylesheet once downloaded — removes render-blocking from critical path -->
-<link rel="preload" as="style"
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"
+<link rel="preload" as="style" fetchpriority="high"
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Figtree:wght@400;500;600&display=swap"
       onload="this.onload=null;this.rel='stylesheet'"/>
-<!-- Fallback for JS-disabled browsers -->
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap"/></noscript>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Figtree:wght@400;500;600&display=swap"/></noscript>
 <!-- Theme color — Chrome mobile address bar matches brand accent -->
 <meta name="theme-color" content="#0284c7"/>
-<meta name="description" content="Drio Web builds high-converting Shopify and eCommerce stores for US brands. Expert Shopify developers, clean code, performance-first. Get a free strategy call today."/>
+<meta name="description" content="Drio Web builds high-converting eCommerce stores and custom websites for US brands. Expert web developers, clean code, performance-first. Get a free strategy call today."/>
 <meta name="google-site-verification" content="uBhhRlEIp_gD9Jua9o5kbTAHtiRHSGcCG2HvXI7wufQ" />
-<!-- Swiper 11 — loaded only on mobile to avoid shipping slider code to desktop -->
-<link rel="preload" as="style"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-      onload="this.onload=null;this.rel='stylesheet'"/>
-<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/></noscript>
+<!-- Swiper 11 CSS — injected only on mobile where the swiper is used -->
+<script>
+if(window.matchMedia('(max-width:768px)').matches){
+  var _sl=document.createElement('link');
+  _sl.rel='stylesheet';
+  _sl.href='https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+  document.head.appendChild(_sl);
+}
+</script>
 <style>
 /* =============================================
    DESIGN TOKENS — Liquid Crystal Tech
@@ -68,7 +74,8 @@
    RESET + BASE
    ============================================= */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;scroll-behavior:smooth}
+html{font-size:16px}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{
   font-family:var(--f-body);
   background:var(--c-bg);
@@ -81,6 +88,16 @@ img,svg{display:block;max-width:100%}
 a{text-decoration:none;color:inherit}
 button{border:none;background:none;cursor:none;font-family:inherit}
 ::selection{background:rgba(2,132,199,.18);color:#08111e}
+
+/* =============================================
+   PERFORMANCE — content-visibility for below-fold sections
+   Defers rendering cost until sections enter viewport.
+   contain-intrinsic-size prevents layout shift during skip.
+   ============================================= */
+#stats,#portfolio,#testimonials,#cta,#faq,#contact{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 600px;
+}
 
 /* =============================================
    SCROLLBAR
@@ -99,6 +116,7 @@ button{border:none;background:none;cursor:none;font-family:inherit}
   transform:translate(-50%,-50%);
   transition:width .2s var(--ease),height .2s var(--ease),opacity .2s;
   mix-blend-mode:multiply;
+  contain:layout style size;
 }
 #cur2{
   position:fixed;top:0;left:0;z-index:9998;pointer-events:none;
@@ -106,6 +124,7 @@ button{border:none;background:none;cursor:none;font-family:inherit}
   border:1.5px solid rgba(2,132,199,.45);
   transform:translate(-50%,-50%);
   transition:transform .08s linear;
+  contain:layout style size;
 }
 body.hovering #cur{width:18px;height:18px}
 body.hovering #cur2{width:56px;height:56px;border-color:rgba(2,132,199,.75)}
@@ -131,6 +150,7 @@ body{background:#ffffff}
 .site-bg{
   position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
   background:#ffffff;
+  contain:layout style;
 }
 
 /* ── CANVAS MESH ── */
@@ -139,11 +159,9 @@ body{background:#ffffff}
   width:100%;height:100%;
   opacity:0;
   transition:opacity 1.2s ease;
-  will-change:opacity;
-  /* composited on its own GPU layer */
   transform:translateZ(0);
 }
-#bg-mesh.rdy{opacity:1}
+#bg-mesh.rdy{opacity:1;will-change:auto}
 
 /* ── DOT GRID  (replaces line grid — more premium) ── */
 .bg-grid{
@@ -166,7 +184,10 @@ body{background:#ffffff}
     radial-gradient(ellipse 50% 35% at 15% 55%, rgba(99,102,241,.045) 0%,transparent 60%),
     radial-gradient(ellipse 55% 40% at 85% 80%, rgba(2,132,199,.04)  0%,transparent 60%),
     radial-gradient(ellipse 40% 30% at 30% 90%, rgba(56,189,248,.035) 0%,transparent 55%);
-  animation:lightDrift 30s ease-in-out infinite;
+  contain:layout style;
+}
+@media(prefers-reduced-motion:no-preference){
+  .bg-light{animation:lightDrift 30s ease-in-out infinite;}
 }
 @keyframes lightDrift{
   0%,100%{transform:translate(0,0) scale(1)}
@@ -201,6 +222,7 @@ body{background:#ffffff}
     transparent 72%);
   transform:translate(-50%,-50%);
   transition:transform .18s linear;
+  contain:layout style size;
   will-change:transform;
 }
 
@@ -2266,7 +2288,9 @@ section{isolation:isolate}
     transition-duration:.01ms !important;
   }
   .orb,.hero-streak,.orbit-track,.ring,.hc,
-  #hero-cvs,.svc-blob,.rev-blob{animation:none !important}
+  #hero-cvs,.svc-blob,.rev-blob,
+  .sr-track,.tech-belt,.marquee-track,
+  .bg-light{animation:none !important}
 }
 
 /* =============================================
@@ -2381,8 +2405,9 @@ section{isolation:isolate}
   display:flex;
   gap:14px;
   width:max-content;
-  will-change:transform;
   transform:translate3d(0,0,0);
+  will-change:transform;
+  backface-visibility:hidden;
 }
 
 @keyframes srFwd{
@@ -4050,26 +4075,23 @@ section{isolation:isolate}
     <!-- Row 1: left → right -->
     <div class="sr-row">
       <div class="sr-track sr-track--fwd" id="srA">
-        <div class="sr-card"><img src="Assets/Portfolio/1.webp"  alt="E-Commerce Platform" loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/2.webp"  alt="Fashion Store"        loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/3.webp"  alt="Fitness Platform"     loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/4.webp"  alt="Healthcare Portal"    loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/5.webp"  alt="Education App"        loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/6.webp"  alt="Hotel Booking Site"   loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/1.png"  alt="E-Commerce Platform" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/2.png"  alt="Fashion Store"        decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/3.png"  alt="Fitness Platform"     decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/4.webp"  alt="Healthcare Portal"    decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/6.png"  alt="Education App"        decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/5.webp"  alt="Hotel Booking Site"   decoding="async"></div>
       </div>
     </div>
 
     <!-- Row 2: right → left -->
     <div class="sr-row">
       <div class="sr-track sr-track--rev" id="srB">
-        <div class="sr-card"><img src="Assets/Portfolio/12.png"  alt="Event Platform"       loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/7.webp"  alt="Event Platform"       loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/8.webp"  alt="Photography Studio"   loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/9.webp"  alt="Real Estate App"      loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/10.webp" alt="SaaS Dashboard"       loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/1.webp"  alt="E-Commerce Platform"  loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/2.webp"  alt="Fashion Store"        loading="lazy" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/11.png" alt="SaaS Dashboard"       loading="lazy" decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/7.png"  alt="Event Platform"       decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/8.png"  alt="Event Platform"       decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/9.png"  alt="Photography Studio"   decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/10.png"  alt="Real Estate App"      decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/11.png" alt="SaaS Dashboard"       decoding="async"></div>
       </div>
     </div>
 
@@ -4601,7 +4623,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
         <div class="pcard-img" style="background:linear-gradient(135deg,#1a0c2e,#3d1a5c)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#1a0c2e 0%,#3d1a5c 70%)"><img src="Assets/Portfolio/9.webp" alt=""></div>
           <svg class="ani-icon ani-spark" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24"><path class="s1" d="M12 2l2.4 7.4L22 12l-7.6 2.6L12 22l-2.4-7.4L2 12l7.6-2.6z" fill="currentColor"/><circle class="s2" cx="19.5" cy="4" r="1.8" fill="currentColor"/><circle class="s3" cx="4.5" cy="20" r="1.3" fill="currentColor"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://www.revarcine.com/">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">02</div>
@@ -4620,7 +4642,7 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
         <div class="pcard-img" style="background:linear-gradient(135deg,#0c2a0c,#1a5c1a)">
           <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c2a0c 0%,#1a5c1a 70%)"><img src="Assets/Portfolio/5.webp" alt=""></div>
           <svg class="ani-icon ani-leaf" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c6-6 16-16 20-20C22 2 8 4 4 10c-3 4.5-2 12-2 12z"/><path d="M2 22l9-9"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://www.shop-orea.com/">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">03</div>
@@ -6658,12 +6680,18 @@ window.addEventListener('load',()=>{
     boot();
   }
 
-  /* bg-light subtle tilt on scroll */
+  /* bg-light subtle tilt on scroll — RAF-throttled */
   var bgLight = document.querySelector('.bg-light');
-  if (bgLight) {
+  if (bgLight && !window.matchMedia('(prefers-reduced-motion:reduce)').matches) {
+    var bgLightRaf = false;
     window.addEventListener('scroll', function () {
-      var y = window.scrollY;
-      bgLight.style.transform = 'translateY(' + (y * -.018).toFixed(1) + 'px)';
+      if (!bgLightRaf) {
+        bgLightRaf = true;
+        requestAnimationFrame(function () {
+          bgLight.style.transform = 'translateY(' + (window.scrollY * -.018).toFixed(1) + 'px)';
+          bgLightRaf = false;
+        });
+      }
     }, { passive: true });
   }
 
@@ -6707,11 +6735,15 @@ window.addEventListener('load',()=>{
 (function(){
   var sbar = document.getElementById('sbar');
   if(!sbar) return;
+  var rafPending = false;
   function update(){
     var docH = document.documentElement.scrollHeight - window.innerHeight;
     sbar.style.width = docH > 0 ? (window.scrollY / docH * 100).toFixed(2) + '%' : '0%';
+    rafPending = false;
   }
-  window.addEventListener('scroll', update, {passive:true});
+  window.addEventListener('scroll', function(){
+    if(!rafPending){ rafPending = true; requestAnimationFrame(update); }
+  }, {passive:true});
   update();
 })();
 

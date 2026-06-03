@@ -229,15 +229,15 @@
       }
       .section-title {
         font-family: "Sora", "Nunito", "Poppins", system-ui, sans-serif;
-        font-size: clamp(2.25rem, 4.7vw, 4.8rem);
+        font-size: clamp(1.85rem, 3.2vw, 3.1rem);
         font-weight: 800;
-        line-height: 1.02;
-        letter-spacing: -0.035em;
+        line-height: 1.08;
+        letter-spacing: -0.025em;
       }
       .project-title {
         font-family: "Sora", "Nunito", "Poppins", system-ui, sans-serif;
-        font-size: clamp(2rem, 4vw, 4rem);
-        line-height: 1.02;
+        font-size: clamp(1.55rem, 2.35vw, 2.35rem);
+        line-height: 1.12;
         font-weight: 800;
         margin-top: 1.25rem;
       }
@@ -541,8 +541,14 @@
         align-items: center;
       }
       .hero-title {
-        font-size: clamp(3.25rem, 7vw, 7.4rem);
-        max-width: 940px;
+        font-size: clamp(2.35rem, 5.2vw, 5.2rem);
+        max-width: 820px;
+      }
+      .cta-heading {
+        font-size: clamp(2.1rem, 4.8vw, 4.4rem);
+        line-height: 1;
+        max-width: 900px;
+        margin-inline: auto;
       }
       .accent-text {
         color: var(--brand-deep);
@@ -1333,10 +1339,14 @@
       }
 
       .final-cta {
-        min-height: 72vh;
+        min-height: auto;
+        margin: 4rem auto 0;
+        padding-block: clamp(4.5rem, 9vw, 7rem);
         display: grid;
         place-items: center;
         text-align: center;
+        position: relative;
+        overflow: hidden;
         background:
           radial-gradient(
             circle at 50% 10%,
@@ -1351,6 +1361,36 @@
           var(--deep);
         color: var(--cream);
       }
+      .final-cta .eyebrow {
+        color: var(--brand);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.14);
+        box-shadow: none;
+      }
+      .final-cta .lead {
+        color: rgba(255, 255, 255, 0.72);
+      }
+      .final-cta .btn-primary {
+        background: var(--cream);
+        color: var(--ink);
+        box-shadow: 0 18px 46px rgba(0, 0, 0, 0.22);
+      }
+      .final-cta .btn-primary::after {
+        background: var(--brand);
+      }
+      .final-cta .btn-primary:hover {
+        color: var(--cream);
+      }
+      .final-cta .btn-ghost {
+        border-color: rgba(255, 255, 255, 0.24);
+        color: var(--cream);
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .final-cta .btn-ghost:hover {
+        background: var(--cream);
+        color: var(--ink);
+        border-color: var(--cream);
+      }
       .cta-spin {
         position: absolute;
         inset: -40%;
@@ -1363,8 +1403,8 @@
           transparent
         );
         animation: spin 18s linear infinite;
-        opacity: 0.72;
-        filter: blur(24px);
+        opacity: 0.32;
+        filter: blur(42px);
       }
       @keyframes spin {
         to {
@@ -1490,7 +1530,7 @@
           padding-top: 7rem;
         }
         .hero-title {
-          font-size: clamp(2.75rem, 14vw, 4.6rem);
+          font-size: clamp(2.2rem, 11vw, 3.5rem);
         }
         .hero-visual {
           min-height: auto;
@@ -1516,7 +1556,7 @@
           left: 18px;
         }
         .section-title {
-          font-size: clamp(2.1rem, 10vw, 3.4rem);
+          font-size: clamp(1.75rem, 8vw, 2.55rem);
         }
       }
       @media (max-width: 640px) {
@@ -1550,32 +1590,414 @@
           transform: none;
         }
       }
+
+      /* Homepage header/footer chrome */
+      :root {
+        --c-white: var(--ink);
+        --c-w60: rgba(8, 17, 30, 0.62);
+        --c-w35: rgba(8, 17, 30, 0.35);
+        --c-acc: var(--brand);
+        --c-acc-glow: rgba(2, 132, 199, 0.28);
+        --glass-bdr: rgba(8, 17, 30, 0.1);
+        --glass-bdr2: rgba(2, 132, 199, 0.24);
+        --glass-blur2: blur(16px) saturate(1.3);
+        --ease: cubic-bezier(.22, 1, .36, 1);
+        --f-head: "Sora", "Nunito", "Poppins", system-ui, sans-serif;
+        --f-body: "Figtree", "Inter", system-ui, -apple-system, sans-serif;
+      }
+      .wrap {
+        max-width: 1400px;
+        margin-inline: auto;
+        padding-inline: 56px;
+        position: relative;
+        z-index: 2;
+      }
+      body > nav {
+        position: fixed;
+        top: 0;
+        inset-inline: 0;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 56px;
+        backdrop-filter: var(--glass-blur2);
+        background: rgba(255, 255, 255, .82);
+        border-bottom: 1px solid var(--glass-bdr);
+        transition: padding .4s var(--ease), background .4s;
+      }
+      body > nav.stuck {
+        padding: 14px 56px;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 1px 0 rgba(8, 17, 30, .08);
+      }
+      .nav-brand {
+        font-family: var(--f-head);
+        font-size: 1.45rem;
+        font-weight: 800;
+        letter-spacing: -.03em;
+        color: var(--c-white);
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+      .nav-brand em { color: var(--c-acc); font-style: normal; }
+      .nav-brand .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--c-acc);
+        margin-left: 2px;
+        animation: dotPulse 2.4s infinite;
+      }
+      @keyframes dotPulse {
+        0%,100% { opacity: 1; transform: scale(1); }
+        50% { opacity: .35; transform: scale(.6); }
+      }
+      body > nav .nav-links {
+        display: flex;
+        gap: 38px;
+        list-style: none;
+      }
+      body > nav .nav-links a {
+        font-family: var(--f-body);
+        font-size: .82rem;
+        font-weight: 500;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--c-w60);
+        transition: color .2s;
+        position: relative;
+      }
+      body > nav .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--c-acc);
+        transition: width .3s var(--ease);
+      }
+      body > nav .nav-links a:hover { color: var(--c-acc); }
+      body > nav .nav-links a:hover::after { width: 100%; }
+      .nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 26px;
+        border-radius: 100px;
+        background: linear-gradient(135deg, rgba(2,132,199,.10), rgba(2,132,199,.04));
+        border: 1px solid var(--glass-bdr2);
+        font-family: var(--f-body);
+        font-size: .84rem;
+        font-weight: 600;
+        color: var(--c-acc);
+        backdrop-filter: blur(12px);
+        transition: all .3s var(--ease);
+      }
+      .nav-btn:hover {
+        background: var(--c-acc);
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px var(--c-acc-glow);
+      }
+      .nav-hamburger { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+      .nav-hamburger span { width: 22px; height: 1.5px; background: var(--c-w60); transition: all .3s; }
+      .mob-menu {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 150;
+        background: rgba(255, 255, 255, .98);
+        backdrop-filter: blur(24px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 36px;
+      }
+      .mob-menu.open { display: flex; }
+      .mob-close { position: absolute; top: 24px; right: 28px; font-size: 1.6rem; color: var(--c-w60); cursor: pointer; }
+      .mob-menu a { font-family: var(--f-head); font-size: 1.6rem; font-weight: 700; color: var(--c-white); }
+      .mob-menu a:hover { color: var(--c-acc); }
+      .btn-p {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 36px;
+        border-radius: 100px;
+        background: linear-gradient(135deg, var(--c-acc) 0%, #0369a1 50%, var(--c-acc) 100%);
+        background-size: 200% 100%;
+        font-family: var(--f-body);
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: .01em;
+        transition: all .4s var(--ease), background-position .5s var(--ease);
+      }
+      .btn-p:hover {
+        background-position: 100% 0;
+        box-shadow: 0 14px 52px rgba(2,132,199,.5), 0 4px 16px rgba(2,132,199,.25);
+        transform: translateY(-4px) scale(1.03);
+      }
+      main#top { padding-top: 82px; }
+      footer {
+        border-top: 1px solid var(--glass-bdr);
+        padding: 32px 0 36px;
+        position: relative;
+        z-index: 2;
+        background: linear-gradient(to bottom, rgba(244,247,255,.5), rgba(255,255,255,.92));
+        backdrop-filter: blur(8px);
+      }
+      .footer-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--glass-bdr);
+        margin-bottom: 24px;
+      }
+      .footer-book-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 22px;
+        border-radius: 100px;
+        background: var(--c-white);
+        color: #fff;
+        font-family: var(--f-body);
+        font-size: .88rem;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: all .3s var(--ease);
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(8,17,30,.18);
+      }
+      .footer-book-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(8,17,30,.22); }
+      .footer-book-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.08));
+        border: 1.5px solid rgba(255,255,255,.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .75rem;
+        flex-shrink: 0;
+      }
+      .footer-back-top {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--f-body);
+        font-size: .84rem;
+        font-weight: 500;
+        color: var(--c-w60);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        cursor: pointer;
+        transition: color .2s;
+        background: none;
+        border: none;
+      }
+      .footer-back-top:hover { color: var(--c-white); }
+      .footer-back-top .arr { font-size: .8rem; }
+      .footer-bottom { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+      .footer-copy { font-size: .83rem; color: var(--c-w60); }
+      .footer-links { display: flex; align-items: center; gap: 0; list-style: none; font-size: .82rem; }
+      .footer-links li a { color: var(--c-w60); text-decoration: none; padding: 0 14px; transition: color .2s; }
+      .footer-links li a:hover { color: var(--c-white); }
+      .footer-links .sep { color: var(--c-w35); font-size: .5rem; }
+      .footer-socials { display: flex; gap: 12px; }
+      .footer-soc-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        background: transparent;
+        border: 1px solid var(--glass-bdr);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .8rem;
+        color: var(--c-w60);
+        transition: all .25s var(--ease);
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .footer-soc-btn:hover { border-color: var(--glass-bdr2); color: var(--c-acc); background: rgba(2,132,199,.07); }
+      @media (max-width: 900px) {
+        body > nav .nav-links, .nav-btn { display: none; }
+        .nav-hamburger { display: flex; }
+      }
+      @media (max-width: 640px) {
+        .wrap { padding-inline: 24px; }
+        body > nav { padding: 18px 24px; }
+        body > nav.stuck { padding: 14px 24px; }
+        .footer-top { flex-direction: column; gap: 16px; align-items: flex-start; }
+        .footer-back-top { align-self: flex-end; margin-top: -44px; }
+        .footer-links { flex-wrap: wrap; justify-content: center; }
+      }
+
+      /* Exact homepage navbar override */
+      :root {
+        --c-bg: #ffffff;
+        --c-bg2: #ffffff;
+        --c-bg3: #f5f5f5;
+        --c-acc: #0284c7;
+        --c-acc2: #0369a1;
+        --c-acc-glow: rgba(2,132,199,.22);
+        --c-white: #08111e;
+        --c-w60: rgba(8,17,30,.60);
+        --c-w35: rgba(8,17,30,.38);
+        --glass-bdr: rgba(8,17,30,.09);
+        --glass-bdr2: rgba(2,132,199,.30);
+        --glass-blur2: blur(16px) saturate(1.3);
+        --f-head: 'Sora', 'Nunito', 'Poppins', system-ui, sans-serif;
+        --f-body: 'Figtree', 'Inter', system-ui, -apple-system, sans-serif;
+        --ease: cubic-bezier(.22,1,.36,1);
+      }
+      nav#nav {
+        position: fixed;
+        top: 0;
+        inset-inline: 0;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 56px;
+        backdrop-filter: var(--glass-blur2);
+        background: rgba(255,255,255,.82);
+        border-bottom: 1px solid var(--glass-bdr);
+        transition: padding .4s var(--ease), background .4s;
+      }
+      nav#nav.stuck {
+        padding: 14px 56px;
+        background: rgba(255,255,255,.96);
+        box-shadow: 0 1px 0 rgba(8,17,30,.08);
+      }
+      nav#nav .nav-brand {
+        font-family: var(--f-head);
+        font-size: 1.45rem;
+        font-weight: 800;
+        letter-spacing: -.03em;
+        color: var(--c-white);
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
+      nav#nav .nav-brand em { color: var(--c-acc); font-style: normal; }
+      nav#nav .nav-brand .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--c-acc);
+        margin-left: 2px;
+        animation: dotPulse 2.4s infinite;
+      }
+      nav#nav .nav-links { display: flex; gap: 38px; list-style: none; }
+      nav#nav .nav-links a {
+        font-family: var(--f-body);
+        font-size: .82rem;
+        font-weight: 500;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--c-w60);
+        transition: color .2s;
+        position: relative;
+      }
+      nav#nav .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--c-acc);
+        transition: width .3s var(--ease);
+      }
+      nav#nav .nav-links a:hover { color: var(--c-acc); }
+      nav#nav .nav-links a:hover::after { width: 100%; }
+      nav#nav .nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 26px;
+        border-radius: 100px;
+        background: linear-gradient(135deg,rgba(2,132,199,.10),rgba(2,132,199,.04));
+        border: 1px solid var(--glass-bdr2);
+        font-family: var(--f-body);
+        font-size: .84rem;
+        font-weight: 600;
+        color: var(--c-acc);
+        backdrop-filter: blur(12px);
+        transition: all .3s var(--ease);
+      }
+      nav#nav .nav-btn:hover {
+        background: var(--c-acc);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 32px var(--c-acc-glow);
+      }
+      nav#nav .nav-hamburger { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+      nav#nav .nav-hamburger span { width: 22px; height: 1.5px; background: var(--c-w60); transition: all .3s; }
+      #sbar {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        height: 2px;
+        width: 0%;
+        background: linear-gradient(90deg,var(--c-acc),rgba(99,102,241,.75),var(--c-acc));
+        background-size: 200%;
+        animation: sbarShimmer 3s linear infinite;
+        transition: width .12s linear;
+        pointer-events: none;
+        border-radius: 0 2px 2px 0;
+      }
+      @keyframes sbarShimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+      @media (max-width: 900px) {
+        nav#nav .nav-links,
+        nav#nav .nav-btn { display: none; }
+        nav#nav .nav-hamburger { display: flex; }
+      }
+      @media (max-width: 640px) {
+        nav#nav { padding: 18px 24px; }
+        nav#nav.stuck { padding: 14px 24px; }
+      }
     </style>
   </head>
 
   <body>
     <div class="cursor-dot" aria-hidden="true"></div>
 
-    <!-- Sticky header: copied theme style from index.html -->
-    <header class="header" id="siteHeader">
-      <div class="header-inner">
-        <a href="index.html" class="logo" aria-label="Drio Web home">
-          <span class="logo-icon" aria-hidden="true"></span>
-          <span>Drio Web</span>
-        </a>
-        <nav class="nav" aria-label="Primary navigation">
-          <a class="nav-link" href="index.html">Home</a>
-          <a class="nav-link" href="#featured">Featured</a>
-          <a class="nav-link" href="#reviews">Testimonials</a>
-          <a class="nav-link" href="#stats">Results</a>
-          <a class="nav-link" href="#process">Process</a>
-          <a class="nav-link" href="#contact">Contact</a>
-        </nav>
-        <a href="#contact" class="btn btn-primary"
-          >Start Project <span>↗</span></a
-        >
-      </div>
-    </header>
+    <!-- ===== NAV ===== -->
+    <nav id="nav">
+      <div id="sbar"></div>
+      <a href="index.html" class="nav-brand" aria-label="Drio Web home">drio<em>web</em><span class="dot"></span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="#featured">Work</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="https://calendly.com/dayyanjavaid/30-minute-strategy-session" target="_blank" rel="noopener noreferrer" class="nav-btn">Free Consultation &rarr;</a>
+      <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mob-menu" id="mobMenu">
+      <span class="mob-close" id="mobClose">&times;</span>
+      <a href="index.html" onclick="closeMob()">Home</a>
+      <a href="index.html#about" onclick="closeMob()">About</a>
+      <a href="index.html#services" onclick="closeMob()">Services</a>
+      <a href="#featured" onclick="closeMob()">Work</a>
+      <a href="#reviews" onclick="closeMob()">Reviews</a>
+      <a href="index.html#faq" onclick="closeMob()">FAQ</a>
+      <a href="#contact" onclick="closeMob()">Contact</a>
+      <a href="https://calendly.com/dayyanjavaid/30-minute-strategy-session" target="_blank" rel="noopener noreferrer" class="btn-p" onclick="closeMob()" style="font-size:.95rem">Book Free Call &rarr;</a>
+    </div>
 
     <main id="top">
       <!-- HERO SECTION -->
@@ -1703,10 +2125,10 @@
           <div class="max-w-[920px]">
             <span class="eyebrow reveal">Featured Projects</span>
             <h2 class="section-title mt-5 reveal delay-1">
-              Custom websites and commerce builds engineered to convert.
+              The exact portfolio projects featured on the Drio Web homepage.
             </h2>
             <p class="lead mt-5 reveal delay-2">
-              A focused look at Drio Web work across Shopify, WooCommerce, WordPress, landing pages, and custom web applications. Every project is shaped around clean UX, fast performance, and measurable business outcomes.
+              These are the live Shopify, WordPress, and Framer projects shown in the homepage portfolio section, with matching images, descriptions, results, tags, and project links.
             </p>
           </div>
 
@@ -1716,21 +2138,21 @@
                 <div class="browser" aria-hidden="true">
                   <div class="browser-head"><i></i><i></i><i></i></div>
                   <div class="browser-body project-proof-body">
-                    <img class="project-proof-img" src="Assets/Portfolio/1.png" alt="Custom eCommerce platform by Drio Web" loading="lazy" />
+                    <img class="project-proof-img" src="Assets/Portfolio/2.png" alt="Vital Lifestylez Shopify redesign" loading="lazy" />
                   </div>
                 </div>
               </div>
               <div class="project-content">
-                <span class="badge">Shopify Development</span>
-                <h3 class="project-title">High-converting storefront for a growing product brand</h3>
-                <p class="lead mt-4">We designed and developed a polished Shopify experience with a faster product journey, cleaner mobile navigation, and conversion-focused sections for offers, reviews, bundles, and FAQs.</p>
-                <p class="lead mt-4">The build follows Drio Web's main-site promise: no generic templates, no guesswork, just a store that feels premium and performs under real traffic.</p>
-                <div class="tech-tags mt-6"><span>Shopify</span><span>Liquid</span><span>CRO</span><span>Performance</span></div>
+                <span class="badge">Shopify</span>
+                <h3 class="project-title">Vital Lifestylez - Shopify Redesign</h3>
+                <p class="lead mt-4">Redesigned the Shopify store for Vital Lifestylez with a focus on speed and conversions. Improved site performance, optimized user experience, and implemented CRO strategies to drive better engagement.</p>
+                <div class="tech-tags mt-6"><span>Shopify</span><span>Liquid</span><span>Custom Theme</span><span>CRO</span></div>
                 <div class="result-grid mt-6">
-                  <div class="result-box"><strong>+34%</strong><span>Average conversion lift</span></div>
-                  <div class="result-box"><strong>90+</strong><span>Lighthouse target</span></div>
-                  <div class="result-box"><strong>Mobile</strong><span>First checkout flow</span></div>
+                  <div class="result-box"><strong>30%</strong><span>Achieved approximately 30-45% increase in sales.</span></div>
+                  <div class="result-box"><strong>Fast</strong><span>Improved load times and experience.</span></div>
+                  <div class="result-box"><strong>CRO</strong><span>Conversion-focused layout.</span></div>
                 </div>
+                <div class="mt-6"><a href="https://vitallifestylez.com/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">View Project <span>↗</span></a></div>
               </div>
             </article>
 
@@ -1739,21 +2161,21 @@
                 <div class="browser" aria-hidden="true">
                   <div class="browser-head"><i></i><i></i><i></i></div>
                   <div class="browser-body project-proof-body">
-                    <img class="project-proof-img" src="Assets/Portfolio/2.png" alt="Fashion eCommerce website by Drio Web" loading="lazy" />
+                    <img class="project-proof-img" src="Assets/Portfolio/9.png" alt="Revar Cine Shopify website" loading="lazy" />
                   </div>
                 </div>
               </div>
               <div class="project-content">
-                <span class="badge">Fashion eCommerce</span>
-                <h3 class="project-title">Premium shopping experience for a fashion brand</h3>
-                <p class="lead mt-4">A visual-first storefront built to make collections easier to browse, product pages easier to trust, and checkout easier to complete across mobile and desktop.</p>
-                <p class="lead mt-4">We balanced brand polish with practical eCommerce architecture: collection filters, high-impact product storytelling, fast-loading imagery, and frictionless cart behavior.</p>
-                <div class="tech-tags mt-6"><span>eCommerce UX</span><span>Collection Pages</span><span>Product Pages</span><span>Checkout CRO</span></div>
+                <span class="badge">Shopify</span>
+                <h3 class="project-title">Revar Cine - Custom Website Development</h3>
+                <p class="lead mt-4">Headless Shopify storefront for a premium skincare brand. Sub-1s load times and an immersive product discovery experience that made every competitor look outdated.</p>
+                <div class="tech-tags mt-6"><span>Shopify Headless</span><span>Next.js</span><span>Storefront API</span></div>
                 <div class="result-grid mt-6">
-                  <div class="result-box"><strong>Fast</strong><span>Browsing flow</span></div>
-                  <div class="result-box"><strong>Clear</strong><span>Product hierarchy</span></div>
-                  <div class="result-box"><strong>Scale</strong><span>Ready sections</span></div>
+                  <div class="result-box"><strong>20-30%</strong><span>Estimated increase in conversions.</span></div>
+                  <div class="result-box"><strong>Fast</strong><span>Performance-first storefront.</span></div>
+                  <div class="result-box"><strong>Polish</strong><span>Premium visual accuracy.</span></div>
                 </div>
+                <div class="mt-6"><a href="https://www.revarcine.com/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">View Project <span>↗</span></a></div>
               </div>
             </article>
 
@@ -1762,21 +2184,21 @@
                 <div class="browser" aria-hidden="true">
                   <div class="browser-head"><i></i><i></i><i></i></div>
                   <div class="browser-body project-proof-body">
-                    <img class="project-proof-img" src="Assets/Portfolio/3.png" alt="Fitness platform website by Drio Web" loading="lazy" />
+                    <img class="project-proof-img" src="Assets/Portfolio/5.png" alt="Orea Shopify store" loading="lazy" />
                   </div>
                 </div>
               </div>
               <div class="project-content">
-                <span class="badge">Custom Web App</span>
-                <h3 class="project-title">Interactive fitness platform with modern product UX</h3>
-                <p class="lead mt-4">A custom web experience for a service-led brand that needed stronger positioning, smoother onboarding, and a more credible digital presence.</p>
-                <p class="lead mt-4">We focused on clean interface patterns, strong calls to action, and reusable components that make the platform easier to expand after launch.</p>
-                <div class="tech-tags mt-6"><span>React</span><span>UX Design</span><span>Component System</span><span>Launch Support</span></div>
+                <span class="badge">Shopify</span>
+                <h3 class="project-title">Orea</h3>
+                <p class="lead mt-4">Built a high-converting one product store for Orea, focused on simplicity and strong sales flow. Designed a clean layout, optimized product presentation, and implemented a streamlined checkout experience to maximize conversions.</p>
+                <div class="tech-tags mt-6"><span>Shopify</span><span>ReCharge</span><span>Subscriptions</span></div>
                 <div class="result-grid mt-6">
-                  <div class="result-box"><strong>Clean</strong><span>User journeys</span></div>
-                  <div class="result-box"><strong>Reusable</strong><span>UI system</span></div>
-                  <div class="result-box"><strong>Launch</strong><span>Ready build</span></div>
+                  <div class="result-box"><strong>40-55%</strong><span>Estimated increase in conversions.</span></div>
+                  <div class="result-box"><strong>Simple</strong><span>Focused one-product flow.</span></div>
+                  <div class="result-box"><strong>Checkout</strong><span>Streamlined purchase path.</span></div>
                 </div>
+                <div class="mt-6"><a href="https://www.shop-orea.com/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">View Project <span>↗</span></a></div>
               </div>
             </article>
 
@@ -1785,21 +2207,21 @@
                 <div class="browser" aria-hidden="true">
                   <div class="browser-head"><i></i><i></i><i></i></div>
                   <div class="browser-body project-proof-body">
-                    <img class="project-proof-img" src="Assets/Portfolio/4.webp" alt="Healthcare website by Drio Web" loading="lazy" />
+                    <img class="project-proof-img" src="Assets/Portfolio/wordpress1.png" alt="Barberprenuer WordPress website" loading="lazy" />
                   </div>
                 </div>
               </div>
               <div class="project-content">
-                <span class="badge">WordPress Development</span>
-                <h3 class="project-title">Trust-building website for a service business</h3>
-                <p class="lead mt-4">A WordPress build created for clarity, speed, and better inquiry quality. The site organizes services, proof, FAQs, and contact paths into a calmer user journey.</p>
-                <p class="lead mt-4">The result is easy for the client to maintain while still feeling custom, polished, and aligned with the Drio Web design system.</p>
-                <div class="tech-tags mt-6"><span>WordPress</span><span>SEO Structure</span><span>Lead Capture</span><span>Speed</span></div>
+                <span class="badge">WordPress</span>
+                <h3 class="project-title">Barberprenuer</h3>
+                <p class="lead mt-4">A polished WordPress website built for a barber-focused business platform, with clear service positioning, strong visual presentation, and a direct path for visitors to explore the brand.</p>
+                <div class="tech-tags mt-6"><span>WordPress</span><span>Business Website</span><span>Brand Experience</span></div>
                 <div class="result-grid mt-6">
-                  <div class="result-box"><strong>SEO</strong><span>Ready pages</span></div>
-                  <div class="result-box"><strong>Easy</strong><span>Content updates</span></div>
-                  <div class="result-box"><strong>Clear</strong><span>Inquiry path</span></div>
+                  <div class="result-box"><strong>Live</strong><span>WordPress business website.</span></div>
+                  <div class="result-box"><strong>Clear</strong><span>Service positioning.</span></div>
+                  <div class="result-box"><strong>Brand</strong><span>Polished visitor experience.</span></div>
                 </div>
+                <div class="mt-6"><a href="https://barberprenuer.com/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">View Project <span>↗</span></a></div>
               </div>
             </article>
 
@@ -1808,21 +2230,21 @@
                 <div class="browser" aria-hidden="true">
                   <div class="browser-head"><i></i><i></i><i></i></div>
                   <div class="browser-body project-proof-body">
-                    <img class="project-proof-img" src="Assets/Portfolio/10.png" alt="Real estate web application by Drio Web" loading="lazy" />
+                    <img class="project-proof-img" src="Assets/Portfolio/wordpress2.png" alt="2032 Dentists WordPress website" loading="lazy" />
                   </div>
                 </div>
               </div>
               <div class="project-content">
-                <span class="badge">Full Stack Development</span>
-                <h3 class="project-title">Custom platform for listings, search, and lead flow</h3>
-                <p class="lead mt-4">A full-stack website experience designed around structured data, faster discovery, and a more useful path from browsing to inquiry.</p>
-                <p class="lead mt-4">We shaped the interface around repeated use: searchable cards, clear details, responsive layouts, and a backend foundation that can grow with the business.</p>
-                <div class="tech-tags mt-6"><span>Next.js</span><span>Node</span><span>Search UX</span><span>CRM Flow</span></div>
+                <span class="badge">WordPress - Dental</span>
+                <h3 class="project-title">2032 Dentists</h3>
+                <p class="lead mt-4">A WordPress dental website designed around trust, simple navigation, and patient inquiry flow, helping visitors understand services and move toward booking with less friction.</p>
+                <div class="tech-tags mt-6"><span>WordPress</span><span>Healthcare</span><span>Lead Capture</span></div>
                 <div class="result-grid mt-6">
-                  <div class="result-box"><strong>Custom</strong><span>Data model</span></div>
-                  <div class="result-box"><strong>Fast</strong><span>Search flow</span></div>
-                  <div class="result-box"><strong>Lead</strong><span>Ready forms</span></div>
+                  <div class="result-box"><strong>Live</strong><span>Healthcare service website.</span></div>
+                  <div class="result-box"><strong>Trust</strong><span>Patient-friendly layout.</span></div>
+                  <div class="result-box"><strong>Leads</strong><span>Inquiry-focused journey.</span></div>
                 </div>
+                <div class="mt-6"><a href="https://www.2032dentists.com/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">View Project <span>↗</span></a></div>
               </div>
             </article>
 
@@ -1831,150 +2253,92 @@
                 <div class="browser" aria-hidden="true">
                   <div class="browser-head"><i></i><i></i><i></i></div>
                   <div class="browser-body project-proof-body">
-                    <img class="project-proof-img" src="Assets/Portfolio/11.png" alt="SaaS dashboard by Drio Web" loading="lazy" />
+                    <img class="project-proof-img" src="Assets/Portfolio/wordpress3.png" alt="Benjamins Realty WordPress website" loading="lazy" />
                   </div>
                 </div>
               </div>
               <div class="project-content">
-                <span class="badge">SaaS Dashboard</span>
-                <h3 class="project-title">Dashboard interface for a modern digital product</h3>
-                <p class="lead mt-4">A dashboard UI built for scanning, comparison, and repeated daily use. We kept the design restrained, readable, and structured around the information users need most.</p>
-                <p class="lead mt-4">The work combines Drio Web's engineering discipline with product-grade interface thinking: consistent components, responsive layouts, and clean interaction states.</p>
-                <div class="tech-tags mt-6"><span>Dashboard UX</span><span>React</span><span>Design System</span><span>Responsive UI</span></div>
+                <span class="badge">WordPress - Real Estate</span>
+                <h3 class="project-title">Benjamins Realty</h3>
+                <p class="lead mt-4">A WordPress real estate website built for clean property discovery, polished brand presentation, and direct visitor paths into inquiries and agent contact.</p>
+                <div class="tech-tags mt-6"><span>WordPress</span><span>Real Estate</span><span>Lead Capture</span></div>
                 <div class="result-grid mt-6">
-                  <div class="result-box"><strong>Dense</strong><span>Readable UI</span></div>
-                  <div class="result-box"><strong>Stable</strong><span>Components</span></div>
-                  <div class="result-box"><strong>Product</strong><span>Ready polish</span></div>
+                  <div class="result-box"><strong>Live</strong><span>Real estate website.</span></div>
+                  <div class="result-box"><strong>Property</strong><span>Clean discovery flow.</span></div>
+                  <div class="result-box"><strong>Contact</strong><span>Direct agent inquiry path.</span></div>
+                </div>
+                <div class="mt-6"><a href="https://www.benjaminsrealty.com/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">View Project <span>↗</span></a></div>
+              </div>
+            </article>
+
+            <article class="project-card reveal">
+              <div class="project-media">
+                <div class="browser" aria-hidden="true">
+                  <div class="browser-head"><i></i><i></i><i></i></div>
+                  <div class="browser-body project-proof-body">
+                    <img class="project-proof-img" src="Assets/Portfolio/framer1.png" alt="Empire Nation Gym Framer website" loading="lazy" />
+                  </div>
                 </div>
               </div>
-            </article>
-          </div>
-        </div>
-      </section>
-      <!-- STATS -->
-      <section id="stats" class="section section-dark">
-        <div class="container-dg relative z-10">
-          <span class="eyebrow reveal">Performance Stats</span>
-          <h2 class="section-title mt-5 reveal delay-1">
-            Numbers that show momentum.
-          </h2>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
-            <article class="metric-card reveal">
-              <div class="metric-value">
-                <span class="counter" data-target="80">0</span>+
+              <div class="project-content">
+                <span class="badge">Framer - Fitness</span>
+                <h3 class="project-title">Empire Nation Gym</h3>
+                <p class="lead mt-4">A bold Framer website for a fitness brand, built around sharp visual rhythm, clear membership messaging, and a confident path from browsing to action.</p>
+                <div class="tech-tags mt-6"><span>Framer</span><span>Fitness</span><span>Motion Design</span></div>
+                <div class="result-grid mt-6">
+                  <div class="result-box"><strong>Live</strong><span>Framer fitness website.</span></div>
+                  <div class="result-box"><strong>Bold</strong><span>Fitness-focused visual system.</span></div>
+                  <div class="result-box"><strong>Action</strong><span>Membership-focused journey.</span></div>
+                </div>
+                <div class="mt-6"><a href="https://empirenationgym.framer.website/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">View Project <span>↗</span></a></div>
               </div>
-              <h3 class="text-xl font-extrabold mt-5">Websites Launched</h3>
-              <p class="text-cream/60 mt-2">
-                Across Shopify, WooCommerce, WordPress, landing pages, and custom code.
-              </p>
             </article>
-            <article class="metric-card reveal delay-1">
-              <div class="metric-value">
-                <span class="counter" data-target="90">0</span>+
-              </div>
-              <h3 class="text-xl font-extrabold mt-5">Lighthouse Target</h3>
-              <p class="text-cream/60 mt-2">
-                Performance-first builds that stay fast on real devices.
-              </p>
-            </article>
-            <article class="metric-card reveal delay-2">
-              <div class="metric-value">
-                <span class="counter" data-target="98">0</span>%
-              </div>
-              <h3 class="text-xl font-extrabold mt-5">Client Satisfaction</h3>
-              <p class="text-cream/60 mt-2">
-                Built through transparent strategy and clean execution.
-              </p>
-            </article>
-            <article class="metric-card reveal delay-3">
-              <div class="metric-value">
-                <span class="counter" data-target="34">0</span>%
-              </div>
-              <h3 class="text-xl font-extrabold mt-5">Conversion Lift</h3>
-              <p class="text-cream/60 mt-2">
-                Average lift from sharper UX, cleaner funnels, and better speed.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
 
-      <!-- TESTIMONIALS -->
-      <section id="reviews" class="section overflow-hidden" aria-labelledby="testimonials-title">
-        <div class="container-dg">
-          <div class="text-center mb-16" style="display:flex;flex-direction:column;align-items:center;text-align:center;">
-            <span class="eyebrow reveal mx-auto">Client Reviews</span>
-            <h2 class="section-title reveal in active mt-5" id="testimonials-title" style="font-size: clamp(2rem, 3.5vw, 3rem); margin-inline:auto;">
-              What clients say about Drio Web
-            </h2>
-          </div>
-          <div class="grid md:grid-cols-3 gap-5">
-            <article class="glass-card p-6 reveal">
-              <div class="rev-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p class="lead mt-4">Drio Web completely transformed our Shopify store. The new site is not just beautiful; it is a revenue machine.</p>
-              <div class="mt-6 font-extrabold">Ahmad Sheikh</div>
-              <div class="text-sm text-mute font-bold">CEO, eCommerce Brand</div>
+            <article class="project-card reveal">
+              <div class="project-media light">
+                <div class="browser" aria-hidden="true">
+                  <div class="browser-head"><i></i><i></i><i></i></div>
+                  <div class="browser-body project-proof-body">
+                    <img class="project-proof-img" src="Assets/Portfolio/framer2.png" alt="Spaces Salon Framer website" loading="lazy" />
+                  </div>
+                </div>
+              </div>
+              <div class="project-content">
+                <span class="badge">Framer - Salon</span>
+                <h3 class="project-title">Spaces Salon</h3>
+                <p class="lead mt-4">A refined Framer salon website with elegant service presentation, strong visual hierarchy, and a smooth booking-focused visitor journey.</p>
+                <div class="tech-tags mt-6"><span>Framer</span><span>Beauty</span><span>Booking Flow</span></div>
+                <div class="result-grid mt-6">
+                  <div class="result-box"><strong>Live</strong><span>Framer salon website.</span></div>
+                  <div class="result-box"><strong>Elegant</strong><span>Refined service presentation.</span></div>
+                  <div class="result-box"><strong>Booking</strong><span>Focused visitor flow.</span></div>
+                </div>
+                <div class="mt-6"><a href="https://spacessalon.framer.website/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">View Project <span>↗</span></a></div>
+              </div>
             </article>
-            <article class="glass-card p-6 reveal delay-1">
-              <div class="rev-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p class="lead mt-4">The attention to detail, speed, and communication were excellent. Our launch felt organized from the first call to handoff.</p>
-              <div class="mt-6 font-extrabold">Sarah Johnson</div>
-              <div class="text-sm text-mute font-bold">Founder, Studio Brand</div>
+
+            <article class="project-card reveal">
+              <div class="project-media">
+                <div class="browser" aria-hidden="true">
+                  <div class="browser-head"><i></i><i></i><i></i></div>
+                  <div class="browser-body project-proof-body">
+                    <img class="project-proof-img" src="Assets/Portfolio/framer3.png" alt="Arverse Framer website" loading="lazy" />
+                  </div>
+                </div>
+              </div>
+              <div class="project-content">
+                <span class="badge">Framer - Immersive</span>
+                <h3 class="project-title">Arverse</h3>
+                <p class="lead mt-4">An immersive Framer website with futuristic visuals, focused sections, and a fast path for visitors to understand the offer and explore the experience.</p>
+                <div class="tech-tags mt-6"><span>Framer</span><span>Immersive UX</span><span>Web Experience</span></div>
+                <div class="result-grid mt-6">
+                  <div class="result-box"><strong>Live</strong><span>Immersive Framer website.</span></div>
+                  <div class="result-box"><strong>Future</strong><span>Futuristic visual direction.</span></div>
+                  <div class="result-box"><strong>Experience</strong><span>Fast path into the offer.</span></div>
+                </div>
+                <div class="mt-6"><a href="https://arverse.framer.website/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">View Project <span>↗</span></a></div>
+              </div>
             </article>
-            <article class="glass-card p-6 reveal delay-2">
-              <div class="rev-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-              <p class="lead mt-4">They understood conversion, performance, and brand feel. The final website gave us a serious upgrade in credibility.</p>
-              <div class="mt-6 font-extrabold">Michael Rivera</div>
-              <div class="text-sm text-mute font-bold">Owner, Retail Business</div>
-            </article>
-          </div>
-        </div>
-      </section>
-      <!-- PROCESS -->
-      <section id="process" class="section bg-sage">
-        <div class="container-dg">
-          <div class="max-w-[900px]">
-            <span class="eyebrow reveal">Our Process</span>
-            <h2 class="section-title mt-5 reveal delay-1">
-              A simple process for websites that ship cleanly.
-            </h2>
-          </div>
-          <div class="relative mt-14">
-            <div class="timeline-line hidden md:block" aria-hidden="true"></div>
-            <div class="grid md:grid-cols-4 gap-4 relative z-10">
-              <article class="process-card reveal">
-                <span class="badge">01</span>
-                <h3 class="text-2xl font-extrabold mt-5">Discovery</h3>
-                <p class="lead mt-3">
-                  We understand goals, constraints, audience, offer, data, and
-                  current website gaps.
-                </p>
-              </article>
-              <article class="process-card reveal delay-1">
-                <span class="badge">02</span>
-                <h3 class="text-2xl font-extrabold mt-5">Strategy</h3>
-                <p class="lead mt-3">
-                  We map the clearest path with platform choice, UX, content,
-                  features, timeline, and launch priorities.
-                </p>
-              </article>
-              <article class="process-card reveal delay-2">
-                <span class="badge">03</span>
-                <h3 class="text-2xl font-extrabold mt-5">Execution</h3>
-                <p class="lead mt-3">
-                  We design, develop, test, and launch with clean communication
-                  and fast iteration.
-                </p>
-              </article>
-              <article class="process-card reveal delay-3">
-                <span class="badge">04</span>
-                <h3 class="text-2xl font-extrabold mt-5">Support</h3>
-                <p class="lead mt-3">
-                  We optimize performance, support the launch, and help plan
-                  the next conversion improvements.
-                </p>
-              </article>
-            </div>
           </div>
         </div>
       </section>
@@ -1985,7 +2349,7 @@
         <div class="container-dg relative z-10 max-w-[980px]">
           <span class="eyebrow reveal mx-auto">Start Your Project</span>
           <h2
-            class="h-display text-[clamp(3rem,8vw,7.5rem)] mt-5 reveal delay-1"
+            class="h-display cta-heading mt-5 reveal delay-1"
           >
             Ready to Build a Website That Converts?
           </h2>
@@ -1998,82 +2362,77 @@
           </p>
           <div class="flex flex-wrap justify-center gap-4 mt-9 reveal delay-3">
             <a href="mailto:dayyan@drioweb.com" class="btn btn-primary"
-              >Contact Us ↗</a
+              >Email Us Directly ↗</a
             >
-            <a href="#" class="btn btn-ghost">Book a Demo</a>
+            <a href="https://calendly.com/dayyanjavaid/30-minute-strategy-session" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Book Free Call →</a>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="footer py-12">
-      <div class="container-dg">
-        <div class="divider-line mb-10"></div>
-        <div
-          class="grid md:grid-cols-3 gap-8 items-center text-center md:text-left"
-        >
-          <div>
-            <a
-              href="#top"
-              class="logo text-cream justify-center md:justify-start"
-              ><span class="logo-icon" aria-hidden="true"></span
-              ><span>Drio Web</span></a
-            >
-            <p class="mt-4 text-sm max-w-[320px] mx-auto md:mx-0">
-              Premium web development and eCommerce builds for ambitious brands.
-            </p>
-          </div>
-          <nav
-            class="flex flex-wrap justify-center gap-5 text-sm font-semibold"
-            aria-label="Footer navigation"
-          >
-            <a class="hover:text-brand transition" href="#featured">Projects</a
-            ><a class="hover:text-brand transition" href="#reviews"
-              >Testimonials</a
-            ><a class="hover:text-brand transition" href="#process">Process</a
-            ><a class="hover:text-brand transition" href="#contact">Contact</a>
-          </nav>
-          <div class="md:text-right">
-            <div class="flex justify-center md:justify-end gap-3">
-              <a
-                class="w-10 h-10 rounded-lg bg-cream/10 border border-cream/15 grid place-items-center hover:text-brand hover:border-brand transition"
-                href="#"
-                aria-label="LinkedIn"
-                >in</a
-              >
-              <a
-                class="w-10 h-10 rounded-lg bg-cream/10 border border-cream/15 grid place-items-center hover:text-brand hover:border-brand transition"
-                href="#"
-                aria-label="X"
-                >𝕏</a
-              >
-              <a
-                class="w-10 h-10 rounded-lg bg-cream/10 border border-cream/15 grid place-items-center hover:text-brand hover:border-brand transition"
-                href="#"
-                aria-label="Instagram"
-                >◎</a
-              >
-            </div>
-            <p class="mt-4 text-sm">dayyan@drioweb.com</p>
-          </div>
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <div class="wrap">
+        <div class="footer-top">
+          <a href="https://calendly.com/dayyanjavaid/30-minute-strategy-session" target="_blank" rel="noopener noreferrer" class="footer-book-btn">
+            <span class="footer-book-avatar">dw</span>
+            Book a Free 30-min Strategy Call
+          </a>
+          <button class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+            <span class="arr">&uarr;</span> Back to Top
+          </button>
         </div>
-        <div
-          class="border-t border-cream/10 mt-10 pt-6 flex flex-col md:flex-row justify-between gap-3 text-sm text-cream/45 text-center md:text-left"
-        >
-          <p>© <span id="year"></span> Drio Web. All rights reserved.</p>
-          <p>Designed for performance, clarity, and conversion.</p>
+
+        <div class="footer-bottom">
+          <p class="footer-copy">Copyright &copy; 2026 Drio Web. All Rights Reserved.</p>
+          <ul class="footer-links">
+            <li><a href="#">Terms of Service</a></li>
+            <li><span class="sep">&#8226;</span></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><span class="sep">&#8226;</span></li>
+            <li><a href="#contact">Contact Us</a></li>
+          </ul>
+          <div class="footer-socials">
+            <a href="#" class="footer-soc-btn" title="Twitter / X">&#120143;</a>
+            <a href="#" class="footer-soc-btn" title="LinkedIn">in</a>
+          </div>
         </div>
       </div>
     </footer>
 
     <script>
       // Header shrink on scroll — same behavior style as index.html
-      const header = document.getElementById("siteHeader");
+      const header = document.getElementById("nav");
       const onScroll = () =>
-        header.classList.toggle("scrolled", window.scrollY > 40);
+        header && header.classList.toggle("stuck", window.scrollY > 40);
       window.addEventListener("scroll", onScroll, { passive: true });
       onScroll();
+
+      (function(){
+        var sbar = document.getElementById('sbar');
+        if(!sbar) return;
+        var rafPending = false;
+        function update(){
+          var docH = document.documentElement.scrollHeight - window.innerHeight;
+          sbar.style.width = docH > 0 ? (window.scrollY / docH * 100).toFixed(2) + '%' : '0%';
+          rafPending = false;
+        }
+        window.addEventListener('scroll', function(){
+          if(!rafPending){
+            requestAnimationFrame(update);
+            rafPending = true;
+          }
+        }, { passive: true });
+        update();
+      })();
+
+      document.getElementById("hamburger")?.addEventListener("click", () =>
+        document.getElementById("mobMenu")?.classList.add("open"),
+      );
+      document.getElementById("mobClose")?.addEventListener("click", closeMob);
+      function closeMob() {
+        document.getElementById("mobMenu")?.classList.remove("open");
+      }
 
       // Reveal animations
       const revealObserver = new IntersectionObserver(
@@ -2456,7 +2815,9 @@
       })();
 
       // Footer year
-      document.getElementById("year").textContent = new Date().getFullYear();
+      if (document.getElementById("year")) {
+        document.getElementById("year").textContent = new Date().getFullYear();
+      }
     </script>
   </body>
 </html>

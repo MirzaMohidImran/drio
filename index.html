@@ -1172,6 +1172,8 @@ h1.hero-h .acc{color:var(--c-acc)}
 #portfolio { padding: 72px 0 0; }
 .port-hd   { text-align: center; margin-bottom: 40px; }
 .port-hd .sub { margin-inline: auto; }
+.port-actions { margin-top: 22px; display: flex; justify-content: center; }
+.port-actions .btn-s { padding: 12px 24px; font-size: .9rem; }
 
 /* Tab bar — sticky below nav */
 .port-tabs {
@@ -1236,7 +1238,7 @@ h1.hero-h .acc{color:var(--c-acc)}
 }
 .pcard-img-bg {
   position: absolute; inset: -8%;
-  width: 116%; height: 116%;
+  width: 100%; height: 100%;
   background-size: cover; background-position: center;
   transition: transform .7s cubic-bezier(.22,1,.36,1);
 }
@@ -2242,6 +2244,9 @@ section{isolation:isolate}
 .mob-menu.open a:nth-child(4){animation:mobLinkIn .36s .24s var(--ease) both;}
 .mob-menu.open a:nth-child(5){animation:mobLinkIn .36s .30s var(--ease) both;}
 .mob-menu.open a:nth-child(6){animation:mobLinkIn .36s .36s var(--ease) both;}
+.mob-menu.open a:nth-child(7){animation:mobLinkIn .36s .42s var(--ease) both;}
+.mob-menu.open a:nth-child(8){animation:mobLinkIn .36s .48s var(--ease) both;}
+.mob-menu.open a:nth-child(9){animation:mobLinkIn .36s .54s var(--ease) both;}
 
 /* SECTION TINTED BACKGROUNDS */
 #services,#stats,#cta,#about{position:relative;}
@@ -3943,11 +3948,12 @@ section{isolation:isolate}
 <!-- ===== NAV ===== -->
 <nav id="nav">
   <div id="sbar"></div>
-  <div class="nav-brand">drio<em>web</em><span class="dot"></span></div>
+  <a href="index.html" class="nav-brand">drio<em>web</em><span class="dot"></span></a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#portfolio">Work</a></li>
+    <li><a href="projects.html">Projects</a></li>
     <li><a href="#testimonials">Reviews</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -3960,6 +3966,7 @@ section{isolation:isolate}
   <a href="#about" onclick="closeMob()">About</a>
   <a href="#services" onclick="closeMob()">Services</a>
   <a href="#portfolio" onclick="closeMob()">Work</a>
+  <a href="projects.html" onclick="closeMob()">Projects</a>
   <a href="#testimonials" onclick="closeMob()">Reviews</a>
   <a href="#faq" onclick="closeMob()">FAQ</a>
   <a href="#contact" onclick="closeMob()">Contact</a>
@@ -4078,9 +4085,9 @@ section{isolation:isolate}
         <div class="sr-card"><img src="Assets/Portfolio/1.png"  alt="E-Commerce Platform" decoding="async"></div>
         <div class="sr-card"><img src="Assets/Portfolio/2.png"  alt="Fashion Store"        decoding="async"></div>
         <div class="sr-card"><img src="Assets/Portfolio/3.png"  alt="Fitness Platform"     decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/4.webp"  alt="Healthcare Portal"    decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/4.png"  alt="Healthcare Portal"    decoding="async"></div>
         <div class="sr-card"><img src="Assets/Portfolio/6.png"  alt="Education App"        decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/5.webp"  alt="Hotel Booking Site"   decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/5.png"  alt="Hotel Booking Site"   decoding="async"></div>
       </div>
     </div>
 
@@ -4586,6 +4593,9 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="tag">Our Work</div>
       <h2 class="ttl">Projects That <span>Speak Volumes</span></h2>
       <!-- <p class="sub">Real work. Real results. Scroll through each project.</p> -->
+      <div class="port-actions">
+        <a href="projects.html" class="btn-s">View All Projects &rarr;</a>
+      </div>
     </div>
   </div>
 
@@ -4593,7 +4603,6 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
     <button class="port-tab active" data-tab="shopify"><span class="tab-icon"><svg class="ani-icon ani-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span> Shopify</button>
     <button class="port-tab" data-tab="wordpress"><span class="tab-icon"><svg class="ani-icon ani-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> WordPress</button>
     <button class="port-tab" data-tab="framer"><span class="tab-icon"><svg class="ani-icon ani-framer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 10h20M9 3v18"/></svg></span> Framer</button>
-    <button class="port-tab" data-tab="fullstack"><span class="tab-icon"><svg class="ani-icon ani-chain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path class="c1" d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path class="c2" d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></span> Full Stack</button>
     <button class="port-tab" data-tab="figma"><span class="tab-icon"><svg class="ani-icon ani-brush" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18.37 2.63L14 7l-1.59-1.59a2 2 0 00-2.82 0L8 7l9 9 1.59-1.59a2 2 0 000-2.82L17 10l4.37-4.37a2.12 2.12 0 10-3-3z"/><path d="M9 8c-2 3-4 3.5-7 4l8 8c1-.5 3.5-2 4-7"/><path d="M14.5 17.5L4.5 15c-1.7.5-2 .5-3.5 3.5"/></svg></span> Figma</button>
   </div>
 
@@ -4602,9 +4611,9 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="port-stack">
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0c1a30,#1a3a6c)">
-          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c1a30 0%,#1a3a6c 70%)"> <img src="Assets/Portfolio/2.webp" alt=""></div>
+          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c1a30 0%,#1a3a6c 70%)"> <img src="Assets/Portfolio/2.png" alt=""></div>
           <svg class="ani-icon ani-cart" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://vitallifestylez.com/">View Project</a></div></div>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://vitallifestylez.com/" target="_blank" rel="noopener noreferrer">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">01</div>
@@ -4621,9 +4630,9 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard-spacer"></div>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#1a0c2e,#3d1a5c)">
-          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#1a0c2e 0%,#3d1a5c 70%)"><img src="Assets/Portfolio/9.webp" alt=""></div>
+          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#1a0c2e 0%,#3d1a5c 70%)"><img src="Assets/Portfolio/9.png" alt=""></div>
           <svg class="ani-icon ani-spark" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24"><path class="s1" d="M12 2l2.4 7.4L22 12l-7.6 2.6L12 22l-2.4-7.4L2 12l7.6-2.6z" fill="currentColor"/><circle class="s2" cx="19.5" cy="4" r="1.8" fill="currentColor"/><circle class="s3" cx="4.5" cy="20" r="1.3" fill="currentColor"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://www.revarcine.com/">View Project</a></div></div>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://www.revarcine.com/" target="_blank" rel="noopener noreferrer">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">02</div>
@@ -4640,9 +4649,9 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
       <div class="pcard-spacer"></div>
       <div class="pcard">
         <div class="pcard-img" style="background:linear-gradient(135deg,#0c2a0c,#1a5c1a)">
-          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c2a0c 0%,#1a5c1a 70%)"><img src="Assets/Portfolio/5.webp" alt=""></div>
+          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c2a0c 0%,#1a5c1a 70%)"><img src="Assets/Portfolio/5.png" alt=""></div>
           <svg class="ani-icon ani-leaf" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c6-6 16-16 20-20C22 2 8 4 4 10c-3 4.5-2 12-2 12z"/><path d="M2 22l9-9"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://www.shop-orea.com/">View Project</a></div></div>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://www.shop-orea.com/" target="_blank" rel="noopener noreferrer">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">03</div>
@@ -4663,59 +4672,59 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
     <div class="port-panel" id="panel-wordpress">
       <div class="port-stack">
       <div class="pcard">
-        <div class="pcard-img" style="background:linear-gradient(135deg,#0c1828,#173052)">
-          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c1828 0%,#173052 70%)"></div>
-          <svg class="ani-icon ani-plus" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
+        <div class="pcard-img" style="background:linear-gradient(135deg,#17120e,#4a2d1e)">
+          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#17120e 0%,#4a2d1e 70%)"><img src="Assets/Portfolio/wordpress1.png" alt="Barberprenuer WordPress website"></div>
+          <svg class="ani-icon ani-doc" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://barberprenuer.com/" target="_blank" rel="noopener noreferrer">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">01</div>
-          <div class="pcard-cat">WordPress · Healthcare</div>
-          <div class="pcard-title">MediBook — Clinic Patient Portal</div>
-          <div class="pcard-desc">HIPAA-compliant WordPress portal with online booking, telehealth video, and secure patient records. Handling hundreds of appointments booked every single month.</div>
+          <div class="pcard-cat">WordPress</div>
+          <div class="pcard-title">Barberprenuer</div>
+          <div class="pcard-desc">A polished WordPress website built for a barber-focused business platform, with clear service positioning, strong visual presentation, and a direct path for visitors to explore the brand.</div>
           <div class="pcard-result">
-            <span class="pcard-result-num">800+</span>
-            <span class="pcard-result-label">Appointments monthly</span>
+            <span class="pcard-result-num">Live</span>
+            <span class="pcard-result-label">WordPress business website</span>
           </div>
-          <div class="pcard-tags"><span class="pcard-tag">WordPress</span><span class="pcard-tag">PHP</span><span class="pcard-tag">Custom Plugin</span></div>
+          <div class="pcard-tags"><span class="pcard-tag">WordPress</span><span class="pcard-tag">Business Website</span><span class="pcard-tag">Brand Experience</span></div>
         </div>
       </div>
       <div class="pcard-spacer"></div>
       <div class="pcard">
-        <div class="pcard-img" style="background:linear-gradient(135deg,#1a1a0c,#3a3a18)">
-          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#1a1a0c 0%,#3a3a18 70%)"></div>
-          <svg class="ani-icon ani-news" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
+        <div class="pcard-img" style="background:linear-gradient(135deg,#0d1f24,#25606a)">
+          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0d1f24 0%,#25606a 70%)"><img src="Assets/Portfolio/wordpress2.png" alt="2032 Dentists WordPress website"></div>
+          <svg class="ani-icon ani-plus" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://www.2032dentists.com/" target="_blank" rel="noopener noreferrer">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">02</div>
-          <div class="pcard-cat">WordPress · Media</div>
-          <div class="pcard-title">PulseNews — Digital Media Hub</div>
-          <div class="pcard-desc">High-traffic news portal serving 50K+ daily readers. Custom Gutenberg blocks, AMP, and ad integration achieving a flawless Google PageSpeed score.</div>
+          <div class="pcard-cat">WordPress · Dental</div>
+          <div class="pcard-title">2032 Dentists</div>
+          <div class="pcard-desc">A WordPress dental website designed around trust, simple navigation, and patient inquiry flow, helping visitors understand services and move toward booking with less friction.</div>
           <div class="pcard-result">
-            <span class="pcard-result-num">95</span>
-            <span class="pcard-result-label">PageSpeed score</span>
+            <span class="pcard-result-num">Live</span>
+            <span class="pcard-result-label">Healthcare service website</span>
           </div>
-          <div class="pcard-tags"><span class="pcard-tag">WordPress</span><span class="pcard-tag">Gutenberg</span><span class="pcard-tag">AMP</span></div>
+          <div class="pcard-tags"><span class="pcard-tag">WordPress</span><span class="pcard-tag">Healthcare</span><span class="pcard-tag">Lead Capture</span></div>
         </div>
       </div>
       <div class="pcard-spacer"></div>
       <div class="pcard">
-        <div class="pcard-img" style="background:linear-gradient(135deg,#2a0c18,#5c1a34)">
-          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#2a0c18 0%,#5c1a34 70%)"></div>
-          <svg class="ani-icon ani-grad" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M12 2L2 7l10 5 10-5-10-5z"/><path d="M6 10v5c0 2.76 2.69 5 6 5s6-2.24 6-5v-5"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
+        <div class="pcard-img" style="background:linear-gradient(135deg,#10181e,#394f58)">
+          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#10181e 0%,#394f58 70%)"><img src="Assets/Portfolio/wordpress3.png" alt="Benjamins Realty WordPress website"></div>
+          <svg class="ani-icon ani-doc" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://www.benjaminsrealty.com/" target="_blank" rel="noopener noreferrer">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">03</div>
-          <div class="pcard-cat">WordPress · EdTech</div>
-          <div class="pcard-title">EduPath — Online Learning Platform</div>
-          <div class="pcard-desc">WordPress LMS with 200+ courses, live sessions, certificates, and a custom student dashboard. Thousands enrolled since launch.</div>
+          <div class="pcard-cat">WordPress · Real Estate</div>
+          <div class="pcard-title">Benjamins Realty</div>
+          <div class="pcard-desc">A WordPress real estate website built for clean property discovery, polished brand presentation, and direct visitor paths into inquiries and agent contact.</div>
           <div class="pcard-result">
-            <span class="pcard-result-num">3,000+</span>
-            <span class="pcard-result-label">Students enrolled</span>
+            <span class="pcard-result-num">Live</span>
+            <span class="pcard-result-label">Real estate website</span>
           </div>
-          <div class="pcard-tags"><span class="pcard-tag">WordPress</span><span class="pcard-tag">LearnDash</span><span class="pcard-tag">WooCommerce</span></div>
+          <div class="pcard-tags"><span class="pcard-tag">WordPress</span><span class="pcard-tag">Real Estate</span><span class="pcard-tag">Lead Capture</span></div>
         </div>
       </div>
       <div class="pcard-spacer"></div>
@@ -4725,59 +4734,59 @@ drrioweb.launch(yourProject);<span class="code-cur"></span>
     <div class="port-panel" id="panel-framer">
       <div class="port-stack">
       <div class="pcard">
-        <div class="pcard-img" style="background:linear-gradient(135deg,#1e0c2e,#3d1a5c)">
-          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#1e0c2e 0%,#3d1a5c 70%)"></div>
-          <svg class="ani-icon ani-palette" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2a10 10 0 100 20c1.1 0 2-.9 2-2v-.5a1 1 0 011-1h2a3 3 0 000-6h-1A10 10 0 0012 2z"/><circle cx="8.5" cy="10.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12.5" cy="7.5" r="1.5" fill="currentColor" stroke="none" opacity=".7"/><circle cx="16" cy="11" r="1.5" fill="currentColor" stroke="none" opacity=".5"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
+        <div class="pcard-img" style="background:linear-gradient(135deg,#111111,#373737)">
+          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#111111 0%,#373737 70%)"><img src="Assets/Portfolio/framer1.png" alt="Empire Nation Gym Framer website"></div>
+          <svg class="ani-icon ani-rocket" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://empirenationgym.framer.website/" target="_blank" rel="noopener noreferrer">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">01</div>
-          <div class="pcard-cat">Framer · Agency</div>
-          <div class="pcard-title">Studio Vertex — Agency Website</div>
-          <div class="pcard-desc">Awwwards-nominated site in Framer. Advanced scroll animations, magnetic cursor, and immersive transitions that set the studio apart.</div>
+          <div class="pcard-cat">Framer · Fitness</div>
+          <div class="pcard-title">Empire Nation Gym</div>
+          <div class="pcard-desc">A bold Framer website for a fitness brand, built around sharp visual rhythm, clear membership messaging, and a confident path from browsing to action.</div>
           <div class="pcard-result">
-            <span class="pcard-result-num">98</span>
-            <span class="pcard-result-label">Lighthouse score</span>
+            <span class="pcard-result-num">Live</span>
+            <span class="pcard-result-label">Framer fitness website</span>
           </div>
-          <div class="pcard-tags"><span class="pcard-tag">Framer</span><span class="pcard-tag">Motion Design</span><span class="pcard-tag">CMS</span></div>
+          <div class="pcard-tags"><span class="pcard-tag">Framer</span><span class="pcard-tag">Fitness</span><span class="pcard-tag">Motion Design</span></div>
         </div>
       </div>
       <div class="pcard-spacer"></div>
       <div class="pcard">
-        <div class="pcard-img" style="background:linear-gradient(135deg,#0c1a2e,#1a3050)">
-          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0c1a2e 0%,#1a3050 70%)"></div>
-          <svg class="ani-icon ani-rocket" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
+        <div class="pcard-img" style="background:linear-gradient(135deg,#2b171f,#7a3c50)">
+          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#2b171f 0%,#7a3c50 70%)"><img src="Assets/Portfolio/framer2.png" alt="Spaces Salon Framer website"></div>
+          <svg class="ani-icon ani-palette" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2a10 10 0 100 20c1.1 0 2-.9 2-2v-.5a1 1 0 011-1h2a3 3 0 000-6h-1A10 10 0 0012 2z"/><circle cx="8.5" cy="10.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="12.5" cy="7.5" r="1.5" fill="currentColor" stroke="none" opacity=".7"/><circle cx="16" cy="11" r="1.5" fill="currentColor" stroke="none" opacity=".5"/></svg>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://spacessalon.framer.website/" target="_blank" rel="noopener noreferrer">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">02</div>
-          <div class="pcard-cat">Framer · SaaS</div>
-          <div class="pcard-title">LaunchKit — SaaS Marketing Site</div>
-          <div class="pcard-desc">High-converting SaaS site with interactive demos and A/B-tested pricing section that drove massive pre-launch revenue on day one.</div>
+          <div class="pcard-cat">Framer · Salon</div>
+          <div class="pcard-title">Spaces Salon</div>
+          <div class="pcard-desc">A refined Framer salon website with elegant service presentation, strong visual hierarchy, and a smooth booking-focused visitor journey.</div>
           <div class="pcard-result">
-            <span class="pcard-result-num">$120K</span>
-            <span class="pcard-result-label">Pre-orders at launch</span>
+            <span class="pcard-result-num">Live</span>
+            <span class="pcard-result-label">Framer salon website</span>
           </div>
-          <div class="pcard-tags"><span class="pcard-tag">Framer</span><span class="pcard-tag">Interactive</span><span class="pcard-tag">A/B Testing</span></div>
+          <div class="pcard-tags"><span class="pcard-tag">Framer</span><span class="pcard-tag">Beauty</span><span class="pcard-tag">Booking Flow</span></div>
         </div>
       </div>
       <div class="pcard-spacer"></div>
       <div class="pcard">
-        <div class="pcard-img" style="background:linear-gradient(135deg,#0a1f0a,#1a3d1a)">
-          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#0a1f0a 0%,#1a3d1a 70%)"></div>
-          <svg class="ani-icon ani-leaf" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c6-6 16-16 20-20C22 2 8 4 4 10c-3 4.5-2 12-2 12z"/><path d="M2 22l9-9"/></svg>
-          <div class="pcard-img-overlay"><div class="pcard-view-btn">View Project &#8594;</div></div>
+        <div class="pcard-img" style="background:linear-gradient(135deg,#111827,#3f2f7f)">
+          <div class="pcard-img-bg" style="background:linear-gradient(150deg,#111827 0%,#3f2f7f 70%)"><img src="Assets/Portfolio/framer3.png" alt="Arverse Framer website"></div>
+          <svg class="ani-icon ani-spark" style="width:3.5rem;height:3.5rem;position:relative;z-index:1" viewBox="0 0 24 24"><path class="s1" d="M12 2l2.4 7.4L22 12l-7.6 2.6L12 22l-2.4-7.4L2 12l7.6-2.6z" fill="currentColor"/><circle class="s2" cx="19.5" cy="4" r="1.8" fill="currentColor"/><circle class="s3" cx="4.5" cy="20" r="1.3" fill="currentColor"/></svg>
+          <div class="pcard-img-overlay"><div class="pcard-view-btn"><a href="https://arverse.framer.website/" target="_blank" rel="noopener noreferrer">View Project</a></div></div>
         </div>
         <div class="pcard-body">
           <div class="pcard-num">03</div>
-          <div class="pcard-cat">Framer · Startup</div>
-          <div class="pcard-title">GreenAI — Climate Tech Investor Site</div>
-          <div class="pcard-desc">Investor-ready startup site with data visualisations and press kit. Helped the founders impress investors and secure their seed round.</div>
+          <div class="pcard-cat">Framer · Immersive</div>
+          <div class="pcard-title">Arverse</div>
+          <div class="pcard-desc">An immersive Framer website with futuristic visuals, focused sections, and a fast path for visitors to understand the offer and explore the experience.</div>
           <div class="pcard-result">
-            <span class="pcard-result-num">$2M</span>
-            <span class="pcard-result-label">Seed round secured</span>
+            <span class="pcard-result-num">Live</span>
+            <span class="pcard-result-label">Immersive Framer website</span>
           </div>
-          <div class="pcard-tags"><span class="pcard-tag">Framer</span><span class="pcard-tag">Data Viz</span><span class="pcard-tag">Animations</span></div>
+          <div class="pcard-tags"><span class="pcard-tag">Framer</span><span class="pcard-tag">Immersive UX</span><span class="pcard-tag">Web Experience</span></div>
         </div>
       </div>
       <div class="pcard-spacer"></div>

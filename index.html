@@ -4082,23 +4082,23 @@ section{isolation:isolate}
     <!-- Row 1: left → right -->
     <div class="sr-row">
       <div class="sr-track sr-track--fwd" id="srA">
-        <div class="sr-card"><img src="Assets/Portfolio/1.png"  alt="E-Commerce Platform" decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/2.png"  alt="Fashion Store"        decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/3.png"  alt="Fitness Platform"     decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/4.png"  alt="Healthcare Portal"    decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/6.png"  alt="Education App"        decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/5.png"  alt="Hotel Booking Site"   decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/1.webp"  alt="E-Commerce Platform" width="300" height="196" decoding="async" fetchpriority="low"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/2.webp"  alt="Fashion Store"        width="300" height="196" decoding="async" fetchpriority="low"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/3.webp"  alt="Fitness Platform"     width="300" height="196" decoding="async" fetchpriority="low"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/4.webp"  alt="Healthcare Portal"    width="300" height="196" decoding="async" fetchpriority="low"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/6.webp"  alt="Education App"        width="300" height="196" decoding="async" fetchpriority="low"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/5.webp"  alt="Hotel Booking Site"   width="300" height="196" decoding="async" fetchpriority="low"></div>
       </div>
     </div>
 
     <!-- Row 2: right → left -->
     <div class="sr-row">
       <div class="sr-track sr-track--rev" id="srB">
-        <div class="sr-card"><img src="Assets/Portfolio/7.png"  alt="Event Platform"       decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/8.png"  alt="Event Platform"       decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/9.png"  alt="Photography Studio"   decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/10.png"  alt="Real Estate App"      decoding="async"></div>
-        <div class="sr-card"><img src="Assets/Portfolio/11.png" alt="SaaS Dashboard"       decoding="async"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/7.webp"  alt="Event Platform"       width="300" height="196" decoding="async" fetchpriority="low"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/8.webp"  alt="Event Platform"       width="300" height="196" decoding="async" fetchpriority="low"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/9.webp"  alt="Photography Studio"   width="300" height="196" decoding="async" fetchpriority="low"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/10.webp" alt="Real Estate App"      width="300" height="196" decoding="async" fetchpriority="low"></div>
+        <div class="sr-card"><img src="Assets/Portfolio/Reel/11.webp" alt="SaaS Dashboard"       width="300" height="196" decoding="async" fetchpriority="low"></div>
       </div>
     </div>
 
@@ -6987,9 +6987,13 @@ window.addEventListener('load',()=>{
 (function(){
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
 
+  var section=document.getElementById('showcase-reel');
+  if(!section) return;
+
   ['srA','srB'].forEach(function(id){
     var track=document.getElementById(id);
     if(!track) return;
+    track.style.animationPlayState='paused';
     Array.from(track.children).forEach(function(card){
       var clone=card.cloneNode(true);
       clone.setAttribute('aria-hidden','true');
@@ -6997,16 +7001,35 @@ window.addEventListener('load',()=>{
     });
   });
 
-  var section=document.getElementById('showcase-reel');
-  if(!section) return;
   var tracks=section.querySelectorAll('.sr-track');
   var paused=false;
+  var ready=false;
+  function setTracks(state){
+    tracks.forEach(function(t){t.style.animationPlayState=state;});
+  }
+  function decodeImage(img){
+    if(img.complete && img.naturalWidth) return Promise.resolve();
+    if(img.decode) return img.decode().catch(function(){});
+    return new Promise(function(resolve){
+      img.addEventListener('load',resolve,{once:true});
+      img.addEventListener('error',resolve,{once:true});
+    });
+  }
+  function startWhenReady(){
+    ready=true;
+    if(!paused) setTracks('running');
+  }
+  Promise.race([
+    Promise.all(Array.from(section.querySelectorAll('.sr-card img')).map(decodeImage)),
+    new Promise(function(resolve){setTimeout(resolve,1400);})
+  ]).then(startWhenReady);
+
   new IntersectionObserver(function(entries){
     entries.forEach(function(en){
       var stop=!en.isIntersecting;
       if(stop===paused) return;
       paused=stop;
-      tracks.forEach(function(t){t.style.animationPlayState=paused?'paused':'running';});
+      setTracks(paused || !ready ? 'paused' : 'running');
     });
   },{rootMargin:'200px 0px 200px 0px'}).observe(section);
 })();
